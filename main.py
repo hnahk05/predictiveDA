@@ -1,13 +1,8 @@
-import argparse
+import sys
+import importlib
 from easytorch import launch_training
 
-
-def parse_args():
-    parser = argparse.ArgumentParser()
-    parser.add_argument("-c", "--cfg", type=str)
-    parser.add_argument("--gpus", default=None)
-    return parser.parse_args()
-
 if __name__ == "__main__":
-    args = parse_args()
-    launch_training(args)
+    name = sys.argv[1]   # ví dụ: PEMS04.pretrain
+    CFG = importlib.import_module(f"configs.{name}").CFG
+    launch_training(CFG)
