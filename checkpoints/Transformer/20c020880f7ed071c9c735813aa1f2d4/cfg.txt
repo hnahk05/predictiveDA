@@ -1,0 +1,63 @@
+Description: Transformer
+RUNNER: <class 'runners.transformer.TransformerRunner'>
+DATASET_NAME: PEMS04
+FIND_UNUSED_PARAMETERS: False
+USE_GPU: True
+GPU_NUM: 1
+SEED: 0
+CUDNN_ENABLED: True
+MODEL:
+  NAME: Transformer
+  PARAM:
+    patch_size: 12
+    in_channel: 1
+    out_channel: 96
+    dropout: 0.1
+    mask_size: 336.0
+    mask_ratio: 0.75
+    num_encoder_layers: 4
+TRAIN:
+  CKPT_SAVE_STRATEGY: SaveEveryEpoch
+  NUM_EPOCHS: 200
+  CKPT_SAVE_DIR: checkpoints\Transformer
+  DATA:
+    SEQ_LEN: 4032
+    DIR: datasets/PEMS04
+    PREFETCH: True
+    BATCH_SIZE: 2
+    SHUFFLE: True
+    NUM_WORKERS: 2
+    PIN_MEMORY: True
+  OPTIM:
+    TYPE: AdamW
+    PARAM:
+      lr: 0.001
+      weight_decay: 0
+      eps: 1e-08
+      betas: (0.9, 0.95)
+  LR_SCHEDULER:
+    TYPE: MultiStepLR
+    PARAM:
+      milestones: [50]
+      gamma: 0.5
+VAL:
+  INTERVAL: 1
+  DATA:
+    SEQ_LEN: 4032
+    DIR: datasets/PEMS04
+    PREFETCH: True
+    BATCH_SIZE: 2
+    SHUFFLE: False
+    NUM_WORKERS: 2
+    PIN_MEMORY: True
+TEST:
+  INTERVAL: 1
+  DATA:
+    SEQ_LEN: 4032
+    DIR: datasets/PEMS04
+    PREFETCH: True
+    BATCH_SIZE: 2
+    SHUFFLE: False
+    NUM_WORKERS: 2
+    PIN_MEMORY: True
+MD5: 20c020880f7ed071c9c735813aa1f2d4

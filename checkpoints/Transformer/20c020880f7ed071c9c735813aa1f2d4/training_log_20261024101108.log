@@ -1,0 +1,27 @@
+2026-10-24 10:11:08,445 - easytorch-training - INFO - Initializing training.
+2026-10-24 10:11:08,445 - easytorch-training - INFO - Building training data loader.
+2026-10-24 10:11:08,628 - easytorch-training - INFO - Set optim: AdamW (
+Parameter Group 0
+    amsgrad: False
+    betas: (0.9, 0.95)
+    eps: 1e-08
+    lr: 0.001
+    weight_decay: 0
+)
+2026-10-24 10:11:08,628 - easytorch-training - INFO - Set lr_scheduler: <torch.optim.lr_scheduler.MultiStepLR object at 0x000001AF102573D0>
+2026-10-24 10:11:08,630 - easytorch-training - INFO - Initializing validation.
+2026-10-24 10:11:08,630 - easytorch-training - INFO - Building val data loader.
+2026-10-24 10:11:08,722 - easytorch-training - INFO - Epoch 1 / 200
+2026-10-24 10:11:25,321 - easytorch-training - ERROR - Traceback (most recent call last):
+  File "D:\Project_Github\predictiveDA\venv\lib\site-packages\easytorch\launcher\launcher.py", line 31, in training_func
+    runner.train(cfg)
+  File "D:\Project_Github\predictiveDA\venv\lib\site-packages\easytorch\core\runner.py", line 341, in train
+    self.backward(loss)
+  File "D:\Project_Github\predictiveDA\venv\lib\site-packages\easytorch\core\runner.py", line 487, in backward
+    loss.backward()
+  File "D:\Project_Github\predictiveDA\venv\lib\site-packages\torch\tensor.py", line 245, in backward
+    torch.autograd.backward(self, gradient, retain_graph, create_graph, inputs=inputs)
+  File "D:\Project_Github\predictiveDA\venv\lib\site-packages\torch\autograd\__init__.py", line 145, in backward
+    Variable._execution_engine.run_backward(
+RuntimeError: CUDA out of memory. Tried to allocate 1.03 GiB (GPU 0; 6.00 GiB total capacity; 6.71 GiB already allocated; 0 bytes free; 7.86 GiB reserved in total by PyTorch)
+

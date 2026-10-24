@@ -8,7 +8,6 @@ def parse_args():
     parser.add_argument("--gpus", default=None)
     return parser.parse_args()
 
-
 if __name__ == "__main__":
     args = parse_args()
     launch_training(args)
