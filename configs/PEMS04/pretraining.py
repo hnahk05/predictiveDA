@@ -6,16 +6,16 @@ from runners.transformer import TransformerRunner
 DATASET_NAME = "PEMS04"
 
 CFG = EasyDict()
-BATCH_SIZE = 1 #8
+BATCH_SIZE = 8
 SHORT_SEQ_LEN = 12
 LONG_SEQ_LEN = 288 * 7 * 2
 HIDDEN_DIM = 96
 NUM_ENCODER_LAYERS = 4
 NUM_EPOCHS = 200
 NUM_WORKERS = 2
-PIN_MEMORY = False #True
-PREFETCH = False #True
-GPU_NUM = 1 #2
+PIN_MEMORY = True
+PREFETCH = True
+GPU_NUM = 2
 SEED = 0
 MASK_RATIO = 0.75
 

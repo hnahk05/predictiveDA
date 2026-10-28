@@ -12,12 +12,12 @@ NUM_NODES = 307
 adj_mx, _ = load_adj(GRAPH_PKL_PATH, "doubletransition")
 
 CFG = EasyDict()
-BATCH_SIZE = 1 #8
+BATCH_SIZE = 8
 NUM_EPOCHS = 100
 NUM_WORKERS = 2
-PIN_MEMORY = False #True
-PREFETCH = False #True
-GPU_NUM = 1 #2
+PIN_MEMORY = True
+PREFETCH = True
+GPU_NUM = 2
 SEED = 0
 
 SHORT_SEQ_LEN = 12
