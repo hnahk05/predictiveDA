@@ -1,6 +1,7 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+from utils.paths import PRETRAINED
 
 import configs
 from models.transformer import Transformer
@@ -48,7 +49,7 @@ class DynamicGraphConv(nn.Module):
         self.order = order
 
     def conv(self, x, adj_mx):
-        return torch.einsum("bnh,nm->bnh", (x, adj_mx)).contiguous()
+        return torch.einsum("bnh,nm->bmh", (x, adj_mx)).contiguous()
 
     def forward(self, x, supports):
         outputs = [x]
@@ -113,13 +114,13 @@ class LSTTN(nn.Module):
 
     def load_pretrained_transformer(self):
         if self.dataset_name == "METRLA":
-            state_dict = torch.load("../pretrained_transformers/METR-LA.pt")
+            state_dict = torch.load(PRETRAINED / "METR-LA.pt", map_location="cpu")
         elif self.dataset_name == "PEMSBAY":
-            state_dict = torch.load("../pretrained_transformers/PEMS-BAY.pt")
+            state_dict = torch.load(PRETRAINED / "PEMS-BAY.pt", map_location="cpu")
         elif self.dataset_name == "PEMS04":
-            state_dict = torch.load("../pretrained_transformers/PEMS04.pt")
+            state_dict = torch.load(PRETRAINED / "PEMS04.pt", map_location="cpu")
         elif self.dataset_name == "PEMS08":
-            state_dict = torch.load("../pretrained_transformers/PEMS08.pt")
+            state_dict = torch.load(PRETRAINED / "PEMS08.pt", map_location="cpu")
         else:
             assert NameError, "Unknown dataset"
         self.transformer.load_state_dict(state_dict["model_state_dict"])
@@ -128,7 +129,7 @@ class LSTTN(nn.Module):
 
     def forward(self, short_x, long_x):
         long_x = long_x[..., [0]]
-        long_x = torch.permute(long_x, (0, 2, 3, 1))
+        long_x = long_x.permute(0, 2, 3, 1)
         batch_size, num_nodes, _, long_seq_len = long_x.size()
         long_repr = self.transformer(long_x)
         batch_size, num_nodes, num_subseq, _ = long_repr.size()
@@ -178,14 +179,14 @@ if __name__ == "__main__":
     transformer = model.transformer
 
     x_long = x_long[..., [0]]
-    x_long = torch.permute(x_long, (0, 2, 3, 1))
+    x_long = x_long.permute(0, 2, 3, 1)
     start = time.time()
     long_repr = transformer(x_long)
     end_transformer = time.time()
     print(end_transformer - start)
 
     x_short = x_short[..., [0]]
-    x_short = torch.permute(x_short, (0, 2, 3, 1))
+    x_short = x_short.permute(0, 2, 3, 1)
     start = time.time()
     long_repr = transformer(x_short)
     end_transformer = time.time()

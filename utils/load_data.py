@@ -1,4 +1,5 @@
 import numpy as np
+from pathlib import Path
 from torch.utils.data import DataLoader
 
 from utils.datasets import MTSDataset
@@ -52,26 +53,60 @@ def load_dataset(data_dir, batch_size, dataset_name, seq_len, num_core, device, 
 
 @clock
 def load_adj(file_path, adj_type):
-    try:
-        # METR and PEMS_BAY
-        sensor_ids, sensor_id_to_ind, adj_mx = load_pkl(file_path)
-    except Exception:
-        # PEMS04
-        adj_mx = load_pkl('../datasets/sensor_graph/adj_mx_04.pkl')
+    file_path = Path(file_path).resolve()
+
+    # Kiểm tra file có tồn tại không
+    if not file_path.is_file():
+        raise FileNotFoundError(
+            f"Khong tim thay file adjacency matrix: {file_path}"
+        )
+
+    # Đọc đúng file được truyền vào
+    data = load_pkl(str(file_path))
+
+    # METR-LA, PEMS-BAY: (sensor_ids, sensor_id_to_ind, adj_mx)
+    # PEMS04, PEMS08: có thể chỉ chứa adj_mx
+    if isinstance(data, (tuple, list)) and len(data) == 3:
+        sensor_ids, sensor_id_to_ind, adj_mx = data
+    else:
+        adj_mx = data
+
+    # Kiểm tra ma trận kề
+    if not hasattr(adj_mx, "shape") or len(adj_mx.shape) != 2:
+        raise ValueError(
+            f"Du lieu adjacency khong phai ma tran 2 chieu: {file_path}"
+        )
+
+    if adj_mx.shape[0] != adj_mx.shape[1]:
+        raise ValueError(
+            f"Adjacency matrix khong vuong: {adj_mx.shape}"
+        )
+
     if adj_type == "scaled_laplacian":
         adj = [calculate_scaled_laplacian(adj_mx).astype(np.float32).todense()]
+
     elif adj_type == "normalized_laplacian":
         adj = [calculate_symmetric_normalized_laplacian(adj_mx).astype(np.float32).todense()]
+
     elif adj_type == "symmetric":
         adj = [symmetric_message_passing_adj(adj_mx).astype(np.float32).todense()]
+
     elif adj_type == "transition":
         adj = [transition_matrix(adj_mx).T]
+
     elif adj_type == "doubletransition":
-        adj = [transition_matrix(adj_mx).T, transition_matrix(adj_mx.T).T]
+        adj = [
+            transition_matrix(adj_mx).T,
+            transition_matrix(adj_mx.T).T
+        ]
+
     elif adj_type == "identity":
-        adj = [np.diag(np.ones(adj_mx.shape[0])).astype(np.float32).todense()]
+        adj = [np.diag(np.ones(adj_mx.shape[0])).astype(np.float32)]
+
     elif adj_type == "original":
         adj = adj_mx
+
     else:
         raise NameError("Unknown adjacency matrix type")
+
     return adj, adj_mx

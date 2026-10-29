@@ -1,3 +1,7 @@
 datasets/
 venv/
 checkpoints/
+__pycache__/
+*.py[cod]
+test.py
+scripts/

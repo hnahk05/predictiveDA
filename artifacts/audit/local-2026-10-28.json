@@ -1,0 +1,1449 @@
+{
+  "recorded_utc": "2026-10-28T07:06:32.638646+00:00",
+  "root": "D:\\Project_Github\\predictiveDA",
+  "python": "3.9.13 (tags/v3.9.13:6de2ca5, May 17 2022, 16:36:42) [MSC v.1929 64 bit (AMD64)]",
+  "git_commit": "9e27e6397e96f97e0b7ce45d5e1c6f742a027147",
+  "packages": {
+    "easy-torch": "1.3.2",
+    "numpy": "1.26.4",
+    "pandas": "2.3.3",
+    "scipy": "1.12.0",
+    "torchvision": "0.9.1",
+    "tables": null,
+    "captum": null
+  },
+  "datasets": {
+    "METRLA": {
+      "shape": [
+        34272,
+        207,
+        3
+      ],
+      "dtype": "float64",
+      "nonfinite": 0,
+      "splits": {
+        "train": {
+          "count": 23974,
+          "first": [
+            0,
+            12,
+            24
+          ],
+          "last": [
+            23973,
+            23985,
+            23997
+          ],
+          "all_bounds_valid": true,
+          "all_short_length_12": true,
+          "all_horizon_12": true,
+          "origins_strictly_increasing": true,
+          "insufficient_4032_history": 4020
+        },
+        "valid": {
+          "count": 3425,
+          "first": [
+            23974,
+            23986,
+            23998
+          ],
+          "last": [
+            27398,
+            27410,
+            27422
+          ],
+          "all_bounds_valid": true,
+          "all_short_length_12": true,
+          "all_horizon_12": true,
+          "origins_strictly_increasing": true,
+          "insufficient_4032_history": 0
+        },
+        "test": {
+          "count": 6850,
+          "first": [
+            27399,
+            27411,
+            27423
+          ],
+          "last": [
+            34248,
+            34260,
+            34272
+          ],
+          "all_bounds_valid": true,
+          "all_short_length_12": true,
+          "all_horizon_12": true,
+          "origins_strictly_increasing": true,
+          "insufficient_4032_history": 0
+        }
+      },
+      "target_overlap_steps_at_boundaries": {
+        "train_valid": 11,
+        "valid_test": 11
+      },
+      "mean": 54.40552365611337,
+      "std": 19.494882160412384
+    },
+    "PEMS-BAY": {
+      "shape": [
+        52116,
+        325,
+        3
+      ],
+      "dtype": "float64",
+      "nonfinite": 0,
+      "splits": {
+        "train": {
+          "count": 36465,
+          "first": [
+            0,
+            12,
+            24
+          ],
+          "last": [
+            36464,
+            36476,
+            36488
+          ],
+          "all_bounds_valid": true,
+          "all_short_length_12": true,
+          "all_horizon_12": true,
+          "origins_strictly_increasing": true,
+          "insufficient_4032_history": 4020
+        },
+        "valid": {
+          "count": 5209,
+          "first": [
+            36465,
+            36477,
+            36489
+          ],
+          "last": [
+            41673,
+            41685,
+            41697
+          ],
+          "all_bounds_valid": true,
+          "all_short_length_12": true,
+          "all_horizon_12": true,
+          "origins_strictly_increasing": true,
+          "insufficient_4032_history": 0
+        },
+        "test": {
+          "count": 10419,
+          "first": [
+            41674,
+            41686,
+            41698
+          ],
+          "last": [
+            52092,
+            52104,
+            52116
+          ],
+          "all_bounds_valid": true,
+          "all_short_length_12": true,
+          "all_horizon_12": true,
+          "origins_strictly_increasing": true,
+          "insufficient_4032_history": 0
+        }
+      },
+      "target_overlap_steps_at_boundaries": {
+        "train_valid": 11,
+        "valid_test": 11
+      },
+      "mean": 62.73669922477996,
+      "std": 9.43724126602455
+    },
+    "PEMS04": {
+      "shape": [
+        16992,
+        307,
+        3
+      ],
+      "dtype": "float64",
+      "nonfinite": 0,
+      "splits": {
+        "train": {
+          "count": 10181,
+          "first": [
+            0,
+            12,
+            24
+          ],
+          "last": [
+            10180,
+            10192,
+            10204
+          ],
+          "all_bounds_valid": true,
+          "all_short_length_12": true,
+          "all_horizon_12": true,
+          "origins_strictly_increasing": true,
+          "insufficient_4032_history": 4020
+        },
+        "valid": {
+          "count": 3394,
+          "first": [
+            10181,
+            10193,
+            10205
+          ],
+          "last": [
+            13574,
+            13586,
+            13598
+          ],
+          "all_bounds_valid": true,
+          "all_short_length_12": true,
+          "all_horizon_12": true,
+          "origins_strictly_increasing": true,
+          "insufficient_4032_history": 0
+        },
+        "test": {
+          "count": 3394,
+          "first": [
+            13575,
+            13587,
+            13599
+          ],
+          "last": [
+            16968,
+            16980,
+            16992
+          ],
+          "all_bounds_valid": true,
+          "all_short_length_12": true,
+          "all_horizon_12": true,
+          "origins_strictly_increasing": true,
+          "insufficient_4032_history": 0
+        }
+      },
+      "target_overlap_steps_at_boundaries": {
+        "train_valid": 11,
+        "valid_test": 11
+      },
+      "min": [
+        [
+          [
+            0.0
+          ]
+        ]
+      ],
+      "max": [
+        [
+          [
+            919.0
+          ]
+        ]
+      ]
+    },
+    "PEMS08": {
+      "shape": [
+        17856,
+        170,
+        3
+      ],
+      "dtype": "float64",
+      "nonfinite": 0,
+      "splits": {
+        "train": {
+          "count": 10700,
+          "first": [
+            0,
+            12,
+            24
+          ],
+          "last": [
+            10699,
+            10711,
+            10723
+          ],
+          "all_bounds_valid": true,
+          "all_short_length_12": true,
+          "all_horizon_12": true,
+          "origins_strictly_increasing": true,
+          "insufficient_4032_history": 4020
+        },
+        "valid": {
+          "count": 3567,
+          "first": [
+            10700,
+            10712,
+            10724
+          ],
+          "last": [
+            14266,
+            14278,
+            14290
+          ],
+          "all_bounds_valid": true,
+          "all_short_length_12": true,
+          "all_horizon_12": true,
+          "origins_strictly_increasing": true,
+          "insufficient_4032_history": 0
+        },
+        "test": {
+          "count": 3566,
+          "first": [
+            14267,
+            14279,
+            14291
+          ],
+          "last": [
+            17832,
+            17844,
+            17856
+          ],
+          "all_bounds_valid": true,
+          "all_short_length_12": true,
+          "all_horizon_12": true,
+          "origins_strictly_increasing": true,
+          "insufficient_4032_history": 0
+        }
+      },
+      "target_overlap_steps_at_boundaries": {
+        "train_valid": 11,
+        "valid_test": 11
+      },
+      "min": [
+        [
+          [
+            0.0
+          ]
+        ]
+      ],
+      "max": [
+        [
+          [
+            1077.0
+          ]
+        ]
+      ]
+    }
+  },
+  "checkpoints": {
+    "METR-LA.pt": {
+      "bytes": 3920161,
+      "keys": [
+        "epoch",
+        "model_state_dict",
+        "optim_state_dict"
+      ],
+      "strict_transformer_load": true,
+      "tested_width": 64,
+      "state_shapes": {
+        "mask_token": [
+          1,
+          1,
+          1,
+          64
+        ],
+        "patch.input_embedding.weight": [
+          64,
+          1,
+          12,
+          1
+        ],
+        "patch.input_embedding.bias": [
+          64
+        ],
+        "pe.tem_pe.pe": [
+          1000,
+          64
+        ],
+        "encoder.transformer_encoder.layers.0.self_attn.in_proj_weight": [
+          192,
+          64
+        ],
+        "encoder.transformer_encoder.layers.0.self_attn.in_proj_bias": [
+          192
+        ],
+        "encoder.transformer_encoder.layers.0.self_attn.out_proj.weight": [
+          64,
+          64
+        ],
+        "encoder.transformer_encoder.layers.0.self_attn.out_proj.bias": [
+          64
+        ],
+        "encoder.transformer_encoder.layers.0.linear1.weight": [
+          256,
+          64
+        ],
+        "encoder.transformer_encoder.layers.0.linear1.bias": [
+          256
+        ],
+        "encoder.transformer_encoder.layers.0.linear2.weight": [
+          64,
+          256
+        ],
+        "encoder.transformer_encoder.layers.0.linear2.bias": [
+          64
+        ],
+        "encoder.transformer_encoder.layers.0.norm1.weight": [
+          64
+        ],
+        "encoder.transformer_encoder.layers.0.norm1.bias": [
+          64
+        ],
+        "encoder.transformer_encoder.layers.0.norm2.weight": [
+          64
+        ],
+        "encoder.transformer_encoder.layers.0.norm2.bias": [
+          64
+        ],
+        "encoder.transformer_encoder.layers.1.self_attn.in_proj_weight": [
+          192,
+          64
+        ],
+        "encoder.transformer_encoder.layers.1.self_attn.in_proj_bias": [
+          192
+        ],
+        "encoder.transformer_encoder.layers.1.self_attn.out_proj.weight": [
+          64,
+          64
+        ],
+        "encoder.transformer_encoder.layers.1.self_attn.out_proj.bias": [
+          64
+        ],
+        "encoder.transformer_encoder.layers.1.linear1.weight": [
+          256,
+          64
+        ],
+        "encoder.transformer_encoder.layers.1.linear1.bias": [
+          256
+        ],
+        "encoder.transformer_encoder.layers.1.linear2.weight": [
+          64,
+          256
+        ],
+        "encoder.transformer_encoder.layers.1.linear2.bias": [
+          64
+        ],
+        "encoder.transformer_encoder.layers.1.norm1.weight": [
+          64
+        ],
+        "encoder.transformer_encoder.layers.1.norm1.bias": [
+          64
+        ],
+        "encoder.transformer_encoder.layers.1.norm2.weight": [
+          64
+        ],
+        "encoder.transformer_encoder.layers.1.norm2.bias": [
+          64
+        ],
+        "encoder.transformer_encoder.layers.2.self_attn.in_proj_weight": [
+          192,
+          64
+        ],
+        "encoder.transformer_encoder.layers.2.self_attn.in_proj_bias": [
+          192
+        ],
+        "encoder.transformer_encoder.layers.2.self_attn.out_proj.weight": [
+          64,
+          64
+        ],
+        "encoder.transformer_encoder.layers.2.self_attn.out_proj.bias": [
+          64
+        ],
+        "encoder.transformer_encoder.layers.2.linear1.weight": [
+          256,
+          64
+        ],
+        "encoder.transformer_encoder.layers.2.linear1.bias": [
+          256
+        ],
+        "encoder.transformer_encoder.layers.2.linear2.weight": [
+          64,
+          256
+        ],
+        "encoder.transformer_encoder.layers.2.linear2.bias": [
+          64
+        ],
+        "encoder.transformer_encoder.layers.2.norm1.weight": [
+          64
+        ],
+        "encoder.transformer_encoder.layers.2.norm1.bias": [
+          64
+        ],
+        "encoder.transformer_encoder.layers.2.norm2.weight": [
+          64
+        ],
+        "encoder.transformer_encoder.layers.2.norm2.bias": [
+          64
+        ],
+        "encoder.transformer_encoder.layers.3.self_attn.in_proj_weight": [
+          192,
+          64
+        ],
+        "encoder.transformer_encoder.layers.3.self_attn.in_proj_bias": [
+          192
+        ],
+        "encoder.transformer_encoder.layers.3.self_attn.out_proj.weight": [
+          64,
+          64
+        ],
+        "encoder.transformer_encoder.layers.3.self_attn.out_proj.bias": [
+          64
+        ],
+        "encoder.transformer_encoder.layers.3.linear1.weight": [
+          256,
+          64
+        ],
+        "encoder.transformer_encoder.layers.3.linear1.bias": [
+          256
+        ],
+        "encoder.transformer_encoder.layers.3.linear2.weight": [
+          64,
+          256
+        ],
+        "encoder.transformer_encoder.layers.3.linear2.bias": [
+          64
+        ],
+        "encoder.transformer_encoder.layers.3.norm1.weight": [
+          64
+        ],
+        "encoder.transformer_encoder.layers.3.norm1.bias": [
+          64
+        ],
+        "encoder.transformer_encoder.layers.3.norm2.weight": [
+          64
+        ],
+        "encoder.transformer_encoder.layers.3.norm2.bias": [
+          64
+        ],
+        "decoder.transformer_encoder.layers.0.self_attn.in_proj_weight": [
+          192,
+          64
+        ],
+        "decoder.transformer_encoder.layers.0.self_attn.in_proj_bias": [
+          192
+        ],
+        "decoder.transformer_encoder.layers.0.self_attn.out_proj.weight": [
+          64,
+          64
+        ],
+        "decoder.transformer_encoder.layers.0.self_attn.out_proj.bias": [
+          64
+        ],
+        "decoder.transformer_encoder.layers.0.linear1.weight": [
+          256,
+          64
+        ],
+        "decoder.transformer_encoder.layers.0.linear1.bias": [
+          256
+        ],
+        "decoder.transformer_encoder.layers.0.linear2.weight": [
+          64,
+          256
+        ],
+        "decoder.transformer_encoder.layers.0.linear2.bias": [
+          64
+        ],
+        "decoder.transformer_encoder.layers.0.norm1.weight": [
+          64
+        ],
+        "decoder.transformer_encoder.layers.0.norm1.bias": [
+          64
+        ],
+        "decoder.transformer_encoder.layers.0.norm2.weight": [
+          64
+        ],
+        "decoder.transformer_encoder.layers.0.norm2.bias": [
+          64
+        ],
+        "encoder_2_decoder.weight": [
+          64,
+          64
+        ],
+        "encoder_2_decoder.bias": [
+          64
+        ],
+        "output_layer.weight": [
+          12,
+          64
+        ],
+        "output_layer.bias": [
+          12
+        ]
+      }
+    },
+    "PEMS-BAY.pt": {
+      "bytes": 8087393,
+      "keys": [
+        "epoch",
+        "model_state_dict",
+        "optim_state_dict"
+      ],
+      "strict_transformer_load": true,
+      "tested_width": 96,
+      "state_shapes": {
+        "mask_token": [
+          1,
+          1,
+          1,
+          96
+        ],
+        "patch.input_embedding.weight": [
+          96,
+          1,
+          12,
+          1
+        ],
+        "patch.input_embedding.bias": [
+          96
+        ],
+        "pe.tem_pe.pe": [
+          1000,
+          96
+        ],
+        "encoder.transformer_encoder.layers.0.self_attn.in_proj_weight": [
+          288,
+          96
+        ],
+        "encoder.transformer_encoder.layers.0.self_attn.in_proj_bias": [
+          288
+        ],
+        "encoder.transformer_encoder.layers.0.self_attn.out_proj.weight": [
+          96,
+          96
+        ],
+        "encoder.transformer_encoder.layers.0.self_attn.out_proj.bias": [
+          96
+        ],
+        "encoder.transformer_encoder.layers.0.linear1.weight": [
+          384,
+          96
+        ],
+        "encoder.transformer_encoder.layers.0.linear1.bias": [
+          384
+        ],
+        "encoder.transformer_encoder.layers.0.linear2.weight": [
+          96,
+          384
+        ],
+        "encoder.transformer_encoder.layers.0.linear2.bias": [
+          96
+        ],
+        "encoder.transformer_encoder.layers.0.norm1.weight": [
+          96
+        ],
+        "encoder.transformer_encoder.layers.0.norm1.bias": [
+          96
+        ],
+        "encoder.transformer_encoder.layers.0.norm2.weight": [
+          96
+        ],
+        "encoder.transformer_encoder.layers.0.norm2.bias": [
+          96
+        ],
+        "encoder.transformer_encoder.layers.1.self_attn.in_proj_weight": [
+          288,
+          96
+        ],
+        "encoder.transformer_encoder.layers.1.self_attn.in_proj_bias": [
+          288
+        ],
+        "encoder.transformer_encoder.layers.1.self_attn.out_proj.weight": [
+          96,
+          96
+        ],
+        "encoder.transformer_encoder.layers.1.self_attn.out_proj.bias": [
+          96
+        ],
+        "encoder.transformer_encoder.layers.1.linear1.weight": [
+          384,
+          96
+        ],
+        "encoder.transformer_encoder.layers.1.linear1.bias": [
+          384
+        ],
+        "encoder.transformer_encoder.layers.1.linear2.weight": [
+          96,
+          384
+        ],
+        "encoder.transformer_encoder.layers.1.linear2.bias": [
+          96
+        ],
+        "encoder.transformer_encoder.layers.1.norm1.weight": [
+          96
+        ],
+        "encoder.transformer_encoder.layers.1.norm1.bias": [
+          96
+        ],
+        "encoder.transformer_encoder.layers.1.norm2.weight": [
+          96
+        ],
+        "encoder.transformer_encoder.layers.1.norm2.bias": [
+          96
+        ],
+        "encoder.transformer_encoder.layers.2.self_attn.in_proj_weight": [
+          288,
+          96
+        ],
+        "encoder.transformer_encoder.layers.2.self_attn.in_proj_bias": [
+          288
+        ],
+        "encoder.transformer_encoder.layers.2.self_attn.out_proj.weight": [
+          96,
+          96
+        ],
+        "encoder.transformer_encoder.layers.2.self_attn.out_proj.bias": [
+          96
+        ],
+        "encoder.transformer_encoder.layers.2.linear1.weight": [
+          384,
+          96
+        ],
+        "encoder.transformer_encoder.layers.2.linear1.bias": [
+          384
+        ],
+        "encoder.transformer_encoder.layers.2.linear2.weight": [
+          96,
+          384
+        ],
+        "encoder.transformer_encoder.layers.2.linear2.bias": [
+          96
+        ],
+        "encoder.transformer_encoder.layers.2.norm1.weight": [
+          96
+        ],
+        "encoder.transformer_encoder.layers.2.norm1.bias": [
+          96
+        ],
+        "encoder.transformer_encoder.layers.2.norm2.weight": [
+          96
+        ],
+        "encoder.transformer_encoder.layers.2.norm2.bias": [
+          96
+        ],
+        "encoder.transformer_encoder.layers.3.self_attn.in_proj_weight": [
+          288,
+          96
+        ],
+        "encoder.transformer_encoder.layers.3.self_attn.in_proj_bias": [
+          288
+        ],
+        "encoder.transformer_encoder.layers.3.self_attn.out_proj.weight": [
+          96,
+          96
+        ],
+        "encoder.transformer_encoder.layers.3.self_attn.out_proj.bias": [
+          96
+        ],
+        "encoder.transformer_encoder.layers.3.linear1.weight": [
+          384,
+          96
+        ],
+        "encoder.transformer_encoder.layers.3.linear1.bias": [
+          384
+        ],
+        "encoder.transformer_encoder.layers.3.linear2.weight": [
+          96,
+          384
+        ],
+        "encoder.transformer_encoder.layers.3.linear2.bias": [
+          96
+        ],
+        "encoder.transformer_encoder.layers.3.norm1.weight": [
+          96
+        ],
+        "encoder.transformer_encoder.layers.3.norm1.bias": [
+          96
+        ],
+        "encoder.transformer_encoder.layers.3.norm2.weight": [
+          96
+        ],
+        "encoder.transformer_encoder.layers.3.norm2.bias": [
+          96
+        ],
+        "decoder.transformer_encoder.layers.0.self_attn.in_proj_weight": [
+          288,
+          96
+        ],
+        "decoder.transformer_encoder.layers.0.self_attn.in_proj_bias": [
+          288
+        ],
+        "decoder.transformer_encoder.layers.0.self_attn.out_proj.weight": [
+          96,
+          96
+        ],
+        "decoder.transformer_encoder.layers.0.self_attn.out_proj.bias": [
+          96
+        ],
+        "decoder.transformer_encoder.layers.0.linear1.weight": [
+          384,
+          96
+        ],
+        "decoder.transformer_encoder.layers.0.linear1.bias": [
+          384
+        ],
+        "decoder.transformer_encoder.layers.0.linear2.weight": [
+          96,
+          384
+        ],
+        "decoder.transformer_encoder.layers.0.linear2.bias": [
+          96
+        ],
+        "decoder.transformer_encoder.layers.0.norm1.weight": [
+          96
+        ],
+        "decoder.transformer_encoder.layers.0.norm1.bias": [
+          96
+        ],
+        "decoder.transformer_encoder.layers.0.norm2.weight": [
+          96
+        ],
+        "decoder.transformer_encoder.layers.0.norm2.bias": [
+          96
+        ],
+        "encoder_2_decoder.weight": [
+          96,
+          96
+        ],
+        "encoder_2_decoder.bias": [
+          96
+        ],
+        "output_layer.weight": [
+          12,
+          96
+        ],
+        "output_layer.bias": [
+          12
+        ]
+      }
+    },
+    "PEMS04.pt": {
+      "bytes": 8087393,
+      "keys": [
+        "epoch",
+        "model_state_dict",
+        "optim_state_dict"
+      ],
+      "strict_transformer_load": true,
+      "tested_width": 96,
+      "state_shapes": {
+        "mask_token": [
+          1,
+          1,
+          1,
+          96
+        ],
+        "patch.input_embedding.weight": [
+          96,
+          1,
+          12,
+          1
+        ],
+        "patch.input_embedding.bias": [
+          96
+        ],
+        "pe.tem_pe.pe": [
+          1000,
+          96
+        ],
+        "encoder.transformer_encoder.layers.0.self_attn.in_proj_weight": [
+          288,
+          96
+        ],
+        "encoder.transformer_encoder.layers.0.self_attn.in_proj_bias": [
+          288
+        ],
+        "encoder.transformer_encoder.layers.0.self_attn.out_proj.weight": [
+          96,
+          96
+        ],
+        "encoder.transformer_encoder.layers.0.self_attn.out_proj.bias": [
+          96
+        ],
+        "encoder.transformer_encoder.layers.0.linear1.weight": [
+          384,
+          96
+        ],
+        "encoder.transformer_encoder.layers.0.linear1.bias": [
+          384
+        ],
+        "encoder.transformer_encoder.layers.0.linear2.weight": [
+          96,
+          384
+        ],
+        "encoder.transformer_encoder.layers.0.linear2.bias": [
+          96
+        ],
+        "encoder.transformer_encoder.layers.0.norm1.weight": [
+          96
+        ],
+        "encoder.transformer_encoder.layers.0.norm1.bias": [
+          96
+        ],
+        "encoder.transformer_encoder.layers.0.norm2.weight": [
+          96
+        ],
+        "encoder.transformer_encoder.layers.0.norm2.bias": [
+          96
+        ],
+        "encoder.transformer_encoder.layers.1.self_attn.in_proj_weight": [
+          288,
+          96
+        ],
+        "encoder.transformer_encoder.layers.1.self_attn.in_proj_bias": [
+          288
+        ],
+        "encoder.transformer_encoder.layers.1.self_attn.out_proj.weight": [
+          96,
+          96
+        ],
+        "encoder.transformer_encoder.layers.1.self_attn.out_proj.bias": [
+          96
+        ],
+        "encoder.transformer_encoder.layers.1.linear1.weight": [
+          384,
+          96
+        ],
+        "encoder.transformer_encoder.layers.1.linear1.bias": [
+          384
+        ],
+        "encoder.transformer_encoder.layers.1.linear2.weight": [
+          96,
+          384
+        ],
+        "encoder.transformer_encoder.layers.1.linear2.bias": [
+          96
+        ],
+        "encoder.transformer_encoder.layers.1.norm1.weight": [
+          96
+        ],
+        "encoder.transformer_encoder.layers.1.norm1.bias": [
+          96
+        ],
+        "encoder.transformer_encoder.layers.1.norm2.weight": [
+          96
+        ],
+        "encoder.transformer_encoder.layers.1.norm2.bias": [
+          96
+        ],
+        "encoder.transformer_encoder.layers.2.self_attn.in_proj_weight": [
+          288,
+          96
+        ],
+        "encoder.transformer_encoder.layers.2.self_attn.in_proj_bias": [
+          288
+        ],
+        "encoder.transformer_encoder.layers.2.self_attn.out_proj.weight": [
+          96,
+          96
+        ],
+        "encoder.transformer_encoder.layers.2.self_attn.out_proj.bias": [
+          96
+        ],
+        "encoder.transformer_encoder.layers.2.linear1.weight": [
+          384,
+          96
+        ],
+        "encoder.transformer_encoder.layers.2.linear1.bias": [
+          384
+        ],
+        "encoder.transformer_encoder.layers.2.linear2.weight": [
+          96,
+          384
+        ],
+        "encoder.transformer_encoder.layers.2.linear2.bias": [
+          96
+        ],
+        "encoder.transformer_encoder.layers.2.norm1.weight": [
+          96
+        ],
+        "encoder.transformer_encoder.layers.2.norm1.bias": [
+          96
+        ],
+        "encoder.transformer_encoder.layers.2.norm2.weight": [
+          96
+        ],
+        "encoder.transformer_encoder.layers.2.norm2.bias": [
+          96
+        ],
+        "encoder.transformer_encoder.layers.3.self_attn.in_proj_weight": [
+          288,
+          96
+        ],
+        "encoder.transformer_encoder.layers.3.self_attn.in_proj_bias": [
+          288
+        ],
+        "encoder.transformer_encoder.layers.3.self_attn.out_proj.weight": [
+          96,
+          96
+        ],
+        "encoder.transformer_encoder.layers.3.self_attn.out_proj.bias": [
+          96
+        ],
+        "encoder.transformer_encoder.layers.3.linear1.weight": [
+          384,
+          96
+        ],
+        "encoder.transformer_encoder.layers.3.linear1.bias": [
+          384
+        ],
+        "encoder.transformer_encoder.layers.3.linear2.weight": [
+          96,
+          384
+        ],
+        "encoder.transformer_encoder.layers.3.linear2.bias": [
+          96
+        ],
+        "encoder.transformer_encoder.layers.3.norm1.weight": [
+          96
+        ],
+        "encoder.transformer_encoder.layers.3.norm1.bias": [
+          96
+        ],
+        "encoder.transformer_encoder.layers.3.norm2.weight": [
+          96
+        ],
+        "encoder.transformer_encoder.layers.3.norm2.bias": [
+          96
+        ],
+        "decoder.transformer_encoder.layers.0.self_attn.in_proj_weight": [
+          288,
+          96
+        ],
+        "decoder.transformer_encoder.layers.0.self_attn.in_proj_bias": [
+          288
+        ],
+        "decoder.transformer_encoder.layers.0.self_attn.out_proj.weight": [
+          96,
+          96
+        ],
+        "decoder.transformer_encoder.layers.0.self_attn.out_proj.bias": [
+          96
+        ],
+        "decoder.transformer_encoder.layers.0.linear1.weight": [
+          384,
+          96
+        ],
+        "decoder.transformer_encoder.layers.0.linear1.bias": [
+          384
+        ],
+        "decoder.transformer_encoder.layers.0.linear2.weight": [
+          96,
+          384
+        ],
+        "decoder.transformer_encoder.layers.0.linear2.bias": [
+          96
+        ],
+        "decoder.transformer_encoder.layers.0.norm1.weight": [
+          96
+        ],
+        "decoder.transformer_encoder.layers.0.norm1.bias": [
+          96
+        ],
+        "decoder.transformer_encoder.layers.0.norm2.weight": [
+          96
+        ],
+        "decoder.transformer_encoder.layers.0.norm2.bias": [
+          96
+        ],
+        "encoder_2_decoder.weight": [
+          96,
+          96
+        ],
+        "encoder_2_decoder.bias": [
+          96
+        ],
+        "output_layer.weight": [
+          12,
+          96
+        ],
+        "output_layer.bias": [
+          12
+        ]
+      }
+    },
+    "PEMS08.pt": {
+      "bytes": 8087393,
+      "keys": [
+        "epoch",
+        "model_state_dict",
+        "optim_state_dict"
+      ],
+      "strict_transformer_load": true,
+      "tested_width": 96,
+      "state_shapes": {
+        "mask_token": [
+          1,
+          1,
+          1,
+          96
+        ],
+        "patch.input_embedding.weight": [
+          96,
+          1,
+          12,
+          1
+        ],
+        "patch.input_embedding.bias": [
+          96
+        ],
+        "pe.tem_pe.pe": [
+          1000,
+          96
+        ],
+        "encoder.transformer_encoder.layers.0.self_attn.in_proj_weight": [
+          288,
+          96
+        ],
+        "encoder.transformer_encoder.layers.0.self_attn.in_proj_bias": [
+          288
+        ],
+        "encoder.transformer_encoder.layers.0.self_attn.out_proj.weight": [
+          96,
+          96
+        ],
+        "encoder.transformer_encoder.layers.0.self_attn.out_proj.bias": [
+          96
+        ],
+        "encoder.transformer_encoder.layers.0.linear1.weight": [
+          384,
+          96
+        ],
+        "encoder.transformer_encoder.layers.0.linear1.bias": [
+          384
+        ],
+        "encoder.transformer_encoder.layers.0.linear2.weight": [
+          96,
+          384
+        ],
+        "encoder.transformer_encoder.layers.0.linear2.bias": [
+          96
+        ],
+        "encoder.transformer_encoder.layers.0.norm1.weight": [
+          96
+        ],
+        "encoder.transformer_encoder.layers.0.norm1.bias": [
+          96
+        ],
+        "encoder.transformer_encoder.layers.0.norm2.weight": [
+          96
+        ],
+        "encoder.transformer_encoder.layers.0.norm2.bias": [
+          96
+        ],
+        "encoder.transformer_encoder.layers.1.self_attn.in_proj_weight": [
+          288,
+          96
+        ],
+        "encoder.transformer_encoder.layers.1.self_attn.in_proj_bias": [
+          288
+        ],
+        "encoder.transformer_encoder.layers.1.self_attn.out_proj.weight": [
+          96,
+          96
+        ],
+        "encoder.transformer_encoder.layers.1.self_attn.out_proj.bias": [
+          96
+        ],
+        "encoder.transformer_encoder.layers.1.linear1.weight": [
+          384,
+          96
+        ],
+        "encoder.transformer_encoder.layers.1.linear1.bias": [
+          384
+        ],
+        "encoder.transformer_encoder.layers.1.linear2.weight": [
+          96,
+          384
+        ],
+        "encoder.transformer_encoder.layers.1.linear2.bias": [
+          96
+        ],
+        "encoder.transformer_encoder.layers.1.norm1.weight": [
+          96
+        ],
+        "encoder.transformer_encoder.layers.1.norm1.bias": [
+          96
+        ],
+        "encoder.transformer_encoder.layers.1.norm2.weight": [
+          96
+        ],
+        "encoder.transformer_encoder.layers.1.norm2.bias": [
+          96
+        ],
+        "encoder.transformer_encoder.layers.2.self_attn.in_proj_weight": [
+          288,
+          96
+        ],
+        "encoder.transformer_encoder.layers.2.self_attn.in_proj_bias": [
+          288
+        ],
+        "encoder.transformer_encoder.layers.2.self_attn.out_proj.weight": [
+          96,
+          96
+        ],
+        "encoder.transformer_encoder.layers.2.self_attn.out_proj.bias": [
+          96
+        ],
+        "encoder.transformer_encoder.layers.2.linear1.weight": [
+          384,
+          96
+        ],
+        "encoder.transformer_encoder.layers.2.linear1.bias": [
+          384
+        ],
+        "encoder.transformer_encoder.layers.2.linear2.weight": [
+          96,
+          384
+        ],
+        "encoder.transformer_encoder.layers.2.linear2.bias": [
+          96
+        ],
+        "encoder.transformer_encoder.layers.2.norm1.weight": [
+          96
+        ],
+        "encoder.transformer_encoder.layers.2.norm1.bias": [
+          96
+        ],
+        "encoder.transformer_encoder.layers.2.norm2.weight": [
+          96
+        ],
+        "encoder.transformer_encoder.layers.2.norm2.bias": [
+          96
+        ],
+        "encoder.transformer_encoder.layers.3.self_attn.in_proj_weight": [
+          288,
+          96
+        ],
+        "encoder.transformer_encoder.layers.3.self_attn.in_proj_bias": [
+          288
+        ],
+        "encoder.transformer_encoder.layers.3.self_attn.out_proj.weight": [
+          96,
+          96
+        ],
+        "encoder.transformer_encoder.layers.3.self_attn.out_proj.bias": [
+          96
+        ],
+        "encoder.transformer_encoder.layers.3.linear1.weight": [
+          384,
+          96
+        ],
+        "encoder.transformer_encoder.layers.3.linear1.bias": [
+          384
+        ],
+        "encoder.transformer_encoder.layers.3.linear2.weight": [
+          96,
+          384
+        ],
+        "encoder.transformer_encoder.layers.3.linear2.bias": [
+          96
+        ],
+        "encoder.transformer_encoder.layers.3.norm1.weight": [
+          96
+        ],
+        "encoder.transformer_encoder.layers.3.norm1.bias": [
+          96
+        ],
+        "encoder.transformer_encoder.layers.3.norm2.weight": [
+          96
+        ],
+        "encoder.transformer_encoder.layers.3.norm2.bias": [
+          96
+        ],
+        "decoder.transformer_encoder.layers.0.self_attn.in_proj_weight": [
+          288,
+          96
+        ],
+        "decoder.transformer_encoder.layers.0.self_attn.in_proj_bias": [
+          288
+        ],
+        "decoder.transformer_encoder.layers.0.self_attn.out_proj.weight": [
+          96,
+          96
+        ],
+        "decoder.transformer_encoder.layers.0.self_attn.out_proj.bias": [
+          96
+        ],
+        "decoder.transformer_encoder.layers.0.linear1.weight": [
+          384,
+          96
+        ],
+        "decoder.transformer_encoder.layers.0.linear1.bias": [
+          384
+        ],
+        "decoder.transformer_encoder.layers.0.linear2.weight": [
+          96,
+          384
+        ],
+        "decoder.transformer_encoder.layers.0.linear2.bias": [
+          96
+        ],
+        "decoder.transformer_encoder.layers.0.norm1.weight": [
+          96
+        ],
+        "decoder.transformer_encoder.layers.0.norm1.bias": [
+          96
+        ],
+        "decoder.transformer_encoder.layers.0.norm2.weight": [
+          96
+        ],
+        "decoder.transformer_encoder.layers.0.norm2.bias": [
+          96
+        ],
+        "encoder_2_decoder.weight": [
+          96,
+          96
+        ],
+        "encoder_2_decoder.bias": [
+          96
+        ],
+        "output_layer.weight": [
+          12,
+          96
+        ],
+        "output_layer.bias": [
+          12
+        ]
+      }
+    }
+  },
+  "configs": {
+    "configs/__init__.py": {},
+    "configs/METR-LA/forecasting.py": {
+      "DATASET_NAME": "METR-LA",
+      "GRAPH_PKL_PATH": "../datasets/sensor_graph/adj_mx_la.pkl",
+      "NUM_NODES": 207,
+      "BATCH_SIZE": 32,
+      "NUM_EPOCHS": 100,
+      "NUM_WORKERS": 8,
+      "PIN_MEMORY": true,
+      "PREFETCH": true,
+      "GPU_NUM": 0,
+      "SEED": 0,
+      "SHORT_SEQ_LEN": 12,
+      "HIDDEN_DIM": 64,
+      "MASK_RATIO": 0.75,
+      "NUM_TRANSFORMER_ENCODER_LAYERS": 4
+    },
+    "configs/METR-LA/pretraining.py": {
+      "DATASET_NAME": "METR-LA",
+      "BATCH_SIZE": 8,
+      "SHORT_SEQ_LEN": 12,
+      "HIDDEN_DIM": 64,
+      "NUM_ENCODER_LAYERS": 4,
+      "NUM_EPOCHS": 200,
+      "NUM_WORKERS": 2,
+      "PIN_MEMORY": true,
+      "PREFETCH": true,
+      "GPU_NUM": 1,
+      "SEED": 0,
+      "MASK_RATIO": 0.75
+    },
+    "configs/PEMS-BAY/forecasting.py": {
+      "DATASET_NAME": "PEMS-BAY",
+      "GRAPH_PKL_PATH": "datasets/sensor_graph/adj_mx_bay.pkl",
+      "NUM_NODES": 325,
+      "BATCH_SIZE": 32,
+      "NUM_EPOCHS": 100,
+      "NUM_WORKERS": 1,
+      "PIN_MEMORY": true,
+      "PREFETCH": true,
+      "GPU_NUM": 2,
+      "SEED": 0,
+      "SHORT_SEQ_LEN": 12,
+      "HIDDEN_DIM": 96,
+      "MASK_RATIO": 0.75,
+      "NUM_TRANSFORMER_ENCODER_LAYERS": 4
+    },
+    "configs/PEMS-BAY/pretraining.py": {
+      "DATASET_NAME": "PEMSBAY",
+      "BATCH_SIZE": 8,
+      "SHORT_SEQ_LEN": 12,
+      "HIDDEN_DIM": 96,
+      "NUM_ENCODER_LAYERS": 4,
+      "NUM_EPOCHS": 200,
+      "NUM_WORKERS": 2,
+      "PIN_MEMORY": true,
+      "PREFETCH": true,
+      "GPU_NUM": 8,
+      "SEED": 0,
+      "MASK_RATIO": 0.75
+    },
+    "configs/PEMS04/forecasting.py": {
+      "DATASET_NAME": "PEMS04",
+      "GRAPH_PKL_PATH": "../datasets/sensor_graph/adj_mx_04.pkl",
+      "NUM_NODES": 307,
+      "BATCH_SIZE": 8,
+      "NUM_EPOCHS": 100,
+      "NUM_WORKERS": 2,
+      "PIN_MEMORY": true,
+      "PREFETCH": true,
+      "GPU_NUM": 2,
+      "SEED": 0,
+      "SHORT_SEQ_LEN": 12,
+      "HIDDEN_DIM": 96,
+      "MASK_RATIO": 0.75,
+      "NUM_TRANSFORMER_ENCODER_LAYERS": 4
+    },
+    "configs/PEMS04/pretraining.py": {
+      "DATASET_NAME": "PEMS04",
+      "BATCH_SIZE": 8,
+      "SHORT_SEQ_LEN": 12,
+      "HIDDEN_DIM": 96,
+      "NUM_ENCODER_LAYERS": 4,
+      "NUM_EPOCHS": 200,
+      "NUM_WORKERS": 2,
+      "PIN_MEMORY": true,
+      "PREFETCH": true,
+      "GPU_NUM": 2,
+      "SEED": 0,
+      "MASK_RATIO": 0.75
+    },
+    "configs/PEMS08/forecasting.py": {
+      "DATASET_NAME": "PEMS08",
+      "GRAPH_PKL_PATH": "datasets/sensor_graph/adj_mx_08.pkl",
+      "NUM_NODES": 170,
+      "BATCH_SIZE": 32,
+      "NUM_EPOCHS": 100,
+      "NUM_WORKERS": 2,
+      "PIN_MEMORY": true,
+      "PREFETCH": true,
+      "GPU_NUM": 2,
+      "SEED": 0,
+      "SHORT_SEQ_LEN": 12,
+      "HIDDEN_DIM": 96,
+      "MASK_RATIO": 0.75,
+      "NUM_TRANSFORMER_ENCODER_LAYERS": 4
+    },
+    "configs/PEMS08/pretraining.py": {
+      "DATASET_NAME": "PEMS08",
+      "BATCH_SIZE": 8,
+      "PATCH_SIZE": 12,
+      "HIDDEN_DIM": 96,
+      "NUM_TRANSFORMER_ENCODER_LAYERS": 4,
+      "NUM_EPOCHS": 200,
+      "NUM_WORKERS": 2,
+      "PIN_MEMORY": true,
+      "PREFETCH": true,
+      "GPU_NUM": 1,
+      "SEED": 0,
+      "MASK_RATIO": 0.75
+    }
+  },
+  "torch": {
+    "version": "1.8.1+cu111",
+    "cuda_runtime": "11.1",
+    "cuda_available": true,
+    "has_torch_permute": false,
+    "gpu": "NVIDIA GeForce RTX 3050 6GB Laptop GPU",
+    "vram_bytes": 6441926656,
+    "gpu_matmul": [
+      [
+        2.0,
+        2.0
+      ],
+      [
+        2.0,
+        2.0
+      ]
+    ]
+  },
+  "launch_training_signature": "(cfg: Union[Dict, str], devices: str = None, node_rank: int = 0)"
+}
