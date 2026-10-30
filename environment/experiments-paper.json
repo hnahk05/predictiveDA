@@ -1,0 +1,170 @@
+{
+  "description": "Fill estimated_seconds with measured conservative durations before using deadline guard. Sequential pretrain -> forecast for each dataset.",
+  "runs": [
+    {
+      "id": "METR-LA-pretrain",
+      "estimated_seconds": 0,
+      "command": [
+        "{python}",
+        "{root}/scripts/run_training.py",
+        "--config",
+        "config_paper/METR-LA/pretraining.py",
+        "--attempt",
+        "{attempt}"
+      ],
+      "artifacts": [
+        "completed.json",
+        "**/*_best_val_loss.pt"
+      ],
+      "resume": true
+    },
+    {
+      "id": "METR-LA-forecast",
+      "estimated_seconds": 0,
+      "command": [
+        "{python}",
+        "{root}/scripts/run_training.py",
+        "--config",
+        "config_paper/METR-LA/forecasting.py",
+        "--attempt",
+        "{attempt}",
+        "--pretrained-dir",
+        "{dependency:METR-LA-pretrain}"
+      ],
+      "artifacts": [
+        "completed.json",
+        "**/*_best_val_loss.pt",
+        "**/test_export_*/metadata.json",
+        "**/test_export_*/batch_*.npz"
+      ],
+      "depends_on": [
+        "METR-LA-pretrain"
+      ],
+      "resume": true
+    },
+    {
+      "id": "PEMS-BAY-pretrain",
+      "estimated_seconds": 0,
+      "command": [
+        "{python}",
+        "{root}/scripts/run_training.py",
+        "--config",
+        "config_paper/PEMS-BAY/pretraining.py",
+        "--attempt",
+        "{attempt}"
+      ],
+      "artifacts": [
+        "completed.json",
+        "**/*_best_val_loss.pt"
+      ],
+      "resume": true
+    },
+    {
+      "id": "PEMS-BAY-forecast",
+      "estimated_seconds": 0,
+      "command": [
+        "{python}",
+        "{root}/scripts/run_training.py",
+        "--config",
+        "config_paper/PEMS-BAY/forecasting.py",
+        "--attempt",
+        "{attempt}",
+        "--pretrained-dir",
+        "{dependency:PEMS-BAY-pretrain}"
+      ],
+      "artifacts": [
+        "completed.json",
+        "**/*_best_val_loss.pt",
+        "**/test_export_*/metadata.json",
+        "**/test_export_*/batch_*.npz"
+      ],
+      "depends_on": [
+        "PEMS-BAY-pretrain"
+      ],
+      "resume": true
+    },
+    {
+      "id": "PEMS04-pretrain",
+      "estimated_seconds": 0,
+      "command": [
+        "{python}",
+        "{root}/scripts/run_training.py",
+        "--config",
+        "config_paper/PEMS04/pretraining.py",
+        "--attempt",
+        "{attempt}"
+      ],
+      "artifacts": [
+        "completed.json",
+        "**/*_best_val_loss.pt"
+      ],
+      "resume": true
+    },
+    {
+      "id": "PEMS04-forecast",
+      "estimated_seconds": 0,
+      "command": [
+        "{python}",
+        "{root}/scripts/run_training.py",
+        "--config",
+        "config_paper/PEMS04/forecasting.py",
+        "--attempt",
+        "{attempt}",
+        "--pretrained-dir",
+        "{dependency:PEMS04-pretrain}"
+      ],
+      "artifacts": [
+        "completed.json",
+        "**/*_best_val_loss.pt",
+        "**/test_export_*/metadata.json",
+        "**/test_export_*/batch_*.npz"
+      ],
+      "depends_on": [
+        "PEMS04-pretrain"
+      ],
+      "resume": true
+    },
+    {
+      "id": "PEMS08-pretrain",
+      "estimated_seconds": 0,
+      "command": [
+        "{python}",
+        "{root}/scripts/run_training.py",
+        "--config",
+        "config_paper/PEMS08/pretraining.py",
+        "--attempt",
+        "{attempt}"
+      ],
+      "artifacts": [
+        "completed.json",
+        "**/*_best_val_loss.pt"
+      ],
+      "resume": true
+    },
+    {
+      "id": "PEMS08-forecast",
+      "estimated_seconds": 0,
+      "command": [
+        "{python}",
+        "{root}/scripts/run_training.py",
+        "--config",
+        "config_paper/PEMS08/forecasting.py",
+        "--attempt",
+        "{attempt}",
+        "--pretrained-dir",
+        "{dependency:PEMS08-pretrain}"
+      ],
+      "artifacts": [
+        "completed.json",
+        "**/*_best_val_loss.pt",
+        "**/test_export_*/metadata.json",
+        "**/test_export_*/batch_*.npz"
+      ],
+      "depends_on": [
+        "PEMS08-pretrain"
+      ],
+      "resume": true
+    }
+  ],
+  "input_manifest": "artifacts/manifests/inputs.json"
+}

@@ -1,0 +1,33 @@
+{
+  "goal": "reproduce published author repo with explicit paper hyperparameter overrides",
+  "graph": "author bnh,nm->bnh",
+  "split": "keep supplied indices, 11 overlapping target timesteps per adjacent boundary",
+  "scaler": {
+    "METR-LA": "mean/std",
+    "PEMS-BAY": "mean/std",
+    "PEMS04": "min/max",
+    "PEMS08": "min/max"
+  },
+  "test_mae": {
+    "METR-LA": "masked zero",
+    "PEMS-BAY": "masked zero",
+    "PEMS04": "unmasked (author sklearn MAE equivalent for finite targets)",
+    "PEMS08": "unmasked (author sklearn MAE equivalent for finite targets)"
+  },
+  "rmse": "masked zero",
+  "mape": "ratio; labels <0.01 treated as zero then masked",
+  "checkpoint": "lowest validation loss, reload before test",
+  "batch_forecasting": 32,
+  "batch_pretraining": 8,
+  "width": 64,
+  "hidden": [
+    4,
+    4
+  ],
+  "paper_omissions": "LR, pretraining budget, scheduler and curriculum inherited from repository, not claimed verified paper values",
+  "budget_vnd": 400000,
+  "planned_spending_limit_vnd": 320000,
+  "reserve_vnd": 80000,
+  "rental_hours_target": 24,
+  "all_experiments_in_24h": "not guaranteed; measure first"
+}

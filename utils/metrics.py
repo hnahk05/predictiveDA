@@ -1,3 +1,8 @@
+"""Author metric protocol preserved: MAPE is a RATIO, not percent.
+Callers use null_val=0 for reporting; MAPE additionally maps labels <0.01
+(including negative labels) to zero. MAE/RMSE do not use this extra threshold.
+This deliberate author difference is recorded rather than silently changed.
+"""
 import numpy as np
 import torch
 

@@ -1,3 +1,4 @@
+from utils.reproduction import ReproductionMixin
 import torch.nn as nn
 from utils.metrics import masked_mae, masked_rmse, masked_mape
 from utils.datasets import MTSDataset
@@ -8,9 +9,10 @@ from utils.load_data import max_min_scale, standard_scale
 from utils.log import load_pkl
 
 
-class TransformerRunner(Runner):
+class TransformerRunner(ReproductionMixin, Runner):
     def __init__(self, cfg: dict):
         super().__init__(cfg)
+        self.cfg = cfg
         self.clip = 5
         dataset_name = cfg["DATASET_NAME"]
         # scaler
@@ -19,7 +21,7 @@ class TransformerRunner(Runner):
             _max = load_pkl("datasets/" + dataset_name + "/max.pkl")
             self.scaler = max_min_scale
             self.scaler_args = {"min": _min, "max": _max}
-        elif dataset_name in ["PEMSBAY", "METRLA"]:
+        elif dataset_name in ["PEMSBAY", "METRLA", "PEMS-BAY", "METR-LA"]:
             mean = load_pkl("datasets/" + dataset_name + "/mean.pkl")
             std = load_pkl("datasets/" + dataset_name + "/std.pkl")
             self.scaler = standard_scale
@@ -122,6 +124,6 @@ class TransformerRunner(Runner):
         mape = masked_mape(predict, real_val, 0.0)
         rmse = masked_rmse(predict, real_val, 0.0)
 
-        self.update_epoch_meter("val_loss", loss.item())
+        self.update_epoch_meter("val_loss", loss.item(), n=len(input_data))
         self.update_epoch_meter("val_MAPE", mape.item())
         self.update_epoch_meter("val_RMSE", rmse.item())

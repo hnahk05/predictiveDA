@@ -1,3 +1,4 @@
+from utils.reproduction import ReproductionMixin
 import time
 import math
 import torch
@@ -14,7 +15,7 @@ from utils.load_data import max_min_scale, standard_scale
 from utils.metrics import masked_mae, masked_rmse, masked_mape, all_metrics
 
 
-class LSTTNRunner(Runner):
+class LSTTNRunner(ReproductionMixin, Runner):
     def __init__(self, cfg: dict):
         super().__init__(cfg)
         self.cfg = cfg
@@ -22,8 +23,8 @@ class LSTTNRunner(Runner):
         dataset_name = cfg["DATASET_NAME"]
         # scaler
         if dataset_name in ["PEMS04", "PEMS08"]:
-            _min = load_pkl("../datasets/" + dataset_name + "/min.pkl")
-            _max = load_pkl("../datasets/" + dataset_name + "/max.pkl")
+            _min = load_pkl("datasets/" + dataset_name + "/min.pkl")
+            _max = load_pkl("datasets/" + dataset_name + "/max.pkl")
             self.scaler = max_min_scale
             self.scaler_args = {"min": _min, "max": _max}
         elif dataset_name in ["PEMS-BAY", "METR-LA"]:
@@ -156,11 +157,16 @@ class LSTTNRunner(Runner):
         mape = masked_mape(predict, real_val, 0.0)
         rmse = masked_rmse(predict, real_val, 0.0)
 
-        self.update_epoch_meter("val_loss", loss.item())
+        self.update_epoch_meter("val_loss", loss.item(), n=len(y))
         self.update_epoch_meter("val_MAPE", mape.item())
         self.update_epoch_meter("val_RMSE", rmse.item())
 
     def on_training_end(self):
+        from pathlib import Path
+        best = Path(self.ckpt_save_dir) / (self.model_name + "_best_val_loss.pt")
+        if not best.is_file():
+            raise RuntimeError("No best validation checkpoint: " + str(best))
+        self.load_model(str(best))
         self.test(self.cfg)
         super().on_training_end()
 
@@ -187,63 +193,15 @@ class LSTTNRunner(Runner):
         test_start_time = time.time()
         self.model.eval()
 
-        outputs = []
-        y_list = []
-        for iter_index, data in enumerate(self.test_data_loader):
-            preds, testy = self.test_iters(iter_index, data)
-            outputs.append(preds)
-            y_list.append(testy)
-        yhat = torch.cat(outputs, dim=0)
-        y_list = torch.cat(y_list, dim=0)
-
-        if "max" in self.scaler_args.keys():
-            real_val = self.scaler(y_list.squeeze(-1), **self.scaler_args).transpose(1, 2)
-            predict = self.scaler(yhat.unsqueeze(-1), **self.scaler_args).transpose(1, 2)
-            real_val = real_val[..., 0]
-            predict = predict[..., 0]
-        else:
-            real_val = self.scaler(y_list[:, :, :, 0], **self.scaler_args).transpose(1, 2)
-            predict = self.scaler(yhat, **self.scaler_args).transpose(1, 2)
-
-        mae_of_batches = []
-        mape_of_batches = []
-        rmse_of_batches = []
-
-        for i in range(12):
-            pred = predict[:, :, i]
-            real = real_val[:, :, i]
-            dataset_name = self.dataset_name
-            if (
-                dataset_name == "PEMS04" or dataset_name == "PEMS08"
-            ):
-                mae = mean_absolute_error(pred.cpu().numpy(), real.cpu().numpy())
-                rmse = masked_rmse(pred, real, 0.0).item()
-                mape = masked_mape(pred, real, 0.0).item()
-                log = "Evaluate best model on test data for horizon {:d}, Test MAE: {:.4f}, Test RMSE: {:.4f}, Test MAPE: {:.4f}"
-                log = log.format(i + 1, mae, rmse, mape)
-                mae_of_batches.append(mae)
-                mape_of_batches.append(mape)
-                rmse_of_batches.append(rmse)
-            else:
-                metrics = all_metrics(pred, real)
-                log = "Evaluate best model on test data for horizon {:d}, Test MAE: {:.4f}, Test RMSE: {:.4f}, Test MAPE: {:.4f}"
-                log = log.format(i + 1, metrics[0], metrics[2], metrics[1])
-                mae_of_batches.append(metrics[0])
-                mape_of_batches.append(metrics[1])
-                rmse_of_batches.append(metrics[2])
-            self.logger.info(log)
-
-        import numpy as np
-
-        log = "On average over 12 horizons, Test MAE: {:.4f}, Test MAPE: {:.4f}, Test RMSE: {:.4f}"
-        self.logger.info(log.format(np.mean(mae_of_batches), np.mean(mape_of_batches), np.mean(rmse_of_batches)))
-
-        test_end_time = time.time()
-        print(test_end_time - test_start_time)
-        self.update_epoch_meter("test_time", test_start_time - test_end_time)
-        self.print_epoch_meters("test")
-        if train_epoch is not None:
-            self.plt_epoch_meters("test", train_epoch // self.test_interval)
+        from pathlib import Path
+        from utils.prediction_export import export_batches, evaluate_export
+        directory = Path(self.ckpt_save_dir) / ("test_export_" + str(time.time_ns()))
+        export_batches(self, directory)
+        scores = evaluate_export(directory)
+        for horizon, values in scores.items():
+            self.logger.info("horizon %s: %s", horizon, values)
+        self.update_epoch_meter("test_time", time.time() - test_start_time)
+        return
 
     def test_iters(self, iter_index: int, data: torch.Tensor or tuple):
         y, x_short, x_long = data

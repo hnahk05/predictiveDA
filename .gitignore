@@ -5,3 +5,19 @@ __pycache__/
 *.py[cod]
 test.py
 scripts/
+docs/
+# Local verification copy and generated outputs
+.local_checks/
+artifacts/
+
+# Keep automation scripts tracked; leave previous local debug scripts ignored.
+!scripts/
+scripts/*
+!scripts/run_experiments.py
+!scripts/run_training.py
+!scripts/smoke_environment.py
+!scripts/hash_manifest.py
+runs/
+
+!scripts/prepare_cloud.py
+!scripts/benchmark_gpu.py

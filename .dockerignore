@@ -1,0 +1,13 @@
+.git
+venv
+.venv
+.local_checks
+__pycache__
+**/__pycache__
+*.pyc
+datasets
+checkpoints
+pretrained_transformers
+runs
+results
+artifacts

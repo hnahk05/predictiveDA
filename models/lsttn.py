@@ -39,7 +39,7 @@ class StackedDilatedConv(nn.Module):
 
 
 class DynamicGraphConv(nn.Module):
-    def __init__(self, num_nodes, input_dim, output_dim, dropout, support_len=3, order=2):
+    def __init__(self, num_nodes, input_dim, output_dim, dropout, support_len=3, order=2, graph_mode="author"):
         super().__init__()
         self.node_vec1 = nn.Parameter(torch.randn(num_nodes, 10))
         self.node_vec2 = nn.Parameter(torch.randn(10, num_nodes))
@@ -47,9 +47,10 @@ class DynamicGraphConv(nn.Module):
         self.linear = nn.Linear(input_dim, output_dim)
         self.dropout = nn.Dropout(p=dropout)
         self.order = order
+        self.graph_mode = graph_mode
 
     def conv(self, x, adj_mx):
-        return torch.einsum("bnh,nm->bmh", (x, adj_mx)).contiguous()
+        return torch.einsum("bnh,nm->bnh", (x, adj_mx)).contiguous()
 
     def forward(self, x, supports):
         outputs = [x]
@@ -81,7 +82,12 @@ class LSTTN(nn.Module):
         self.transformer1 = Transformer(mode="pretrain", **transformer_args)
         self.transformer = Transformer(mode="inference", **transformer_args)
         stgnn = GraphWaveNet(**stgnn_args.GWNET)
-        self.load_pretrained_transformer()
+        self.pretrained_path = lsttn_args.get("pretrained_path")
+        self.ablation = lsttn_args.get("ablation", "full")
+        if self.ablation not in ("full", "wo_lt", "wo_p", "wo_st", "st_only"):
+            raise ValueError(self.ablation)
+        if self.ablation != "st_only":
+            self.load_pretrained_transformer()
 
         self.num_nodes = lsttn_args["num_nodes"]
         self.pre_len = lsttn_args["pre_len"]
@@ -95,10 +101,10 @@ class LSTTN(nn.Module):
         self.long_term_trend_extractor = StackedDilatedConv(self.transformer_hidden_dim, self.long_trend_hidden_dim)
         self.short_term_trend_extractor = stgnn
         self.weekly_seasonality_extractor = DynamicGraphConv(
-            self.num_nodes, self.transformer_hidden_dim, self.seasonality_hidden_dim, self.dropout
+            self.num_nodes, self.transformer_hidden_dim, self.seasonality_hidden_dim, self.dropout, graph_mode=lsttn_args.get("graph_mode", "author")
         )
         self.daily_seasonality_extractor = DynamicGraphConv(
-            self.num_nodes, self.transformer_hidden_dim, self.seasonality_hidden_dim, self.dropout
+            self.num_nodes, self.transformer_hidden_dim, self.seasonality_hidden_dim, self.dropout, graph_mode=lsttn_args.get("graph_mode", "author")
         )
 
         self.trend_seasonality_mlp = nn.Sequential(
@@ -113,21 +119,27 @@ class LSTTN(nn.Module):
         )
 
     def load_pretrained_transformer(self):
-        if self.dataset_name == "METRLA":
+        if self.pretrained_path:
+            state_dict = torch.load(self.pretrained_path, map_location="cpu")
+        elif self.dataset_name in ("METRLA", "METR-LA"):
             state_dict = torch.load(PRETRAINED / "METR-LA.pt", map_location="cpu")
-        elif self.dataset_name == "PEMSBAY":
+        elif self.dataset_name in ("PEMSBAY", "PEMS-BAY"):
             state_dict = torch.load(PRETRAINED / "PEMS-BAY.pt", map_location="cpu")
         elif self.dataset_name == "PEMS04":
             state_dict = torch.load(PRETRAINED / "PEMS04.pt", map_location="cpu")
         elif self.dataset_name == "PEMS08":
             state_dict = torch.load(PRETRAINED / "PEMS08.pt", map_location="cpu")
         else:
-            assert NameError, "Unknown dataset"
+            raise ValueError("Unknown dataset: " + self.dataset_name)
         self.transformer.load_state_dict(state_dict["model_state_dict"])
         for param in self.transformer.parameters():
             param.requires_grad = False
 
     def forward(self, short_x, long_x):
+        if self.ablation == "st_only":
+            short = self.short_term_trend_extractor(short_x.transpose(1, 3)).squeeze(-1).transpose(1, 2)
+            zeros = short.new_zeros((*short.shape[:2], self.mlp_hidden_dim))
+            return self.mlp(torch.cat((zeros, short), dim=-1))
         long_x = long_x[..., [0]]
         long_x = long_x.permute(0, 2, 3, 1)
         batch_size, num_nodes, _, long_seq_len = long_x.size()
@@ -146,6 +158,11 @@ class LSTTN(nn.Module):
         weekly_hidden = self.weekly_seasonality_extractor(last_week_repr, self.supports)
         daily_hidden = self.daily_seasonality_extractor(last_day_repr, self.supports)
         # (batch_size, num_nodes, lt_hidden_dim + s_hidden_dim * 2)
+        if self.ablation == "wo_lt":
+            long_trend_hidden = torch.zeros_like(long_trend_hidden)
+        if self.ablation == "wo_p":
+            weekly_hidden = torch.zeros_like(weekly_hidden)
+            daily_hidden = torch.zeros_like(daily_hidden)
         trend_seasonality_hidden = torch.cat((long_trend_hidden, weekly_hidden, daily_hidden), dim=-1)
         # (batch_size, num_nodes, mlp_hidden_dim)
         trend_seasonality_hidden = self.trend_seasonality_mlp(trend_seasonality_hidden)
@@ -161,6 +178,9 @@ class LSTTN(nn.Module):
         # (batch_size, num_nodes, mlp_hidden_dim * 2)
         hidden = torch.cat((short_term_hidden, trend_seasonality_hidden), dim=-1)
         # (batch_size, num_nodes, pre_len)
+        if self.ablation == "wo_st":
+            short_term_hidden = torch.zeros_like(short_term_hidden)
+            hidden = torch.cat((trend_seasonality_hidden, short_term_hidden), dim=-1)
         output = self.mlp(hidden)
         return output
 

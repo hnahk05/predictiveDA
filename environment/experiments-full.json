@@ -1,0 +1,1410 @@
+{
+  "description": "Full distinct suite for four datasets; baseline width64/hidden4 reused instead of duplicated sweep points. Fill estimated_seconds before deadline use.",
+  "input_manifest": "artifacts/manifests/inputs.json",
+  "runs": [
+    {
+      "id": "METR-LA-pretrain",
+      "estimated_seconds": 0,
+      "command": [
+        "{python}",
+        "{root}/scripts/run_training.py",
+        "--config",
+        "config_paper/METR-LA/pretraining.py",
+        "--attempt",
+        "{attempt}"
+      ],
+      "artifacts": [
+        "completed.json",
+        "**/*_best_val_loss.pt"
+      ],
+      "resume": true
+    },
+    {
+      "id": "METR-LA-forecast",
+      "estimated_seconds": 0,
+      "command": [
+        "{python}",
+        "{root}/scripts/run_training.py",
+        "--config",
+        "config_paper/METR-LA/forecasting.py",
+        "--attempt",
+        "{attempt}",
+        "--pretrained-dir",
+        "{dependency:METR-LA-pretrain}"
+      ],
+      "artifacts": [
+        "completed.json",
+        "**/*_best_val_loss.pt",
+        "**/test_export_*/metadata.json",
+        "**/test_export_*/batch_*.npz"
+      ],
+      "depends_on": [
+        "METR-LA-pretrain"
+      ],
+      "resume": true
+    },
+    {
+      "id": "METR-LA-pretrain-w32",
+      "estimated_seconds": 0,
+      "command": [
+        "{python}",
+        "{root}/scripts/run_training.py",
+        "--config",
+        "config_paper/METR-LA/width/32_pretraining.py",
+        "--attempt",
+        "{attempt}"
+      ],
+      "artifacts": [
+        "completed.json",
+        "**/*_best_val_loss.pt"
+      ],
+      "resume": true
+    },
+    {
+      "id": "METR-LA-forecast-w32",
+      "estimated_seconds": 0,
+      "command": [
+        "{python}",
+        "{root}/scripts/run_training.py",
+        "--config",
+        "config_paper/METR-LA/width/32_forecasting.py",
+        "--attempt",
+        "{attempt}",
+        "--pretrained-dir",
+        "{dependency:METR-LA-pretrain-w32}"
+      ],
+      "artifacts": [
+        "completed.json",
+        "**/*_best_val_loss.pt",
+        "**/test_export_*/metadata.json",
+        "**/test_export_*/batch_*.npz"
+      ],
+      "depends_on": [
+        "METR-LA-pretrain-w32"
+      ],
+      "resume": true
+    },
+    {
+      "id": "METR-LA-pretrain-w96",
+      "estimated_seconds": 0,
+      "command": [
+        "{python}",
+        "{root}/scripts/run_training.py",
+        "--config",
+        "config_paper/METR-LA/width/96_pretraining.py",
+        "--attempt",
+        "{attempt}"
+      ],
+      "artifacts": [
+        "completed.json",
+        "**/*_best_val_loss.pt"
+      ],
+      "resume": true
+    },
+    {
+      "id": "METR-LA-forecast-w96",
+      "estimated_seconds": 0,
+      "command": [
+        "{python}",
+        "{root}/scripts/run_training.py",
+        "--config",
+        "config_paper/METR-LA/width/96_forecasting.py",
+        "--attempt",
+        "{attempt}",
+        "--pretrained-dir",
+        "{dependency:METR-LA-pretrain-w96}"
+      ],
+      "artifacts": [
+        "completed.json",
+        "**/*_best_val_loss.pt",
+        "**/test_export_*/metadata.json",
+        "**/test_export_*/batch_*.npz"
+      ],
+      "depends_on": [
+        "METR-LA-pretrain-w96"
+      ],
+      "resume": true
+    },
+    {
+      "id": "METR-LA-pretrain-w128",
+      "estimated_seconds": 0,
+      "command": [
+        "{python}",
+        "{root}/scripts/run_training.py",
+        "--config",
+        "config_paper/METR-LA/width/128_pretraining.py",
+        "--attempt",
+        "{attempt}"
+      ],
+      "artifacts": [
+        "completed.json",
+        "**/*_best_val_loss.pt"
+      ],
+      "resume": true
+    },
+    {
+      "id": "METR-LA-forecast-w128",
+      "estimated_seconds": 0,
+      "command": [
+        "{python}",
+        "{root}/scripts/run_training.py",
+        "--config",
+        "config_paper/METR-LA/width/128_forecasting.py",
+        "--attempt",
+        "{attempt}",
+        "--pretrained-dir",
+        "{dependency:METR-LA-pretrain-w128}"
+      ],
+      "artifacts": [
+        "completed.json",
+        "**/*_best_val_loss.pt",
+        "**/test_export_*/metadata.json",
+        "**/test_export_*/batch_*.npz"
+      ],
+      "depends_on": [
+        "METR-LA-pretrain-w128"
+      ],
+      "resume": true
+    },
+    {
+      "id": "METR-LA-hidden-1",
+      "estimated_seconds": 0,
+      "command": [
+        "{python}",
+        "{root}/scripts/run_training.py",
+        "--config",
+        "config_paper/METR-LA/hidden/1_forecasting.py",
+        "--attempt",
+        "{attempt}",
+        "--pretrained-dir",
+        "{dependency:METR-LA-pretrain}"
+      ],
+      "artifacts": [
+        "completed.json",
+        "**/*_best_val_loss.pt",
+        "**/test_export_*/metadata.json",
+        "**/test_export_*/batch_*.npz"
+      ],
+      "depends_on": [
+        "METR-LA-pretrain"
+      ],
+      "resume": true
+    },
+    {
+      "id": "METR-LA-hidden-8",
+      "estimated_seconds": 0,
+      "command": [
+        "{python}",
+        "{root}/scripts/run_training.py",
+        "--config",
+        "config_paper/METR-LA/hidden/8_forecasting.py",
+        "--attempt",
+        "{attempt}",
+        "--pretrained-dir",
+        "{dependency:METR-LA-pretrain}"
+      ],
+      "artifacts": [
+        "completed.json",
+        "**/*_best_val_loss.pt",
+        "**/test_export_*/metadata.json",
+        "**/test_export_*/batch_*.npz"
+      ],
+      "depends_on": [
+        "METR-LA-pretrain"
+      ],
+      "resume": true
+    },
+    {
+      "id": "METR-LA-hidden-16",
+      "estimated_seconds": 0,
+      "command": [
+        "{python}",
+        "{root}/scripts/run_training.py",
+        "--config",
+        "config_paper/METR-LA/hidden/16_forecasting.py",
+        "--attempt",
+        "{attempt}",
+        "--pretrained-dir",
+        "{dependency:METR-LA-pretrain}"
+      ],
+      "artifacts": [
+        "completed.json",
+        "**/*_best_val_loss.pt",
+        "**/test_export_*/metadata.json",
+        "**/test_export_*/batch_*.npz"
+      ],
+      "depends_on": [
+        "METR-LA-pretrain"
+      ],
+      "resume": true
+    },
+    {
+      "id": "METR-LA-hidden-32",
+      "estimated_seconds": 0,
+      "command": [
+        "{python}",
+        "{root}/scripts/run_training.py",
+        "--config",
+        "config_paper/METR-LA/hidden/32_forecasting.py",
+        "--attempt",
+        "{attempt}",
+        "--pretrained-dir",
+        "{dependency:METR-LA-pretrain}"
+      ],
+      "artifacts": [
+        "completed.json",
+        "**/*_best_val_loss.pt",
+        "**/test_export_*/metadata.json",
+        "**/test_export_*/batch_*.npz"
+      ],
+      "depends_on": [
+        "METR-LA-pretrain"
+      ],
+      "resume": true
+    },
+    {
+      "id": "METR-LA-ablation-wo_lt",
+      "estimated_seconds": 0,
+      "command": [
+        "{python}",
+        "{root}/scripts/run_training.py",
+        "--config",
+        "config_paper/METR-LA/ablation/wo_lt_forecasting.py",
+        "--attempt",
+        "{attempt}",
+        "--pretrained-dir",
+        "{dependency:METR-LA-pretrain}"
+      ],
+      "artifacts": [
+        "completed.json",
+        "**/*_best_val_loss.pt",
+        "**/test_export_*/metadata.json",
+        "**/test_export_*/batch_*.npz"
+      ],
+      "depends_on": [
+        "METR-LA-pretrain"
+      ],
+      "resume": true
+    },
+    {
+      "id": "METR-LA-ablation-wo_p",
+      "estimated_seconds": 0,
+      "command": [
+        "{python}",
+        "{root}/scripts/run_training.py",
+        "--config",
+        "config_paper/METR-LA/ablation/wo_p_forecasting.py",
+        "--attempt",
+        "{attempt}",
+        "--pretrained-dir",
+        "{dependency:METR-LA-pretrain}"
+      ],
+      "artifacts": [
+        "completed.json",
+        "**/*_best_val_loss.pt",
+        "**/test_export_*/metadata.json",
+        "**/test_export_*/batch_*.npz"
+      ],
+      "depends_on": [
+        "METR-LA-pretrain"
+      ],
+      "resume": true
+    },
+    {
+      "id": "METR-LA-ablation-wo_st",
+      "estimated_seconds": 0,
+      "command": [
+        "{python}",
+        "{root}/scripts/run_training.py",
+        "--config",
+        "config_paper/METR-LA/ablation/wo_st_forecasting.py",
+        "--attempt",
+        "{attempt}",
+        "--pretrained-dir",
+        "{dependency:METR-LA-pretrain}"
+      ],
+      "artifacts": [
+        "completed.json",
+        "**/*_best_val_loss.pt",
+        "**/test_export_*/metadata.json",
+        "**/test_export_*/batch_*.npz"
+      ],
+      "depends_on": [
+        "METR-LA-pretrain"
+      ],
+      "resume": true
+    },
+    {
+      "id": "METR-LA-ablation-st_only",
+      "estimated_seconds": 0,
+      "command": [
+        "{python}",
+        "{root}/scripts/run_training.py",
+        "--config",
+        "config_paper/METR-LA/ablation/st_only_forecasting.py",
+        "--attempt",
+        "{attempt}"
+      ],
+      "artifacts": [
+        "completed.json",
+        "**/*_best_val_loss.pt",
+        "**/test_export_*/metadata.json",
+        "**/test_export_*/batch_*.npz"
+      ],
+      "resume": true
+    },
+    {
+      "id": "PEMS-BAY-pretrain",
+      "estimated_seconds": 0,
+      "command": [
+        "{python}",
+        "{root}/scripts/run_training.py",
+        "--config",
+        "config_paper/PEMS-BAY/pretraining.py",
+        "--attempt",
+        "{attempt}"
+      ],
+      "artifacts": [
+        "completed.json",
+        "**/*_best_val_loss.pt"
+      ],
+      "resume": true
+    },
+    {
+      "id": "PEMS-BAY-forecast",
+      "estimated_seconds": 0,
+      "command": [
+        "{python}",
+        "{root}/scripts/run_training.py",
+        "--config",
+        "config_paper/PEMS-BAY/forecasting.py",
+        "--attempt",
+        "{attempt}",
+        "--pretrained-dir",
+        "{dependency:PEMS-BAY-pretrain}"
+      ],
+      "artifacts": [
+        "completed.json",
+        "**/*_best_val_loss.pt",
+        "**/test_export_*/metadata.json",
+        "**/test_export_*/batch_*.npz"
+      ],
+      "depends_on": [
+        "PEMS-BAY-pretrain"
+      ],
+      "resume": true
+    },
+    {
+      "id": "PEMS-BAY-pretrain-w32",
+      "estimated_seconds": 0,
+      "command": [
+        "{python}",
+        "{root}/scripts/run_training.py",
+        "--config",
+        "config_paper/PEMS-BAY/width/32_pretraining.py",
+        "--attempt",
+        "{attempt}"
+      ],
+      "artifacts": [
+        "completed.json",
+        "**/*_best_val_loss.pt"
+      ],
+      "resume": true
+    },
+    {
+      "id": "PEMS-BAY-forecast-w32",
+      "estimated_seconds": 0,
+      "command": [
+        "{python}",
+        "{root}/scripts/run_training.py",
+        "--config",
+        "config_paper/PEMS-BAY/width/32_forecasting.py",
+        "--attempt",
+        "{attempt}",
+        "--pretrained-dir",
+        "{dependency:PEMS-BAY-pretrain-w32}"
+      ],
+      "artifacts": [
+        "completed.json",
+        "**/*_best_val_loss.pt",
+        "**/test_export_*/metadata.json",
+        "**/test_export_*/batch_*.npz"
+      ],
+      "depends_on": [
+        "PEMS-BAY-pretrain-w32"
+      ],
+      "resume": true
+    },
+    {
+      "id": "PEMS-BAY-pretrain-w96",
+      "estimated_seconds": 0,
+      "command": [
+        "{python}",
+        "{root}/scripts/run_training.py",
+        "--config",
+        "config_paper/PEMS-BAY/width/96_pretraining.py",
+        "--attempt",
+        "{attempt}"
+      ],
+      "artifacts": [
+        "completed.json",
+        "**/*_best_val_loss.pt"
+      ],
+      "resume": true
+    },
+    {
+      "id": "PEMS-BAY-forecast-w96",
+      "estimated_seconds": 0,
+      "command": [
+        "{python}",
+        "{root}/scripts/run_training.py",
+        "--config",
+        "config_paper/PEMS-BAY/width/96_forecasting.py",
+        "--attempt",
+        "{attempt}",
+        "--pretrained-dir",
+        "{dependency:PEMS-BAY-pretrain-w96}"
+      ],
+      "artifacts": [
+        "completed.json",
+        "**/*_best_val_loss.pt",
+        "**/test_export_*/metadata.json",
+        "**/test_export_*/batch_*.npz"
+      ],
+      "depends_on": [
+        "PEMS-BAY-pretrain-w96"
+      ],
+      "resume": true
+    },
+    {
+      "id": "PEMS-BAY-pretrain-w128",
+      "estimated_seconds": 0,
+      "command": [
+        "{python}",
+        "{root}/scripts/run_training.py",
+        "--config",
+        "config_paper/PEMS-BAY/width/128_pretraining.py",
+        "--attempt",
+        "{attempt}"
+      ],
+      "artifacts": [
+        "completed.json",
+        "**/*_best_val_loss.pt"
+      ],
+      "resume": true
+    },
+    {
+      "id": "PEMS-BAY-forecast-w128",
+      "estimated_seconds": 0,
+      "command": [
+        "{python}",
+        "{root}/scripts/run_training.py",
+        "--config",
+        "config_paper/PEMS-BAY/width/128_forecasting.py",
+        "--attempt",
+        "{attempt}",
+        "--pretrained-dir",
+        "{dependency:PEMS-BAY-pretrain-w128}"
+      ],
+      "artifacts": [
+        "completed.json",
+        "**/*_best_val_loss.pt",
+        "**/test_export_*/metadata.json",
+        "**/test_export_*/batch_*.npz"
+      ],
+      "depends_on": [
+        "PEMS-BAY-pretrain-w128"
+      ],
+      "resume": true
+    },
+    {
+      "id": "PEMS-BAY-hidden-1",
+      "estimated_seconds": 0,
+      "command": [
+        "{python}",
+        "{root}/scripts/run_training.py",
+        "--config",
+        "config_paper/PEMS-BAY/hidden/1_forecasting.py",
+        "--attempt",
+        "{attempt}",
+        "--pretrained-dir",
+        "{dependency:PEMS-BAY-pretrain}"
+      ],
+      "artifacts": [
+        "completed.json",
+        "**/*_best_val_loss.pt",
+        "**/test_export_*/metadata.json",
+        "**/test_export_*/batch_*.npz"
+      ],
+      "depends_on": [
+        "PEMS-BAY-pretrain"
+      ],
+      "resume": true
+    },
+    {
+      "id": "PEMS-BAY-hidden-8",
+      "estimated_seconds": 0,
+      "command": [
+        "{python}",
+        "{root}/scripts/run_training.py",
+        "--config",
+        "config_paper/PEMS-BAY/hidden/8_forecasting.py",
+        "--attempt",
+        "{attempt}",
+        "--pretrained-dir",
+        "{dependency:PEMS-BAY-pretrain}"
+      ],
+      "artifacts": [
+        "completed.json",
+        "**/*_best_val_loss.pt",
+        "**/test_export_*/metadata.json",
+        "**/test_export_*/batch_*.npz"
+      ],
+      "depends_on": [
+        "PEMS-BAY-pretrain"
+      ],
+      "resume": true
+    },
+    {
+      "id": "PEMS-BAY-hidden-16",
+      "estimated_seconds": 0,
+      "command": [
+        "{python}",
+        "{root}/scripts/run_training.py",
+        "--config",
+        "config_paper/PEMS-BAY/hidden/16_forecasting.py",
+        "--attempt",
+        "{attempt}",
+        "--pretrained-dir",
+        "{dependency:PEMS-BAY-pretrain}"
+      ],
+      "artifacts": [
+        "completed.json",
+        "**/*_best_val_loss.pt",
+        "**/test_export_*/metadata.json",
+        "**/test_export_*/batch_*.npz"
+      ],
+      "depends_on": [
+        "PEMS-BAY-pretrain"
+      ],
+      "resume": true
+    },
+    {
+      "id": "PEMS-BAY-hidden-32",
+      "estimated_seconds": 0,
+      "command": [
+        "{python}",
+        "{root}/scripts/run_training.py",
+        "--config",
+        "config_paper/PEMS-BAY/hidden/32_forecasting.py",
+        "--attempt",
+        "{attempt}",
+        "--pretrained-dir",
+        "{dependency:PEMS-BAY-pretrain}"
+      ],
+      "artifacts": [
+        "completed.json",
+        "**/*_best_val_loss.pt",
+        "**/test_export_*/metadata.json",
+        "**/test_export_*/batch_*.npz"
+      ],
+      "depends_on": [
+        "PEMS-BAY-pretrain"
+      ],
+      "resume": true
+    },
+    {
+      "id": "PEMS-BAY-ablation-wo_lt",
+      "estimated_seconds": 0,
+      "command": [
+        "{python}",
+        "{root}/scripts/run_training.py",
+        "--config",
+        "config_paper/PEMS-BAY/ablation/wo_lt_forecasting.py",
+        "--attempt",
+        "{attempt}",
+        "--pretrained-dir",
+        "{dependency:PEMS-BAY-pretrain}"
+      ],
+      "artifacts": [
+        "completed.json",
+        "**/*_best_val_loss.pt",
+        "**/test_export_*/metadata.json",
+        "**/test_export_*/batch_*.npz"
+      ],
+      "depends_on": [
+        "PEMS-BAY-pretrain"
+      ],
+      "resume": true
+    },
+    {
+      "id": "PEMS-BAY-ablation-wo_p",
+      "estimated_seconds": 0,
+      "command": [
+        "{python}",
+        "{root}/scripts/run_training.py",
+        "--config",
+        "config_paper/PEMS-BAY/ablation/wo_p_forecasting.py",
+        "--attempt",
+        "{attempt}",
+        "--pretrained-dir",
+        "{dependency:PEMS-BAY-pretrain}"
+      ],
+      "artifacts": [
+        "completed.json",
+        "**/*_best_val_loss.pt",
+        "**/test_export_*/metadata.json",
+        "**/test_export_*/batch_*.npz"
+      ],
+      "depends_on": [
+        "PEMS-BAY-pretrain"
+      ],
+      "resume": true
+    },
+    {
+      "id": "PEMS-BAY-ablation-wo_st",
+      "estimated_seconds": 0,
+      "command": [
+        "{python}",
+        "{root}/scripts/run_training.py",
+        "--config",
+        "config_paper/PEMS-BAY/ablation/wo_st_forecasting.py",
+        "--attempt",
+        "{attempt}",
+        "--pretrained-dir",
+        "{dependency:PEMS-BAY-pretrain}"
+      ],
+      "artifacts": [
+        "completed.json",
+        "**/*_best_val_loss.pt",
+        "**/test_export_*/metadata.json",
+        "**/test_export_*/batch_*.npz"
+      ],
+      "depends_on": [
+        "PEMS-BAY-pretrain"
+      ],
+      "resume": true
+    },
+    {
+      "id": "PEMS-BAY-ablation-st_only",
+      "estimated_seconds": 0,
+      "command": [
+        "{python}",
+        "{root}/scripts/run_training.py",
+        "--config",
+        "config_paper/PEMS-BAY/ablation/st_only_forecasting.py",
+        "--attempt",
+        "{attempt}"
+      ],
+      "artifacts": [
+        "completed.json",
+        "**/*_best_val_loss.pt",
+        "**/test_export_*/metadata.json",
+        "**/test_export_*/batch_*.npz"
+      ],
+      "resume": true
+    },
+    {
+      "id": "PEMS04-pretrain",
+      "estimated_seconds": 0,
+      "command": [
+        "{python}",
+        "{root}/scripts/run_training.py",
+        "--config",
+        "config_paper/PEMS04/pretraining.py",
+        "--attempt",
+        "{attempt}"
+      ],
+      "artifacts": [
+        "completed.json",
+        "**/*_best_val_loss.pt"
+      ],
+      "resume": true
+    },
+    {
+      "id": "PEMS04-forecast",
+      "estimated_seconds": 0,
+      "command": [
+        "{python}",
+        "{root}/scripts/run_training.py",
+        "--config",
+        "config_paper/PEMS04/forecasting.py",
+        "--attempt",
+        "{attempt}",
+        "--pretrained-dir",
+        "{dependency:PEMS04-pretrain}"
+      ],
+      "artifacts": [
+        "completed.json",
+        "**/*_best_val_loss.pt",
+        "**/test_export_*/metadata.json",
+        "**/test_export_*/batch_*.npz"
+      ],
+      "depends_on": [
+        "PEMS04-pretrain"
+      ],
+      "resume": true
+    },
+    {
+      "id": "PEMS04-pretrain-w32",
+      "estimated_seconds": 0,
+      "command": [
+        "{python}",
+        "{root}/scripts/run_training.py",
+        "--config",
+        "config_paper/PEMS04/width/32_pretraining.py",
+        "--attempt",
+        "{attempt}"
+      ],
+      "artifacts": [
+        "completed.json",
+        "**/*_best_val_loss.pt"
+      ],
+      "resume": true
+    },
+    {
+      "id": "PEMS04-forecast-w32",
+      "estimated_seconds": 0,
+      "command": [
+        "{python}",
+        "{root}/scripts/run_training.py",
+        "--config",
+        "config_paper/PEMS04/width/32_forecasting.py",
+        "--attempt",
+        "{attempt}",
+        "--pretrained-dir",
+        "{dependency:PEMS04-pretrain-w32}"
+      ],
+      "artifacts": [
+        "completed.json",
+        "**/*_best_val_loss.pt",
+        "**/test_export_*/metadata.json",
+        "**/test_export_*/batch_*.npz"
+      ],
+      "depends_on": [
+        "PEMS04-pretrain-w32"
+      ],
+      "resume": true
+    },
+    {
+      "id": "PEMS04-pretrain-w96",
+      "estimated_seconds": 0,
+      "command": [
+        "{python}",
+        "{root}/scripts/run_training.py",
+        "--config",
+        "config_paper/PEMS04/width/96_pretraining.py",
+        "--attempt",
+        "{attempt}"
+      ],
+      "artifacts": [
+        "completed.json",
+        "**/*_best_val_loss.pt"
+      ],
+      "resume": true
+    },
+    {
+      "id": "PEMS04-forecast-w96",
+      "estimated_seconds": 0,
+      "command": [
+        "{python}",
+        "{root}/scripts/run_training.py",
+        "--config",
+        "config_paper/PEMS04/width/96_forecasting.py",
+        "--attempt",
+        "{attempt}",
+        "--pretrained-dir",
+        "{dependency:PEMS04-pretrain-w96}"
+      ],
+      "artifacts": [
+        "completed.json",
+        "**/*_best_val_loss.pt",
+        "**/test_export_*/metadata.json",
+        "**/test_export_*/batch_*.npz"
+      ],
+      "depends_on": [
+        "PEMS04-pretrain-w96"
+      ],
+      "resume": true
+    },
+    {
+      "id": "PEMS04-pretrain-w128",
+      "estimated_seconds": 0,
+      "command": [
+        "{python}",
+        "{root}/scripts/run_training.py",
+        "--config",
+        "config_paper/PEMS04/width/128_pretraining.py",
+        "--attempt",
+        "{attempt}"
+      ],
+      "artifacts": [
+        "completed.json",
+        "**/*_best_val_loss.pt"
+      ],
+      "resume": true
+    },
+    {
+      "id": "PEMS04-forecast-w128",
+      "estimated_seconds": 0,
+      "command": [
+        "{python}",
+        "{root}/scripts/run_training.py",
+        "--config",
+        "config_paper/PEMS04/width/128_forecasting.py",
+        "--attempt",
+        "{attempt}",
+        "--pretrained-dir",
+        "{dependency:PEMS04-pretrain-w128}"
+      ],
+      "artifacts": [
+        "completed.json",
+        "**/*_best_val_loss.pt",
+        "**/test_export_*/metadata.json",
+        "**/test_export_*/batch_*.npz"
+      ],
+      "depends_on": [
+        "PEMS04-pretrain-w128"
+      ],
+      "resume": true
+    },
+    {
+      "id": "PEMS04-hidden-1",
+      "estimated_seconds": 0,
+      "command": [
+        "{python}",
+        "{root}/scripts/run_training.py",
+        "--config",
+        "config_paper/PEMS04/hidden/1_forecasting.py",
+        "--attempt",
+        "{attempt}",
+        "--pretrained-dir",
+        "{dependency:PEMS04-pretrain}"
+      ],
+      "artifacts": [
+        "completed.json",
+        "**/*_best_val_loss.pt",
+        "**/test_export_*/metadata.json",
+        "**/test_export_*/batch_*.npz"
+      ],
+      "depends_on": [
+        "PEMS04-pretrain"
+      ],
+      "resume": true
+    },
+    {
+      "id": "PEMS04-hidden-8",
+      "estimated_seconds": 0,
+      "command": [
+        "{python}",
+        "{root}/scripts/run_training.py",
+        "--config",
+        "config_paper/PEMS04/hidden/8_forecasting.py",
+        "--attempt",
+        "{attempt}",
+        "--pretrained-dir",
+        "{dependency:PEMS04-pretrain}"
+      ],
+      "artifacts": [
+        "completed.json",
+        "**/*_best_val_loss.pt",
+        "**/test_export_*/metadata.json",
+        "**/test_export_*/batch_*.npz"
+      ],
+      "depends_on": [
+        "PEMS04-pretrain"
+      ],
+      "resume": true
+    },
+    {
+      "id": "PEMS04-hidden-16",
+      "estimated_seconds": 0,
+      "command": [
+        "{python}",
+        "{root}/scripts/run_training.py",
+        "--config",
+        "config_paper/PEMS04/hidden/16_forecasting.py",
+        "--attempt",
+        "{attempt}",
+        "--pretrained-dir",
+        "{dependency:PEMS04-pretrain}"
+      ],
+      "artifacts": [
+        "completed.json",
+        "**/*_best_val_loss.pt",
+        "**/test_export_*/metadata.json",
+        "**/test_export_*/batch_*.npz"
+      ],
+      "depends_on": [
+        "PEMS04-pretrain"
+      ],
+      "resume": true
+    },
+    {
+      "id": "PEMS04-hidden-32",
+      "estimated_seconds": 0,
+      "command": [
+        "{python}",
+        "{root}/scripts/run_training.py",
+        "--config",
+        "config_paper/PEMS04/hidden/32_forecasting.py",
+        "--attempt",
+        "{attempt}",
+        "--pretrained-dir",
+        "{dependency:PEMS04-pretrain}"
+      ],
+      "artifacts": [
+        "completed.json",
+        "**/*_best_val_loss.pt",
+        "**/test_export_*/metadata.json",
+        "**/test_export_*/batch_*.npz"
+      ],
+      "depends_on": [
+        "PEMS04-pretrain"
+      ],
+      "resume": true
+    },
+    {
+      "id": "PEMS04-ablation-wo_lt",
+      "estimated_seconds": 0,
+      "command": [
+        "{python}",
+        "{root}/scripts/run_training.py",
+        "--config",
+        "config_paper/PEMS04/ablation/wo_lt_forecasting.py",
+        "--attempt",
+        "{attempt}",
+        "--pretrained-dir",
+        "{dependency:PEMS04-pretrain}"
+      ],
+      "artifacts": [
+        "completed.json",
+        "**/*_best_val_loss.pt",
+        "**/test_export_*/metadata.json",
+        "**/test_export_*/batch_*.npz"
+      ],
+      "depends_on": [
+        "PEMS04-pretrain"
+      ],
+      "resume": true
+    },
+    {
+      "id": "PEMS04-ablation-wo_p",
+      "estimated_seconds": 0,
+      "command": [
+        "{python}",
+        "{root}/scripts/run_training.py",
+        "--config",
+        "config_paper/PEMS04/ablation/wo_p_forecasting.py",
+        "--attempt",
+        "{attempt}",
+        "--pretrained-dir",
+        "{dependency:PEMS04-pretrain}"
+      ],
+      "artifacts": [
+        "completed.json",
+        "**/*_best_val_loss.pt",
+        "**/test_export_*/metadata.json",
+        "**/test_export_*/batch_*.npz"
+      ],
+      "depends_on": [
+        "PEMS04-pretrain"
+      ],
+      "resume": true
+    },
+    {
+      "id": "PEMS04-ablation-wo_st",
+      "estimated_seconds": 0,
+      "command": [
+        "{python}",
+        "{root}/scripts/run_training.py",
+        "--config",
+        "config_paper/PEMS04/ablation/wo_st_forecasting.py",
+        "--attempt",
+        "{attempt}",
+        "--pretrained-dir",
+        "{dependency:PEMS04-pretrain}"
+      ],
+      "artifacts": [
+        "completed.json",
+        "**/*_best_val_loss.pt",
+        "**/test_export_*/metadata.json",
+        "**/test_export_*/batch_*.npz"
+      ],
+      "depends_on": [
+        "PEMS04-pretrain"
+      ],
+      "resume": true
+    },
+    {
+      "id": "PEMS04-ablation-st_only",
+      "estimated_seconds": 0,
+      "command": [
+        "{python}",
+        "{root}/scripts/run_training.py",
+        "--config",
+        "config_paper/PEMS04/ablation/st_only_forecasting.py",
+        "--attempt",
+        "{attempt}"
+      ],
+      "artifacts": [
+        "completed.json",
+        "**/*_best_val_loss.pt",
+        "**/test_export_*/metadata.json",
+        "**/test_export_*/batch_*.npz"
+      ],
+      "resume": true
+    },
+    {
+      "id": "PEMS08-pretrain",
+      "estimated_seconds": 0,
+      "command": [
+        "{python}",
+        "{root}/scripts/run_training.py",
+        "--config",
+        "config_paper/PEMS08/pretraining.py",
+        "--attempt",
+        "{attempt}"
+      ],
+      "artifacts": [
+        "completed.json",
+        "**/*_best_val_loss.pt"
+      ],
+      "resume": true
+    },
+    {
+      "id": "PEMS08-forecast",
+      "estimated_seconds": 0,
+      "command": [
+        "{python}",
+        "{root}/scripts/run_training.py",
+        "--config",
+        "config_paper/PEMS08/forecasting.py",
+        "--attempt",
+        "{attempt}",
+        "--pretrained-dir",
+        "{dependency:PEMS08-pretrain}"
+      ],
+      "artifacts": [
+        "completed.json",
+        "**/*_best_val_loss.pt",
+        "**/test_export_*/metadata.json",
+        "**/test_export_*/batch_*.npz"
+      ],
+      "depends_on": [
+        "PEMS08-pretrain"
+      ],
+      "resume": true
+    },
+    {
+      "id": "PEMS08-pretrain-w32",
+      "estimated_seconds": 0,
+      "command": [
+        "{python}",
+        "{root}/scripts/run_training.py",
+        "--config",
+        "config_paper/PEMS08/width/32_pretraining.py",
+        "--attempt",
+        "{attempt}"
+      ],
+      "artifacts": [
+        "completed.json",
+        "**/*_best_val_loss.pt"
+      ],
+      "resume": true
+    },
+    {
+      "id": "PEMS08-forecast-w32",
+      "estimated_seconds": 0,
+      "command": [
+        "{python}",
+        "{root}/scripts/run_training.py",
+        "--config",
+        "config_paper/PEMS08/width/32_forecasting.py",
+        "--attempt",
+        "{attempt}",
+        "--pretrained-dir",
+        "{dependency:PEMS08-pretrain-w32}"
+      ],
+      "artifacts": [
+        "completed.json",
+        "**/*_best_val_loss.pt",
+        "**/test_export_*/metadata.json",
+        "**/test_export_*/batch_*.npz"
+      ],
+      "depends_on": [
+        "PEMS08-pretrain-w32"
+      ],
+      "resume": true
+    },
+    {
+      "id": "PEMS08-pretrain-w96",
+      "estimated_seconds": 0,
+      "command": [
+        "{python}",
+        "{root}/scripts/run_training.py",
+        "--config",
+        "config_paper/PEMS08/width/96_pretraining.py",
+        "--attempt",
+        "{attempt}"
+      ],
+      "artifacts": [
+        "completed.json",
+        "**/*_best_val_loss.pt"
+      ],
+      "resume": true
+    },
+    {
+      "id": "PEMS08-forecast-w96",
+      "estimated_seconds": 0,
+      "command": [
+        "{python}",
+        "{root}/scripts/run_training.py",
+        "--config",
+        "config_paper/PEMS08/width/96_forecasting.py",
+        "--attempt",
+        "{attempt}",
+        "--pretrained-dir",
+        "{dependency:PEMS08-pretrain-w96}"
+      ],
+      "artifacts": [
+        "completed.json",
+        "**/*_best_val_loss.pt",
+        "**/test_export_*/metadata.json",
+        "**/test_export_*/batch_*.npz"
+      ],
+      "depends_on": [
+        "PEMS08-pretrain-w96"
+      ],
+      "resume": true
+    },
+    {
+      "id": "PEMS08-pretrain-w128",
+      "estimated_seconds": 0,
+      "command": [
+        "{python}",
+        "{root}/scripts/run_training.py",
+        "--config",
+        "config_paper/PEMS08/width/128_pretraining.py",
+        "--attempt",
+        "{attempt}"
+      ],
+      "artifacts": [
+        "completed.json",
+        "**/*_best_val_loss.pt"
+      ],
+      "resume": true
+    },
+    {
+      "id": "PEMS08-forecast-w128",
+      "estimated_seconds": 0,
+      "command": [
+        "{python}",
+        "{root}/scripts/run_training.py",
+        "--config",
+        "config_paper/PEMS08/width/128_forecasting.py",
+        "--attempt",
+        "{attempt}",
+        "--pretrained-dir",
+        "{dependency:PEMS08-pretrain-w128}"
+      ],
+      "artifacts": [
+        "completed.json",
+        "**/*_best_val_loss.pt",
+        "**/test_export_*/metadata.json",
+        "**/test_export_*/batch_*.npz"
+      ],
+      "depends_on": [
+        "PEMS08-pretrain-w128"
+      ],
+      "resume": true
+    },
+    {
+      "id": "PEMS08-hidden-1",
+      "estimated_seconds": 0,
+      "command": [
+        "{python}",
+        "{root}/scripts/run_training.py",
+        "--config",
+        "config_paper/PEMS08/hidden/1_forecasting.py",
+        "--attempt",
+        "{attempt}",
+        "--pretrained-dir",
+        "{dependency:PEMS08-pretrain}"
+      ],
+      "artifacts": [
+        "completed.json",
+        "**/*_best_val_loss.pt",
+        "**/test_export_*/metadata.json",
+        "**/test_export_*/batch_*.npz"
+      ],
+      "depends_on": [
+        "PEMS08-pretrain"
+      ],
+      "resume": true
+    },
+    {
+      "id": "PEMS08-hidden-8",
+      "estimated_seconds": 0,
+      "command": [
+        "{python}",
+        "{root}/scripts/run_training.py",
+        "--config",
+        "config_paper/PEMS08/hidden/8_forecasting.py",
+        "--attempt",
+        "{attempt}",
+        "--pretrained-dir",
+        "{dependency:PEMS08-pretrain}"
+      ],
+      "artifacts": [
+        "completed.json",
+        "**/*_best_val_loss.pt",
+        "**/test_export_*/metadata.json",
+        "**/test_export_*/batch_*.npz"
+      ],
+      "depends_on": [
+        "PEMS08-pretrain"
+      ],
+      "resume": true
+    },
+    {
+      "id": "PEMS08-hidden-16",
+      "estimated_seconds": 0,
+      "command": [
+        "{python}",
+        "{root}/scripts/run_training.py",
+        "--config",
+        "config_paper/PEMS08/hidden/16_forecasting.py",
+        "--attempt",
+        "{attempt}",
+        "--pretrained-dir",
+        "{dependency:PEMS08-pretrain}"
+      ],
+      "artifacts": [
+        "completed.json",
+        "**/*_best_val_loss.pt",
+        "**/test_export_*/metadata.json",
+        "**/test_export_*/batch_*.npz"
+      ],
+      "depends_on": [
+        "PEMS08-pretrain"
+      ],
+      "resume": true
+    },
+    {
+      "id": "PEMS08-hidden-32",
+      "estimated_seconds": 0,
+      "command": [
+        "{python}",
+        "{root}/scripts/run_training.py",
+        "--config",
+        "config_paper/PEMS08/hidden/32_forecasting.py",
+        "--attempt",
+        "{attempt}",
+        "--pretrained-dir",
+        "{dependency:PEMS08-pretrain}"
+      ],
+      "artifacts": [
+        "completed.json",
+        "**/*_best_val_loss.pt",
+        "**/test_export_*/metadata.json",
+        "**/test_export_*/batch_*.npz"
+      ],
+      "depends_on": [
+        "PEMS08-pretrain"
+      ],
+      "resume": true
+    },
+    {
+      "id": "PEMS08-ablation-wo_lt",
+      "estimated_seconds": 0,
+      "command": [
+        "{python}",
+        "{root}/scripts/run_training.py",
+        "--config",
+        "config_paper/PEMS08/ablation/wo_lt_forecasting.py",
+        "--attempt",
+        "{attempt}",
+        "--pretrained-dir",
+        "{dependency:PEMS08-pretrain}"
+      ],
+      "artifacts": [
+        "completed.json",
+        "**/*_best_val_loss.pt",
+        "**/test_export_*/metadata.json",
+        "**/test_export_*/batch_*.npz"
+      ],
+      "depends_on": [
+        "PEMS08-pretrain"
+      ],
+      "resume": true
+    },
+    {
+      "id": "PEMS08-ablation-wo_p",
+      "estimated_seconds": 0,
+      "command": [
+        "{python}",
+        "{root}/scripts/run_training.py",
+        "--config",
+        "config_paper/PEMS08/ablation/wo_p_forecasting.py",
+        "--attempt",
+        "{attempt}",
+        "--pretrained-dir",
+        "{dependency:PEMS08-pretrain}"
+      ],
+      "artifacts": [
+        "completed.json",
+        "**/*_best_val_loss.pt",
+        "**/test_export_*/metadata.json",
+        "**/test_export_*/batch_*.npz"
+      ],
+      "depends_on": [
+        "PEMS08-pretrain"
+      ],
+      "resume": true
+    },
+    {
+      "id": "PEMS08-ablation-wo_st",
+      "estimated_seconds": 0,
+      "command": [
+        "{python}",
+        "{root}/scripts/run_training.py",
+        "--config",
+        "config_paper/PEMS08/ablation/wo_st_forecasting.py",
+        "--attempt",
+        "{attempt}",
+        "--pretrained-dir",
+        "{dependency:PEMS08-pretrain}"
+      ],
+      "artifacts": [
+        "completed.json",
+        "**/*_best_val_loss.pt",
+        "**/test_export_*/metadata.json",
+        "**/test_export_*/batch_*.npz"
+      ],
+      "depends_on": [
+        "PEMS08-pretrain"
+      ],
+      "resume": true
+    },
+    {
+      "id": "PEMS08-ablation-st_only",
+      "estimated_seconds": 0,
+      "command": [
+        "{python}",
+        "{root}/scripts/run_training.py",
+        "--config",
+        "config_paper/PEMS08/ablation/st_only_forecasting.py",
+        "--attempt",
+        "{attempt}"
+      ],
+      "artifacts": [
+        "completed.json",
+        "**/*_best_val_loss.pt",
+        "**/test_export_*/metadata.json",
+        "**/test_export_*/batch_*.npz"
+      ],
+      "resume": true
+    }
+  ]
+}
