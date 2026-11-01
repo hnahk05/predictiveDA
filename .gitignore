@@ -21,3 +21,13 @@ runs/
 
 !scripts/prepare_cloud.py
 !scripts/benchmark_gpu.py
+
+# Local runtime packages, exports and credentials are not source code.
+*.log
+*.tar
+*.tar.sha256
+*.npz
+.env
+.env.*
+!.env.example
+.ssh/

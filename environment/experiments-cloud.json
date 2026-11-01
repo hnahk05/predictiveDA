@@ -1,0 +1,25 @@
+{
+  "description": "Replay recorded forecast settings using provided author pretraining; A6000-class GPU required for batch32. Existing final result is not retrained by this file alone.",
+  "input_manifest": "artifacts/manifests/inputs.json",
+  "runs": [
+    {
+      "id": "replay-PEMS08-e100",
+      "estimated_seconds": 72060,
+      "command": [
+        "{python}",
+        "{root}/scripts/run_training.py",
+        "--config",
+        "configs/actual/PEMS08.py",
+        "--attempt",
+        "{attempt}"
+      ],
+      "artifacts": [
+        "completed.json",
+        "**/*_best_val_loss.pt",
+        "**/test_export_*/metadata.json",
+        "**/test_export_*/batch_*.npz"
+      ],
+      "resume": true
+    }
+  ]
+}

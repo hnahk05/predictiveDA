@@ -1,0 +1,121 @@
+model,dataset,horizon_minutes,RMSE,MAE,MAPE_percent,origin,source_table,source_url
+DCRNN,METR-LA,15,4.61,2.49,6.19,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+DCRNN,METR-LA,30,5.33,2.74,7.12,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+DCRNN,METR-LA,60,6.25,3.08,8.44,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+DCRNN,PEMS-BAY,15,2.18,1.10,2.21,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+DCRNN,PEMS-BAY,30,2.84,1.33,2.82,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+DCRNN,PEMS-BAY,60,3.58,1.59,3.58,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+DCRNN,PEMS04,15,29.50,18.51,12.60,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+DCRNN,PEMS04,30,31.35,19.70,13.45,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+DCRNN,PEMS04,60,34.20,21.56,14.87,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+DCRNN,PEMS08,15,22.08,14.30,9.31,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+DCRNN,PEMS08,30,23.64,15.22,9.86,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+DCRNN,PEMS08,60,25.99,16.70,10.79,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+STGCN,METR-LA,15,4.80,2.59,6.61,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+STGCN,METR-LA,30,5.51,2.82,7.43,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+STGCN,METR-LA,60,6.34,3.11,8.53,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+STGCN,PEMS-BAY,15,2.46,1.32,2.77,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+STGCN,PEMS-BAY,30,2.98,1.50,3.23,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+STGCN,PEMS-BAY,60,3.57,1.73,3.86,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+STGCN,PEMS04,15,29.53,18.70,13.06,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+STGCN,PEMS04,30,30.49,19.28,13.42,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+STGCN,PEMS04,60,31.86,20.11,13.98,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+STGCN,PEMS08,15,22.87,14.80,9.81,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+STGCN,PEMS08,30,23.88,15.33,10.11,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+STGCN,PEMS08,60,25.32,16.22,10.64,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+Graph WaveNet,METR-LA,15,4.84,2.58,6.58,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+Graph WaveNet,METR-LA,30,5.54,2.83,7.58,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+Graph WaveNet,METR-LA,60,6.33,3.14,8.89,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+Graph WaveNet,PEMS-BAY,15,2.20,1.10,2.23,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+Graph WaveNet,PEMS-BAY,30,2.83,1.32,2.82,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+Graph WaveNet,PEMS-BAY,60,3.50,1.57,3.51,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+Graph WaveNet,PEMS04,15,27.70,17.20,12.02,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+Graph WaveNet,PEMS04,30,28.60,17.76,12.49,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+Graph WaveNet,PEMS04,60,29.81,18.56,13.35,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+Graph WaveNet,PEMS08,15,20.70,13.03,8.76,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+Graph WaveNet,PEMS08,30,21.76,13.55,8.98,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+Graph WaveNet,PEMS08,60,23.34,14.34,9.76,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+GMAN,METR-LA,15,4.99,2.80,7.44,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+GMAN,METR-LA,30,5.51,3.01,8.21,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+GMAN,METR-LA,60,6.17,3.31,9.26,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+GMAN,PEMS-BAY,15,2.46,1.33,2.73,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+GMAN,PEMS-BAY,30,2.99,1.54,3.26,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+GMAN,PEMS-BAY,60,3.56,1.78,3.90,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+GMAN,PEMS04,15,28.91,18.47,15.66,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+GMAN,PEMS04,30,29.66,18.88,15.78,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+GMAN,PEMS04,60,30.77,19.59,16.12,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+GMAN,PEMS08,15,22.40,14.92,12.31,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+GMAN,PEMS08,30,23.23,15.29,12.52,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+GMAN,PEMS08,60,24.61,16.11,13.15,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+MTGNN,METR-LA,15,4.55,2.46,6.87,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+MTGNN,METR-LA,30,5.19,2.69,7.00,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+MTGNN,METR-LA,60,6.01,3.00,8.14,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+MTGNN,PEMS-BAY,15,2.21,1.11,2.25,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+MTGNN,PEMS-BAY,30,2.85,1.34,2.86,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+MTGNN,PEMS-BAY,60,3.55,1.59,3.58,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+MTGNN,PEMS04,15,27.97,17.41,12.75,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+MTGNN,PEMS04,30,28.92,17.97,13.31,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+MTGNN,PEMS04,60,30.23,18.73,13.81,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+MTGNN,PEMS08,15,21.05,13.55,10.00,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+MTGNN,PEMS08,30,22.10,14.08,9.99,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+MTGNN,PEMS08,60,23.58,14.96,10.56,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+DDSTGCN,METR-LA,15,5.01,2.64,6.76,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+DDSTGCN,METR-LA,30,6.02,3.00,8.12,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+DDSTGCN,METR-LA,60,7.13,3.44,9.74,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+DDSTGCN,PEMS-BAY,15,2.71,1.29,2.69,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+DDSTGCN,PEMS-BAY,30,3.64,1.60,3.62,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+DDSTGCN,PEMS-BAY,60,4.37,1.89,4.46,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+DDSTGCN,PEMS04,15,28.38,17.69,12.34,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+DDSTGCN,PEMS04,30,29.54,18.51,12.70,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+DDSTGCN,PEMS04,60,30.69,19.51,13.46,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+DDSTGCN,PEMS08,15,21.14,13.54,8.82,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+DDSTGCN,PEMS08,30,22.23,14.02,9.71,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+DDSTGCN,PEMS08,60,24.12,14.70,10.41,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+STID,METR-LA,15,5.53,2.80,7.70,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+STID,METR-LA,30,6.60,3.18,9.40,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+STID,METR-LA,60,7.54,3.55,10.95,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+STID,PEMS-BAY,15,2.81,1.30,2.73,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+STID,PEMS-BAY,30,3.72,1.62,3.68,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+STID,PEMS-BAY,60,4.40,1.89,4.47,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+STID,PEMS04,15,28.48,17.51,12.00,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+STID,PEMS04,30,29.86,18.29,12.46,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+STID,PEMS04,60,31.79,19.58,13.38,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+STID,PEMS08,15,21.66,13.28,8.62,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+STID,PEMS08,30,23.57,14.21,9.24,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+STID,PEMS08,60,25.89,15.58,10.33,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+DSTET,METR-LA,15,4.52,2.46,6.05,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+DSTET,METR-LA,30,5.22,2.71,6.95,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+DSTET,METR-LA,60,6.08,3.03,8.30,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+DSTET,PEMS-BAY,15,2.17,1.06,2.13,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+DSTET,PEMS-BAY,30,2.85,1.29,2.74,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+DSTET,PEMS-BAY,60,3.60,1.57,3.54,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+DSTET,PEMS04,15,27.38,16.90,11.59,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+DSTET,PEMS04,30,28.66,17.68,12.44,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+DSTET,PEMS04,60,29.77,18.48,12.71,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+DSTET,PEMS08,15,20.24,12.25,8.03,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+DSTET,PEMS08,30,21.63,13.21,8.83,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+DSTET,PEMS08,60,23.53,14.11,9.30,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+DAGN,METR-LA,15,5.03,2.67,6.85,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+DAGN,METR-LA,30,6.00,3.03,8.16,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+DAGN,METR-LA,60,7.49,3.67,10.55,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+DAGN,PEMS-BAY,15,2.58,1.28,2.75,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+DAGN,PEMS-BAY,30,3.22,1.49,3.38,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+DAGN,PEMS-BAY,60,4.21,1.86,4.50,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+DAGN,PEMS04,15,29.68,19.13,13.85,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+DAGN,PEMS04,30,32.02,20.53,14.31,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+DAGN,PEMS04,60,38.87,23.63,15.55,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+DAGN,PEMS08,15,23.56,15.16,10.87,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+DAGN,PEMS08,30,25.46,16.68,11.29,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+DAGN,PEMS08,60,31.97,20.94,14.30,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+LSTTN,METR-LA,15,4.42,2.42,5.94,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+LSTTN,METR-LA,30,5.10,2.65,6.80,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+LSTTN,METR-LA,60,5.92,2.96,7.93,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+LSTTN,PEMS-BAY,15,2.18,1.06,2.11,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+LSTTN,PEMS-BAY,30,2.76,1.26,2.63,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+LSTTN,PEMS-BAY,60,3.41,1.48,3.24,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+LSTTN,PEMS04,15,27.74,17.06,11.34,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+LSTTN,PEMS04,30,28.67,17.62,11.68,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+LSTTN,PEMS04,60,30.00,18.46,12.17,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+LSTTN,PEMS08,15,20.78,13.17,8.63,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+LSTTN,PEMS08,30,21.89,13.71,9.09,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1
+LSTTN,PEMS08,60,23.47,14.54,9.77,reported_in_paper_not_rerun,Table2,https://arxiv.org/html/2403.16495v1

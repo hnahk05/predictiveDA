@@ -1,0 +1,63 @@
+{
+  "description": "Replay recorded forecast settings using provided author pretraining; RTX3050Laptop6GB exploratory15/2/1. Fill duration estimates before deadline mode.",
+  "input_manifest": "artifacts/manifests/inputs.json",
+  "runs": [
+    {
+      "id": "replay-METR-LA-e15",
+      "estimated_seconds": 0,
+      "command": [
+        "{python}",
+        "{root}/scripts/run_training.py",
+        "--config",
+        "configs/actual/METR-LA.py",
+        "--attempt",
+        "{attempt}"
+      ],
+      "artifacts": [
+        "completed.json",
+        "**/*_best_val_loss.pt",
+        "**/test_export_*/metadata.json",
+        "**/test_export_*/batch_*.npz"
+      ],
+      "resume": true
+    },
+    {
+      "id": "replay-PEMS04-e2",
+      "estimated_seconds": 0,
+      "command": [
+        "{python}",
+        "{root}/scripts/run_training.py",
+        "--config",
+        "configs/actual/PEMS04.py",
+        "--attempt",
+        "{attempt}"
+      ],
+      "artifacts": [
+        "completed.json",
+        "**/*_best_val_loss.pt",
+        "**/test_export_*/metadata.json",
+        "**/test_export_*/batch_*.npz"
+      ],
+      "resume": true
+    },
+    {
+      "id": "replay-PEMS-BAY-e1",
+      "estimated_seconds": 0,
+      "command": [
+        "{python}",
+        "{root}/scripts/run_training.py",
+        "--config",
+        "configs/actual/PEMS-BAY.py",
+        "--attempt",
+        "{attempt}"
+      ],
+      "artifacts": [
+        "completed.json",
+        "**/*_best_val_loss.pt",
+        "**/test_export_*/metadata.json",
+        "**/test_export_*/batch_*.npz"
+      ],
+      "resume": true
+    }
+  ]
+}

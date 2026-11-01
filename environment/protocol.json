@@ -1,33 +1,27 @@
 {
-  "goal": "reproduce published author repo with explicit paper hyperparameter overrides",
-  "graph": "author bnh,nm->bnh",
-  "split": "keep supplied indices, 11 overlapping target timesteps per adjacent boundary",
-  "scaler": {
-    "METR-LA": "mean/std",
-    "PEMS-BAY": "mean/std",
-    "PEMS04": "min/max",
-    "PEMS08": "min/max"
+  "goal": "Forecast-only reproduction of author repository with explicit resource adaptations",
+  "author_repository": "https://github.com/GeoX-Lab/LSTTN",
+  "author_commit": "68185aa8ffd266d4d1a3acffeb6875a144335554",
+  "original_configs": "configs/<dataset>/forecasting.py; unchanged author files",
+  "paper_templates": "config_paper/; prepared but not executed as final experiments",
+  "actual_configs": "configs/actual/; recorded100/15/2/1epoch settings",
+  "actual_results": "results/experiment_manifest.json and results/experiment_metrics.csv",
+  "graph": "Author bnh,nm->bnh retained; this sums adjacency rows rather than mixing nodes in DynamicGraphConv",
+  "split": "Provided indices retained; adjacent target intervals overlap11steps; target-disjoint experiment not run",
+  "scalers": {
+    "METR-LA": "provided mean/std",
+    "PEMS-BAY": "provided mean/std",
+    "PEMS04": "provided min/max",
+    "PEMS08": "provided min/max"
   },
-  "test_mae": {
-    "METR-LA": "masked zero",
-    "PEMS-BAY": "masked zero",
-    "PEMS04": "unmasked (author sklearn MAE equivalent for finite targets)",
-    "PEMS08": "unmasked (author sklearn MAE equivalent for finite targets)"
+  "metric_protocol": {
+    "MAE": "unmasked for PEMS04/08, zero-masked for METR-LA/BAY",
+    "RMSE": "zero-masked",
+    "MAPE": "ratio; labels<0.01 excluded; result CSV presents percent"
   },
-  "rmse": "masked zero",
-  "mape": "ratio; labels <0.01 treated as zero then masked",
-  "checkpoint": "lowest validation loss, reload before test",
-  "batch_forecasting": 32,
-  "batch_pretraining": 8,
-  "width": 64,
-  "hidden": [
-    4,
-    4
-  ],
-  "paper_omissions": "LR, pretraining budget, scheduler and curriculum inherited from repository, not claimed verified paper values",
-  "budget_vnd": 400000,
-  "planned_spending_limit_vnd": 320000,
-  "reserve_vnd": 80000,
-  "rental_hours_target": 24,
-  "all_experiments_in_24h": "not guaranteed; measure first"
+  "checkpoint": "lowest sample-weighted validation loss, reload before test",
+  "pretraining": "reuse unchanged author checkpoints; no full pretraining performed",
+  "precision": "FP32, easy-torch TF32 disabled, no AMP, no gradient accumulation",
+  "compatibility": "LSTTN_SPLIT_SOFTMAX=1; see softmax-compat.json",
+  "scope": "One100epoch main run and three15/2/1epoch exploratory runs; not full paper reproduction"
 }

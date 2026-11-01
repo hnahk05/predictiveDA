@@ -1,0 +1,342 @@
+{
+  "author_repository": "https://github.com/GeoX-Lab/LSTTN",
+  "author_commit": "68185aa8ffd266d4d1a3acffeb6875a144335554",
+  "environment": {
+    "python": "3.9.25",
+    "torch": "1.8.1+cu111",
+    "easy_torch": "1.3.2",
+    "numpy": "1.23.5"
+  },
+  "verification_scope": "All4runs artifact SHA and exported metrics verified; PEMS08 additionally CPU strict-load and2 prediction spot checks.",
+  "metric_protocol": {
+    "MAE": "unmasked for PEMS04/08; zero-masked for METR-LA/BAY",
+    "RMSE": "zero-masked",
+    "MAPE": "ratio; labels<0.01 excluded; CSV presents percent"
+  },
+  "split": "Provided repo indices retained, including11overlapping labels per adjacent boundary",
+  "model_policy": "Author core, including bnh,nm->bnh graph expression, retained; no new model proposed",
+  "not_executed": [
+    "full pretraining",
+    "controlled ablation",
+    "width/hidden sensitivity",
+    "target-disjoint split",
+    "DCRNN/STGCN/GraphWaveNet baseline training",
+    "Persistence/HA baseline evaluation"
+  ],
+  "runs": [
+    {
+      "dataset": "PEMS08",
+      "role": "main",
+      "run_id": "PEMS08-repo96-author-pretrained",
+      "attempt": 1,
+      "epochs": 100,
+      "batch": 32,
+      "width": 96,
+      "hidden": [
+        32,
+        32
+      ],
+      "gpu": "RTX A6000",
+      "metrics": {
+        "3": {
+          "MAE": 13.399619263977147,
+          "RMSE": 21.644650690855023,
+          "MAPE_ratio": 0.08991705984887435
+        },
+        "6": {
+          "MAE": 14.193402831876062,
+          "RMSE": 23.48866084181253,
+          "MAPE_ratio": 0.09927706522798825
+        },
+        "12": {
+          "MAE": 15.38800702628231,
+          "RMSE": 25.568519388362635,
+          "MAPE_ratio": 0.1137805642449632
+        }
+      },
+      "replay_config": "configs/actual/PEMS08.py",
+      "recorded_config": "configs/PEMS08/forecasting.py",
+      "best_epoch": 68,
+      "optimizer": "Adam",
+      "optimizer_parameters": {
+        "lr": 0.005,
+        "weight_decay": 1e-05,
+        "eps": 1e-08
+      },
+      "scheduler": "MultiStepLR",
+      "scheduler_parameters": {
+        "milestones": [
+          1,
+          18,
+          36,
+          54,
+          72
+        ],
+        "gamma": 0.5
+      },
+      "warmup_epochs": 100,
+      "curriculum_interval_epochs": 6,
+      "short_history": 12,
+      "long_history": 4032,
+      "patch_size": 12,
+      "encoder_layers": 4,
+      "attention_heads": 4,
+      "seed": 0,
+      "effective_gpu_num": 1,
+      "provided_pretrained_sha256": "4b7efb021ce4b432347f46f4197ab8dbab9f01c7e0a0265f81a764cb1633a73e",
+      "author_declared_settings": {
+        "gpu_num": 2,
+        "loader_batch": 32,
+        "epochs": 100
+      },
+      "strict_pretrained_load_verified": true,
+      "metrics_recomputed_match": true,
+      "all_expected_artifacts_sha_verified": true,
+      "training_from_scratch_pretrain": false,
+      "nodes": 170,
+      "windows": {
+        "train": 10700,
+        "valid": 3567,
+        "test": 3566
+      },
+      "train_batches_per_epoch": 335,
+      "training_batches_through_saved_epoch": 33500
+    },
+    {
+      "dataset": "METR-LA",
+      "role": "exploratory",
+      "run_id": "local-deadline-METR-LA-e15",
+      "attempt": 2,
+      "epochs": 15,
+      "batch": 4,
+      "width": 64,
+      "hidden": [
+        4,
+        4
+      ],
+      "gpu": "RTX3050Laptop6GB",
+      "metrics": {
+        "3": {
+          "MAE": 2.74611557583029,
+          "RMSE": 5.218267764204246,
+          "MAPE_ratio": 0.07389784933681393
+        },
+        "6": {
+          "MAE": 11.499353214082275,
+          "RMSE": 14.047603758755669,
+          "MAPE_ratio": 0.31348805145869557
+        },
+        "12": {
+          "MAE": 11.500728479262742,
+          "RMSE": 14.048471369898854,
+          "MAPE_ratio": 0.31350808615887965
+        }
+      },
+      "replay_config": "configs/actual/METR-LA.py",
+      "recorded_config": "configs/deadline/METR-LA.py",
+      "best_epoch": 15,
+      "optimizer": "Adam",
+      "optimizer_parameters": {
+        "lr": 0.005,
+        "weight_decay": 1e-05,
+        "eps": 1e-08
+      },
+      "scheduler": "MultiStepLR",
+      "scheduler_parameters": {
+        "milestones": [
+          1,
+          18,
+          36,
+          54,
+          72
+        ],
+        "gamma": 0.5
+      },
+      "warmup_epochs": 0,
+      "curriculum_interval_epochs": 6,
+      "short_history": 12,
+      "long_history": 4032,
+      "patch_size": 12,
+      "encoder_layers": 4,
+      "attention_heads": 4,
+      "seed": 0,
+      "effective_gpu_num": 1,
+      "provided_pretrained_sha256": "2b11f29d973a1e719e7261e843c22bb84e7a64edeae9c93b7e25ab6a74eee66c",
+      "author_declared_settings": {
+        "gpu_num": 0,
+        "loader_batch": 32,
+        "epochs": 100
+      },
+      "strict_pretrained_load_verified": true,
+      "metrics_recomputed_match": true,
+      "all_expected_artifacts_sha_verified": true,
+      "training_from_scratch_pretrain": false,
+      "curriculum_warning": "Only horizons1..3 received direct supervision by epoch15; horizons6/12 are not fully trained.",
+      "execution_note": "Trained in an isolated local copy, stopped after checkpoint15, then separately tested best epoch15 with0test workers. Replay config directly trains15epochs.",
+      "nodes": 207,
+      "windows": {
+        "train": 23974,
+        "valid": 3425,
+        "test": 6850
+      },
+      "train_batches_per_epoch": 5994,
+      "training_batches_through_saved_epoch": 89910
+    },
+    {
+      "dataset": "PEMS04",
+      "role": "exploratory",
+      "run_id": "local-deadline-PEMS04-e2",
+      "attempt": 1,
+      "epochs": 2,
+      "batch": 2,
+      "width": 96,
+      "hidden": [
+        32,
+        32
+      ],
+      "gpu": "RTX3050Laptop6GB",
+      "metrics": {
+        "3": {
+          "MAE": 21.69882512323848,
+          "RMSE": 31.598874918990756,
+          "MAPE_ratio": 0.24042012187352266
+        },
+        "6": {
+          "MAE": 23.48237715900901,
+          "RMSE": 33.70654839427979,
+          "MAPE_ratio": 0.26550678191070076
+        },
+        "12": {
+          "MAE": 26.730383331221503,
+          "RMSE": 37.74374567342493,
+          "MAPE_ratio": 0.33309773360029854
+        }
+      },
+      "replay_config": "configs/actual/PEMS04.py",
+      "recorded_config": "configs/deadline/PEMS04.py",
+      "best_epoch": 2,
+      "optimizer": "Adam",
+      "optimizer_parameters": {
+        "lr": 0.002,
+        "weight_decay": 1e-05,
+        "eps": 1e-08
+      },
+      "scheduler": "MultiStepLR",
+      "scheduler_parameters": {
+        "milestones": [
+          1,
+          18,
+          36,
+          54,
+          72
+        ],
+        "gamma": 0.5
+      },
+      "warmup_epochs": 100,
+      "curriculum_interval_epochs": 6,
+      "short_history": 12,
+      "long_history": 4032,
+      "patch_size": 12,
+      "encoder_layers": 4,
+      "attention_heads": 4,
+      "seed": 0,
+      "effective_gpu_num": 1,
+      "provided_pretrained_sha256": "fd97253336ac8d1c00c943e4de252be44ccb543d14d0ee9f317fe160f38a5160",
+      "author_declared_settings": {
+        "gpu_num": 2,
+        "loader_batch": 8,
+        "epochs": 100
+      },
+      "strict_pretrained_load_verified": true,
+      "metrics_recomputed_match": true,
+      "all_expected_artifacts_sha_verified": true,
+      "training_from_scratch_pretrain": false,
+      "nodes": 307,
+      "windows": {
+        "train": 10181,
+        "valid": 3394,
+        "test": 3394
+      },
+      "train_batches_per_epoch": 5091,
+      "training_batches_through_saved_epoch": 10182
+    },
+    {
+      "dataset": "PEMS-BAY",
+      "role": "exploratory",
+      "run_id": "local-deadline-PEMS-BAY-e1",
+      "attempt": 1,
+      "epochs": 1,
+      "batch": 2,
+      "width": 96,
+      "hidden": [
+        32,
+        32
+      ],
+      "gpu": "RTX3050Laptop6GB",
+      "metrics": {
+        "3": {
+          "MAE": 1.3788281842717667,
+          "RMSE": 2.9406950395044382,
+          "MAPE_ratio": 0.02975540455216984
+        },
+        "6": {
+          "MAE": 1.6739506198389882,
+          "RMSE": 3.814862730366182,
+          "MAPE_ratio": 0.03835233769281884
+        },
+        "12": {
+          "MAE": 1.9410885895665817,
+          "RMSE": 4.565908508212435,
+          "MAPE_ratio": 0.04700857150605184
+        }
+      },
+      "replay_config": "configs/actual/PEMS-BAY.py",
+      "recorded_config": "configs/deadline/PEMS-BAY.py",
+      "best_epoch": 1,
+      "optimizer": "Adam",
+      "optimizer_parameters": {
+        "lr": 0.001,
+        "weight_decay": 1e-05,
+        "eps": 1e-08
+      },
+      "scheduler": "MultiStepLR",
+      "scheduler_parameters": {
+        "milestones": [
+          1,
+          18,
+          36,
+          54,
+          72
+        ],
+        "gamma": 0.5
+      },
+      "warmup_epochs": 30,
+      "curriculum_interval_epochs": 3,
+      "short_history": 12,
+      "long_history": 4032,
+      "patch_size": 12,
+      "encoder_layers": 4,
+      "attention_heads": 4,
+      "seed": 0,
+      "effective_gpu_num": 1,
+      "provided_pretrained_sha256": "9c4f35e517dc1e904a68c4a06c88becdc0c223598865438278f21981074da443",
+      "author_declared_settings": {
+        "gpu_num": 2,
+        "loader_batch": 32,
+        "epochs": 100
+      },
+      "strict_pretrained_load_verified": true,
+      "metrics_recomputed_match": true,
+      "all_expected_artifacts_sha_verified": true,
+      "training_from_scratch_pretrain": false,
+      "nodes": 325,
+      "windows": {
+        "train": 36465,
+        "valid": 5209,
+        "test": 10419
+      },
+      "train_batches_per_epoch": 18233,
+      "training_batches_through_saved_epoch": 18233
+    }
+  ]
+}

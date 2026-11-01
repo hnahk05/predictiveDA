@@ -47,6 +47,7 @@ def artifacts(folder, patterns):
 def fingerprint(job):
     h = hashlib.sha256(json.dumps(job, sort_keys=True).encode())
     h.update((sys.version + platform.system()).encode())
+    h.update(os.environ.get("LSTTN_SPLIT_SOFTMAX", "0").encode())
     for directory in ('models', 'runners', 'utils', 'configs', 'config_paper', 'scripts'):
         for p in sorted((ROOT / directory).rglob('*.py')):
             h.update(str(p.relative_to(ROOT)).encode()); h.update(p.read_bytes())

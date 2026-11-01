@@ -1,0 +1,9 @@
+{
+  "setting": "LSTTN_SPLIT_SOFTMAX=1",
+  "reason": "Observed illegal CUDA memory access in large Torch1.8.1 attention softmax",
+  "operation": "Split only independent rows for large3D CUDA last-axis softmax; normalization axis unchanged; no architecture/LR/batch changes",
+  "actual_use": "Enabled for all4runs; large-tensor splitting triggered in cloud PEMS08 batch32; reduced local batches stay below threshold",
+  "validation": "Small CPU output/gradient checks passed; full PEMS08100epoch run completed; downloaded model CPU strict-load and2 prediction checks passed",
+  "limitation": "Unpatched full-shape run crashed; full unpatched-versus-patched training equivalence was not established",
+  "not_applied": "The separate need_weights=False performance experiment remained in ignored local tests"
+}

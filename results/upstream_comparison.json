@@ -1,0 +1,74 @@
+{
+  "author_url": "https://github.com/GeoX-Lab/LSTTN",
+  "author_commit": "68185aa8ffd266d4d1a3acffeb6875a144335554",
+  "identical_source_files": [
+    "models/graph_wavenet.py",
+    "models/transformer.py",
+    "utils/__init__.py",
+    "utils/adj_mx.py",
+    "utils/datasets.py",
+    "utils/log.py",
+    "configs/__init__.py",
+    "configs/METR-LA/forecasting.py",
+    "configs/METR-LA/pretraining.py",
+    "configs/PEMS-BAY/forecasting.py",
+    "configs/PEMS-BAY/pretraining.py",
+    "configs/PEMS04/forecasting.py",
+    "configs/PEMS04/pretraining.py",
+    "configs/PEMS08/forecasting.py",
+    "configs/PEMS08/pretraining.py"
+  ],
+  "modified_source_files": [
+    {
+      "file": "models/lsttn.py",
+      "status": "modified"
+    },
+    {
+      "file": "runners/lsttn.py",
+      "status": "modified"
+    },
+    {
+      "file": "runners/transformer.py",
+      "status": "modified"
+    },
+    {
+      "file": "utils/load_data.py",
+      "status": "modified"
+    },
+    {
+      "file": "utils/metrics.py",
+      "status": "modified"
+    },
+    {
+      "file": "main.py",
+      "status": "modified"
+    },
+    {
+      "file": "requirements.txt",
+      "status": "modified"
+    }
+  ],
+  "pretrained_checkpoints": {
+    "METR-LA.pt": {
+      "project_sha256": "2b11f29d973a1e719e7261e843c22bb84e7a64edeae9c93b7e25ab6a74eee66c",
+      "author_sha256": "2b11f29d973a1e719e7261e843c22bb84e7a64edeae9c93b7e25ab6a74eee66c",
+      "identical": true
+    },
+    "PEMS-BAY.pt": {
+      "project_sha256": "9c4f35e517dc1e904a68c4a06c88becdc0c223598865438278f21981074da443",
+      "author_sha256": "9c4f35e517dc1e904a68c4a06c88becdc0c223598865438278f21981074da443",
+      "identical": true
+    },
+    "PEMS04.pt": {
+      "project_sha256": "fd97253336ac8d1c00c943e4de252be44ccb543d14d0ee9f317fe160f38a5160",
+      "author_sha256": "fd97253336ac8d1c00c943e4de252be44ccb543d14d0ee9f317fe160f38a5160",
+      "identical": true
+    },
+    "PEMS08.pt": {
+      "project_sha256": "4b7efb021ce4b432347f46f4197ab8dbab9f01c7e0a0265f81a764cb1633a73e",
+      "author_sha256": "4b7efb021ce4b432347f46f4197ab8dbab9f01c7e0a0265f81a764cb1633a73e",
+      "identical": true
+    }
+  },
+  "note": "Source normalized for LF line endings; comparison includes changes made before this cleanup task."
+}

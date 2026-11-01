@@ -14,7 +14,12 @@ sys.path.insert(0,str(ROOT))
 def main():
     parser=argparse.ArgumentParser()
     parser.add_argument('--dataset',default='METR-LA',choices=['METR-LA','PEMS-BAY','PEMS04','PEMS08'])
+    parser.add_argument('--warmup',type=int,default=10)
+    parser.add_argument('--batches',type=int,default=50)
     args=parser.parse_args()
+    from utils.cuda_softmax_compat import activate_from_env
+    softmax_compat = activate_from_env()
+    if args.warmup < 10 or not 50 <= args.batches <= 100: parser.error('Require >=10 warmup and 50..100 measured batches')
     import torch
     from models.transformer import Transformer
     from models.lsttn import LSTTN
@@ -34,17 +39,18 @@ def main():
         cfg=runpy.run_path(str(ROOT/'config_paper'/ds/(stage+'.py')))['CFG']
         data=MTSDataset(str(ROOT/'datasets'/ds/'data.pkl'),str(ROOT/'datasets'/ds/'train_index.pkl'),4032,throw=(stage=='pretraining'),pretrain=(stage=='pretraining'))
         size=cfg.TRAIN.DATA.BATCH_SIZE
-        eligible=[i for i,row in enumerate(data.index) if row[1]>=4032][:size*2]
+        eligible=[i for i,row in enumerate(data.index) if row[1]>=4032][:size*(args.warmup+args.batches)]
         loader=DataLoader(Subset(data,eligible),batch_size=size,shuffle=False,num_workers=0)
         if stage=='pretraining':
             model=Transformer(**cfg.MODEL.PARAM).cuda()
         else:
             cfg.MODEL.PARAM.LSTTN['pretrained_path']=str(temporary/'temporary-transformer.pt')
             model=LSTTN(cfg,**cfg.MODEL.PARAM).cuda()
+        print('BENCHMARK',stage,'warmup',args.warmup,'measured',args.batches,flush=True)
         model.train()
         optim=getattr(torch.optim,cfg.TRAIN.OPTIM.TYPE)(model.parameters(),**cfg.TRAIN.OPTIM.PARAM)
         torch.cuda.reset_peak_memory_stats(); times=[]
-        for batch in loader:
+        for batch_number,batch in enumerate(loader):
             torch.cuda.synchronize(); start=time.perf_counter(); optim.zero_grad()
             if stage=='pretraining':
                 prediction,target=model(batch[0].cuda())
@@ -55,12 +61,18 @@ def main():
                 target=target.cuda()[...,0];null=0
             loss=masked_mae(scale(prediction,**scaler),scale(target,**scaler),null)
             if not torch.isfinite(loss): raise RuntimeError('Nonfinite loss')
-            loss.backward();optim.step();torch.cuda.synchronize();times.append(time.perf_counter()-start)
+            loss.backward();optim.step();torch.cuda.synchronize()
+            if batch_number >= args.warmup: times.append(time.perf_counter()-start)
         # A conservative planning estimate, not a guaranteed completion time.
-        per_step=max(times); estimate=math.ceil(2*per_step*math.ceil(len(data)/size)*cfg.TRAIN.NUM_EPOCHS+600)
-        result[stage]=dict(batch=size,nodes=data.data.shape[1],seconds_per_step=times,
+        if len(times) != args.batches: raise RuntimeError('Insufficient full batches for benchmark')
+        per_step=sum(times)/len(times)
+        epoch_seconds=per_step*math.ceil(len(data)/size)
+        estimate=math.ceil(1.2*epoch_seconds*cfg.TRAIN.NUM_EPOCHS)
+        result[stage]=dict(softmax_compat=softmax_compat,gpu=torch.cuda.get_device_name(0),torch_version=torch.__version__,warmup_batches=args.warmup,measured_batches=len(times),training_seconds_per_epoch=epoch_seconds,batch=size,nodes=data.data.shape[1],seconds_per_step=times,
             peak_allocated_gb=torch.cuda.max_memory_allocated()/1e9,estimated_seconds=estimate,
-            note='2x slowest measured step + 10min; validation/I/O and contention may exceed this')
+            complete_queue_estimate=False,note='Training-only estimate +20%; validation, checkpoint, test/export, transfers and other variants NOT measured; do not certify 24h feasibility from this alone')
+        print('STAGE_RESULT',stage,json.dumps(result[stage]),flush=True)
+        (temporary/'benchmark-partial.json').write_text(json.dumps(result,indent=2))
         if stage=='pretraining':torch.save({'model_state_dict':model.cpu().state_dict()},temporary/'temporary-transformer.pt')
         del model,optim,data,loader,prediction,target,loss,batch
         torch.cuda.empty_cache()
