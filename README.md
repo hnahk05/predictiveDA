@@ -1,57 +1,72 @@
-# LSTTN
-------  
+# predictiveDA — Thực nghiệm LSTTN
 
-A PyTorch implementation of LSTTN which is a part of our works on Graph representation learning and its application on Temporal-Spatial Prediction called [T-GCN](https://github.com/lehaifeng/T-GCN).
+Dự án triển khai lại **giai đoạn forecast của LSTTN**, sử dụng checkpoint tiền huấn luyện do tác giả công bố. Mục tiêu là kiểm tra kết quả dự báo giao thông trên phần cứng có tài nguyên hạn chế.
 
-### Abstract
-<p align="justify">
-Accurate traffic forecasting is a fundamental problem in intelligent transportation systems and learning long-range traffic representations with key information through spatiotemporal graph neural networks (STGNNs) is a basic assumption of current traffic flow prediction models. However, due to structural limitations, existing STGNNs can only utilize short-range traffic flow data; therefore, the models cannot adequately learn the complex trends and periodic features in traffic flow. Besides, it is challenging to extract the key temporal information from the long historical traffic series and obtain a compact representation. To solve the above problems, we propose a novel LSTTN (Long-Short Term Transformer-based Network) framework comprehensively considering the long- and short-term features in historical traffic flow. First, we employ a masked subseries Transformer to infer the content of masked subseries from a small portion of unmasked subseries and their temporal context in a pretraining manner, forcing the model to efficiently learn compressed and contextual subseries temporal representations from long historical series. Then, based on the learned representations, long-term trend is extracted by using stacked 1D dilated convolution layers, and periodic features are extracted by dynamic graph convolution layers. For the difficulties in making time-step level predictions, LSTTN adopts a short-term trend extractor to learn fine-grained short-term temporal features. Finally, LSTTN fuses the long-term trend, periodic features, and short-term features to obtain the prediction results. Experiments on four real-world datasets show that in 60-minute-ahead long-term forecasting, the LSTTN model achieves a minimum improvement of 5.63% and a maximum improvement of 16.78% over baseline models. The source code is available at https://github.com/GeoX-Lab/LSTTN.
+Nguồn gốc: [GeoX-Lab/LSTTN](https://github.com/GeoX-Lab/LSTTN). [Paper LSTTN](https://arxiv.org/abs/2403.16495).
 
-You can visit the document from [sciencedirect](https://www.sciencedirect.com/science/article/pii/S0950705124002727) or [arXiv](https://arxiv.org/abs/2403.16495)
+## Phạm vi đã thực hiện
 
-### Datasets
-Download the datasets from Google Drive URL: https://drive.google.com/file/d/1GHQ071AICZW6rSsXBsjQGaUNPh047xqN/view?usp=drive_link.
+| Dataset | Epoch forecast | Global batch | GPU | Vai trò |
+|---|---:|---:|---|---|
+| PEMS08 | 100 | 32 | RTX A6000 | Thực nghiệm chính |
+| METR-LA | 15 | 4 | RTX 3050 Laptop 6 GB | Thăm dò |
+| PEMS04 | 2 | 2 | RTX 3050 Laptop 6 GB | Thăm dò |
+| PEMS-BAY | 1 | 2 | RTX 3050 Laptop 6 GB | Thăm dò |
 
-Detailed statistics of datasets:
-|  Dataset | Nodes    | Edges  | Time interval | Samples        |
-| ---- | ------ | ------ | ----------- | ---------- |
-| METR-LA  | 207 | 1722 | 5 mins      | 34272      |
-| PEMS-BAY  | 325 | 2694 | 5 mins      | 52116      |
-| PEMS-04  | 307 | 987 | 5 mins      | 16992      |
-| PEMS-08  | 170 | 718 | 5 mins      | 17856      |
+Đã thực hiện EDA PEMS08, baseline Persistence/HA, phân tích sai số, kiểm chứng phép toán graph, đo chi phí suy luận và kiểm tra độ nhạy đầu vào/Integrated Gradients và chưa thực hiện lại toàn bộ thực nghiệm.
 
-## Install
+## Kết quả chính PEMS08
 
-All experiments were implemented on 1 piece of A100 with 40G RAM. The `requirements.txt` file contains all the project's dependent installation packages, which can be quickly installed using the following command.
+Run `PEMS08-repo96-author-pretrained`, attempt `0001`, chọn best theo validation tại epoch **68**, sau đó reload để test. Cấu hình dùng width **96**, hidden **32/32**, theo repo và checkpoint công bố; khác mức 64/4 nêu trong paper.
 
+| Khoảng dự báo | MAE | RMSE | MAPE (%) |
+|---|---:|---:|---:|
+| 15 phút | 13,40 | 21,64 | 8,99 |
+| 30 phút | 14,19 | 23,49 | 9,93 |
+| 60 phút | 15,39 | 25,57 | 11,38 |
+
+MAE/RMSE có đơn vị xe/5 phút/node. Số liệu đầy đủ ở [experiment_metrics.csv](results/experiment_metrics.csv), thông số và run ID ở [experiment_manifest.json](results/experiment_manifest.json). [paper_reference.csv](results/paper_reference.csv) chứa số liệu tham khảo từ tài liệu, không phải baseline tự chạy.
+
+## Cấu trúc chính
+
+| Thư mục | Nội dung |
+|---|---|
+| `models/`, `runners/`, `utils/` | Mô hình, huấn luyện và xử lý dữ liệu/metric |
+| `configs/<dataset>/` | Config gốc của tác giả |
+| `config_paper/` | Config chuẩn bị theo paper; chưa dùng cho kết quả cuối |
+| `configs/actual/` | Config tái lập thông số thực chạy |
+| `scripts/extension/` | Script baseline, kiểm chứng và phân tích bổ sung |
+| `notebooks/PEMS08_EDA.ipynb` | EDA, hình dự báo và minh chứng thực thi |
+| `results/extension/` | Kết quả các phân tích bổ sung |
+
+## Môi trường và dữ liệu
+
+Môi trường huấn luyện đã kiểm tra: **Python 3.9.25, Torch 1.8.1+cu111, easy-torch 1.3.2, NumPy 1.23.5**. Dùng Ubuntu/Linux hoặc Ubuntu WSL có driver NVIDIA phù hợp nếu cần GPU.
+
+Trên máy mới, mở terminal Ubuntu tại thư mục repo và chạy lệnh sau. Bỏ qua nếu môi trường đã có:
+
+```bash
+bash environment/setup_linux.sh
 ```
-$ pip install -r requirements.txt
+
+Đặt dữ liệu trong `datasets/<dataset>/`, checkpoint pretrain trong `pretrained_transformers/`. Link dữ liệu công bố nằm trong [README repo tác giả](https://github.com/GeoX-Lab/LSTTN#datasets).
+
+Các phân tích PEMS08 cần export đã xác minh trong `artifacts/report-inputs/PEMS08/`. Đo suy luận, kiểm graph thích nghi và IG còn cần checkpoint forecast best epoch 68. Dữ liệu, export và checkpoint thực nghiệm lớn **không được đưa vào Git**; cần chuẩn bị riêng để chạy lại. Notebook có output đã lưu để xem kết quả.
+
+## Chạy phân tích bổ sung
+
+Chạy trong **terminal Ubuntu/WSL**, tại thư mục repo, khi đã có đủ dữ liệu và artifact tương ứng:
+
+```bash
+source .local_checks/linux-env/bin/activate
+
+python scripts/extension/run_baselines_pems08.py --batch-size 16
+python scripts/extension/analyze_pems08_errors.py --bootstrap-reps 2000 --seed 20261101
+python scripts/extension/verify_graph_conv.py
+python scripts/extension/measure_inference_cost.py --softmax-compat on
+python scripts/extension/run_perturbation_pems08.py --batch-size 2
 ```
 
-### Pretraining and forecasting
+## Trích dẫn
 
-Training the model is handled by the `main.py` script. All the configurations related to pretraining and forecasting is provided in `/configs`. 
-
-You can simply import CFG from corresponding config files in `\main.py` and run it for training.
-
-```
-from configs.PEMS04 import CFG
-
-launch_training(CFG)
-```
-  
-### Citation information
-If our repo is useful to you, please cite our published paper as follow:
-```
-Bibtex
-@article{luo2024lsttn,
-  title={LSTTN: A Long-Short Term Transformer-based spatiotemporal neural network for traffic flow forecasting},
-  author={Luo, Qinyao and He, Silu and Han, Xing and Wang, Yuhan and Li, Haifeng},
-  journal={Knowledge-Based Systems},
-  year={2024},
-  volume={293},
-  pages={111637},
-  DOI = {10.1016/j.knosys.2024.111637},
-  publisher={Elsevier}
-}
-```
+Luo, Q., He, S., Han, X., Wang, Y., & Li, H. (2024). *LSTTN: A Long-Short Term Transformer-based spatiotemporal neural network for traffic flow forecasting*. Knowledge-Based Systems, 293, 111637. [DOI](https://doi.org/10.1016/j.knosys.2024.111637).

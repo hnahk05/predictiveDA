@@ -1,0 +1,349 @@
+{
+  "status": "success",
+  "created_utc": "2026-11-01T12:31:22.708128+00:00",
+  "script": "scripts/extension/run_baselines_pems08.py",
+  "script_sha256": "bb58c25ba7a7893c74a534b32cc35078757a35e73b43fab77ee06617c6029510",
+  "versions": {
+    "python": "3.9.25",
+    "numpy": "1.23.5",
+    "torch": "1.8.1+cu111"
+  },
+  "platform": "Linux-6.6.87.2-microsoft-standard-WSL2-x86_64-with-glibc2.43",
+  "device": "cpu",
+  "cuda_used": false,
+  "batch_size": 16,
+  "dataset": "PEMS08",
+  "target": "Flow",
+  "units": "vehicles per 5 minutes per node",
+  "nodes": 170,
+  "split_window_counts": {
+    "train": 10700,
+    "valid": 3567,
+    "test": 3566
+  },
+  "horizons_steps": [
+    3,
+    6,
+    12
+  ],
+  "horizons_minutes": [
+    15,
+    30,
+    60
+  ],
+  "scaler": {
+    "min": 0.0,
+    "max": 1077.0,
+    "formula": "(normalized_float32 + 1) / 2 * (max - min) + min; no clipping",
+    "reason": "Matches MTSDataset.float() and existing float32 export targets exactly"
+  },
+  "masks": {
+    "MAE": "all finite targets, including zero",
+    "RMSE": "finite targets != 0",
+    "MAPE": "finite targets >= 0.01; ratio multiplied by 100",
+    "zero_imputation": false,
+    "nonfinite_policy": "stop; no silent omission or filling",
+    "accumulation": "global float64 sums/counts, not mean of batch metrics"
+  },
+  "metric_self_check": {
+    "passed": true,
+    "predictions": [
+      2.0,
+      9.0,
+      6.0,
+      10.0
+    ],
+    "targets": [
+      0.0,
+      0.005,
+      3.0,
+      5.0
+    ],
+    "numpy_float64": {
+      "MAE": 4.748749999999999,
+      "RMSE": 6.18896935415475,
+      "MAPE_percent": 100.0
+    },
+    "author_torch": {
+      "MAE": 4.748749999999999,
+      "RMSE": 6.188969446377579,
+      "MAPE_percent": 100.0
+    },
+    "torch_version": "1.8.1+cu111",
+    "device": "cpu",
+    "note": "Torch masks normalize in float32; global float64 sums can round differently."
+  },
+  "persistence": {
+    "rule": "repeat Flow at forecast_start - 1 for all 12 future steps"
+  },
+  "historical_average": {
+    "group": "calendar weekday Monday=0 plus 5-minute slot 0..287; separate mean per node",
+    "calendar_start": "2016-07-01T00:00:00",
+    "frequency_minutes": 5,
+    "timezone": "naive local benchmark clock",
+    "timestamp_origin": "reconstructed metadata, not embedded timestamps",
+    "relative_day_channel_used_for_grouping": false,
+    "fit_rule": "union of actual train-index label timestamps, each timestamp counted once; includes zeros",
+    "unique_training_timestamps": 10711,
+    "training_first": 12,
+    "training_last": 10722,
+    "training_first_time": "2016-07-01T01:00:00",
+    "training_last_time": "2016-08-07T05:30:00",
+    "available_groups": 2016,
+    "total_groups": 2016,
+    "group_observation_count_min": 5,
+    "group_observation_count_max": 6,
+    "missing_groups": 0,
+    "fallback": "node's global mean on the same train-label timestamp union only",
+    "fallback_test_uses_per_horizon": {
+      "3": 0,
+      "6": 0,
+      "12": 0
+    },
+    "outside_train_perturbation_test_passed": true,
+    "validation_only_timestamps_used": 0,
+    "test_timestamps_used": 0,
+    "boundary_overlap": {
+      "train/valid": 11,
+      "valid/test": 11,
+      "train/test": 0
+    },
+    "caveat": "11 included train-label timestamps also belong to validation labels. No validation-only or test timestamps used. This is repo protocol, not target-disjoint."
+  },
+  "export_verification": {
+    "path": "artifacts/report-inputs/PEMS08",
+    "sha_verified_files": 113,
+    "batch_files": 112,
+    "samples": 3566,
+    "target_max_abs_error": 0.0,
+    "target_exact_match": true,
+    "masks_match": true,
+    "index_exact_match": true,
+    "lsttn_metrics_match": true
+  },
+  "metric_counts": {
+    "3": {
+      "MAE": 606220,
+      "RMSE": 604174,
+      "MAPE": 604174
+    },
+    "6": {
+      "MAE": 606220,
+      "RMSE": 604172,
+      "MAPE": 604172
+    },
+    "12": {
+      "MAE": 606220,
+      "RMSE": 604167,
+      "MAPE": 604167
+    }
+  },
+  "manual_checks": [
+    {
+      "test_window": 0,
+      "node": 0,
+      "last_input_position": 14278,
+      "last_input_time": "2016-08-19T13:50:00",
+      "last_flow": 438.0,
+      "persistence_steps_3_6_12": [
+        438.0,
+        438.0,
+        438.0
+      ],
+      "ha_horizon3_group": {
+        "weekday_monday_zero": 4,
+        "five_minute_slot": 169
+      },
+      "ha_training_positions": [
+        169,
+        2185,
+        4201,
+        6217,
+        8233,
+        10249
+      ],
+      "ha_training_values": [
+        360.0,
+        410.0,
+        284.0,
+        432.0,
+        571.0,
+        397.0
+      ],
+      "ha_horizon3": 409.0
+    },
+    {
+      "test_window": 1,
+      "node": 85,
+      "last_input_position": 14279,
+      "last_input_time": "2016-08-19T13:55:00",
+      "last_flow": 197.99998474121094,
+      "persistence_steps_3_6_12": [
+        197.99998474121094,
+        197.99998474121094,
+        197.99998474121094
+      ],
+      "ha_horizon3_group": {
+        "weekday_monday_zero": 4,
+        "five_minute_slot": 170
+      },
+      "ha_training_positions": [
+        170,
+        2186,
+        4202,
+        6218,
+        8234,
+        10250
+      ],
+      "ha_training_values": [
+        208.0,
+        203.00001525878906,
+        206.0,
+        189.0,
+        205.00001525878906,
+        203.00001525878906
+      ],
+      "ha_horizon3": 202.33334096272787
+    },
+    {
+      "test_window": 3565,
+      "node": 169,
+      "last_input_position": 17843,
+      "last_input_time": "2016-08-31T22:55:00",
+      "last_flow": 2.000002384185791,
+      "persistence_steps_3_6_12": [
+        2.000002384185791,
+        2.000002384185791,
+        2.000002384185791
+      ],
+      "ha_horizon3_group": {
+        "weekday_monday_zero": 2,
+        "five_minute_slot": 278
+      },
+      "ha_training_positions": [
+        1718,
+        3734,
+        5750,
+        7766,
+        9782
+      ],
+      "ha_training_values": [
+        13.999984741210938,
+        2.9999876022338867,
+        4.000004768371582,
+        10.99999713897705,
+        2.9999876022338867
+      ],
+      "ha_horizon3": 6.999992370605469
+    }
+  ],
+  "input_and_source_sha256": {
+    "datasets/PEMS08/data.pkl": "1ce0b588a501bde4ecfe2d3f384c2563af7ab650b8abb83b6783866c089626cd",
+    "datasets/PEMS08/min.pkl": "57b2b8454ba63a1fbaa64a28cf497c18931e9b190d6b93df117a82dae606ea6f",
+    "datasets/PEMS08/max.pkl": "f7bcec339418df548d28f1513cbf4f62201322e2f78539a052836c2f7d3e0cb4",
+    "datasets/PEMS08/train_index.pkl": "167ad0baa63cea964bc5880d02121731428666259c8b23dbfb787a840d70388e",
+    "datasets/PEMS08/valid_index.pkl": "9bee72fefb58a3ee47403fbfe1f5562308afdede65890067429d3b30d2559123",
+    "datasets/PEMS08/test_index.pkl": "b764746dc31e429b0a3936c0d203ba02940e60c0c20a0b02a8d23f55499ab793",
+    "README.md": "8e7328ccd353464653df3e52de70dc20feacbef42b1267c6ac2c03ee7cab75f3",
+    "utils/metrics.py": "cd1d1e8266bbd338d7b0b055ab88fc5a31314baa8465979e8b36263245752b18",
+    "utils/datasets.py": "3e917d543ca01485b649fcbbc51b76881f1ed7520bd3684162314e4d90550271",
+    "utils/load_data.py": "b80f899eea324b008e5c8f4c801f1d9869ff40ce1e09d9305dfc6716c91ea076",
+    "results/experiment_metrics.csv": "1d0087e80ed20ec8886cb0a2038ba63e48b36d7b4f3d8a5dbceeb45d6d05c74b",
+    "results/experiment_manifest.json": "b4ba5e3b93956f2abef31f4428402fee14a0c9301a8abb8f4e6759362f0b816e",
+    "configs/METR-LA/forecasting.py": "2d881e48beb7960f83b3a165211109c6a974e2eaf2edabec41b4ec5823649661",
+    "configs/METR-LA/pretraining.py": "1a73cbf58a55117aaf914c249fe4564399a3944988c814381ec59bc759051b3b",
+    "configs/PEMS-BAY/forecasting.py": "4f507282171f1b7a81cd13e284f638886591e57c1fae7b5e31842cc160309daf",
+    "configs/PEMS-BAY/pretraining.py": "ffb913abd5c760722df19deb9a2980555d2570ccadb10a8662aef61f348bf31b",
+    "configs/PEMS04/forecasting.py": "b9ffda0d828f6dfd0c6187aadff4dace1416f37a6a5e077a76cd3d221ab42bf9",
+    "configs/PEMS04/pretraining.py": "caeeb8938d0901c2710647b0b03011aece142e9a18134e882e6ac0489cb21176",
+    "configs/PEMS08/forecasting.py": "22dbf9f8a9a7839861c9353a298a8499ba5f8820c9e9c2d7d84ea93b0ff3ee08",
+    "configs/PEMS08/pretraining.py": "ac79e54a9b038f0741ed6164e444bbf51a68989ddd63ca137b0db270d3830278",
+    "configs/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "configs/actual/METR-LA.py": "b17da5722fc5ace1485af90382bc4b4fc96669fbb2fb6e42bc3da708572aa3cf",
+    "configs/actual/PEMS-BAY.py": "fbe8638e5160bd5ff9055fc9d7dcf4fe7b8f815dc558c24ed9d8dbf73b12af64",
+    "configs/actual/PEMS04.py": "52a2a578c00468ddb8d7f2cfc9de5f75b987c8bc603a5a2f3785f6ebfadccd8a",
+    "configs/actual/PEMS08.py": "4ef7fcb2d0302903ba21f5ec20be51e6baee1b5082052751fcfa57995e64ba1a",
+    "configs/actual/__init__.py": "5172d18355e18dcd4c19a6a879680cb1aa1345ee6d9dc4b94f9efe57bd11dbcc",
+    "configs/actual/common.py": "b64f18260f8118221717cb2bf142a61fd76c5a470aefb45bd0313d60ab5ea0fa",
+    "models/graph_wavenet.py": "1ede8b217b023a254c0a1d6ce4dc405298c2418ef59222738b9340d4788684ad",
+    "models/lsttn.py": "3f3d67b970c885c4399e2093bf59b4097fb03567dde17512cdea1148c6c4b4c1",
+    "models/transformer.py": "52746e2018fe126e6ea8e70956fda1699919b8f4d19593b316a24b022a9e54f9"
+  },
+  "protected_files_unchanged": true,
+  "timings_seconds": {
+    "ha_fit": 0.07547337700000156,
+    "evaluation_by_method": {
+      "Persistence": 0.02528869299998604,
+      "HA": 0.02408168299999147
+    },
+    "export_verification": 2.838669884999998,
+    "total_before_output_write": 20.106487231
+  },
+  "side_by_side": [
+    {
+      "method": "Persistence",
+      "horizon_min": 15,
+      "MAE": 19.528384040798258,
+      "RMSE": 29.795035245940742,
+      "MAPE_percent": 11.974159706303967
+    },
+    {
+      "method": "Persistence",
+      "horizon_min": 30,
+      "MAE": 24.19372995269833,
+      "RMSE": 36.66172921767616,
+      "MAPE_percent": 14.928572963206042
+    },
+    {
+      "method": "Persistence",
+      "horizon_min": 60,
+      "MAE": 34.59233275803229,
+      "RMSE": 50.466058822212844,
+      "MAPE_percent": 21.677490439721385
+    },
+    {
+      "method": "HA",
+      "horizon_min": 15,
+      "MAE": 23.274288764723725,
+      "RMSE": 40.63093824785908,
+      "MAPE_percent": 14.471593086728486
+    },
+    {
+      "method": "HA",
+      "horizon_min": 30,
+      "MAE": 23.260781016277242,
+      "RMSE": 40.60717906647004,
+      "MAPE_percent": 14.478556505067422
+    },
+    {
+      "method": "HA",
+      "horizon_min": 60,
+      "MAE": 23.232083459605988,
+      "RMSE": 40.558439274431734,
+      "MAPE_percent": 14.497950473157946
+    },
+    {
+      "method": "LSTTN_reference",
+      "horizon_min": 15,
+      "MAE": 13.399619263977147,
+      "RMSE": 21.644650690855023,
+      "MAPE_percent": 8.991705984887435
+    },
+    {
+      "method": "LSTTN_reference",
+      "horizon_min": 30,
+      "MAE": 14.193402831876062,
+      "RMSE": 23.48866084181253,
+      "MAPE_percent": 9.927706522798825
+    },
+    {
+      "method": "LSTTN_reference",
+      "horizon_min": 60,
+      "MAE": 15.38800702628231,
+      "RMSE": 25.568519388362635,
+      "MAPE_percent": 11.37805642449632
+    }
+  ],
+  "interpretation": "Descriptive side-by-side only. No causal comparison or statistical significance claim.",
+  "original_result_files_overwritten": false
+}

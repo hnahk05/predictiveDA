@@ -1,0 +1,3 @@
+EDA: PEMS08 [S3-S5], Flow matched LSTTN [S6].
+Architecture: author LSTTN source [S6].
+Forecast and metrics: run PEMS08-repo96-author-pretrained / 0001, best epoch 68.

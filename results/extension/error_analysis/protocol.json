@@ -1,0 +1,365 @@
+{
+  "status": "success",
+  "created_utc": "2026-11-01T12:42:02.994828+00:00",
+  "run_id": "PEMS08-repo96-author-pretrained",
+  "attempt": "0001",
+  "best_epoch": 68,
+  "source_export": "artifacts/report-inputs/PEMS08",
+  "device": "cpu",
+  "model_executed": false,
+  "versions": {
+    "python": "3.9.25",
+    "numpy": "1.23.5",
+    "pandas": "1.5.3",
+    "matplotlib": "3.6.3"
+  },
+  "export_sha_verified_files": 113,
+  "test_windows": 3566,
+  "nodes": 170,
+  "horizons_steps": [
+    3,
+    6,
+    12
+  ],
+  "metric_global_gate": {
+    "atol": 1e-08,
+    "rtol": 0,
+    "passed": true
+  },
+  "masks": {
+    "MAE": "all finite targets, zeros included",
+    "RMSE": "target != 0",
+    "MAPE": "target >=0.01; percent",
+    "finite_policy": "stop on any nonfinite prediction or target",
+    "sums": "global float64"
+  },
+  "timestamps": {
+    "origin": "2016-07-01T00:00:00",
+    "sampling_minutes": 5,
+    "calendar": "naive local benchmark clock",
+    "grouping_timestamp": "forecast_start + horizon - 1; target clock, not issue clock",
+    "weekday": "Monday=0; Friday at origin",
+    "weekend": "Saturday/Sunday only; holidays not modeled"
+  },
+  "node_correlation": {
+    "flow_mean": "mean target Flow per node over that horizon's full test windows, including zeros",
+    "coefficients": [
+      "Pearson",
+      "Spearman (average ranks for ties)"
+    ],
+    "n_nodes": 170,
+    "p_values_computed": false
+  },
+  "quantiles": {
+    "scope": "each horizon's test target sensor-time values",
+    "requested_groups": 4,
+    "boundaries": "first interval closed both sides, subsequent (lower,upper]; ties not split",
+    "duplicate_quantile_edges": "collapse duplicate edges; fewer groups if necessary",
+    "per_horizon": {
+      "3": {
+        "edges": [
+          0.0,
+          110.99999237060547,
+          217.0,
+          334.0,
+          848.0
+        ],
+        "actual_groups": 4
+      },
+      "6": {
+        "edges": [
+          0.0,
+          110.99999237060547,
+          216.00001525878906,
+          334.0,
+          848.0
+        ],
+        "actual_groups": 4
+      },
+      "12": {
+        "edges": [
+          0.0,
+          110.00000762939453,
+          216.00001525878906,
+          332.9999694824219,
+          848.0
+        ],
+        "actual_groups": 4
+      }
+    }
+  },
+  "bootstrap": {
+    "reps": 2000,
+    "seed": 20261101,
+    "unit": "target-calendar-day block",
+    "n_days": 13,
+    "dates": [
+      "2016-08-19",
+      "2016-08-20",
+      "2016-08-21",
+      "2016-08-22",
+      "2016-08-23",
+      "2016-08-24",
+      "2016-08-25",
+      "2016-08-26",
+      "2016-08-27",
+      "2016-08-28",
+      "2016-08-29",
+      "2016-08-30",
+      "2016-08-31"
+    ],
+    "statistic": "sum absolute errors / sum observation counts in sampled blocks",
+    "sample_size": "same number of dates, replacement; partial first/last blocks retained",
+    "paired_horizons": true,
+    "interval": "percentile 2.5 to 97.5, nominal 95%",
+    "interpretation": "test-sampling variation of fixed trained model; NOT between-training-seed variation",
+    "limitations": "only 13 dates; unequal/partial blocks; between-day dependence and future distribution shifts not modeled",
+    "per_horizon_day_coverage": {
+      "3": [
+        {
+          "date": "2016-08-19",
+          "n_windows": 119,
+          "complete_day": false
+        },
+        {
+          "date": "2016-08-20",
+          "n_windows": 288,
+          "complete_day": true
+        },
+        {
+          "date": "2016-08-21",
+          "n_windows": 288,
+          "complete_day": true
+        },
+        {
+          "date": "2016-08-22",
+          "n_windows": 288,
+          "complete_day": true
+        },
+        {
+          "date": "2016-08-23",
+          "n_windows": 288,
+          "complete_day": true
+        },
+        {
+          "date": "2016-08-24",
+          "n_windows": 288,
+          "complete_day": true
+        },
+        {
+          "date": "2016-08-25",
+          "n_windows": 288,
+          "complete_day": true
+        },
+        {
+          "date": "2016-08-26",
+          "n_windows": 288,
+          "complete_day": true
+        },
+        {
+          "date": "2016-08-27",
+          "n_windows": 288,
+          "complete_day": true
+        },
+        {
+          "date": "2016-08-28",
+          "n_windows": 288,
+          "complete_day": true
+        },
+        {
+          "date": "2016-08-29",
+          "n_windows": 288,
+          "complete_day": true
+        },
+        {
+          "date": "2016-08-30",
+          "n_windows": 288,
+          "complete_day": true
+        },
+        {
+          "date": "2016-08-31",
+          "n_windows": 279,
+          "complete_day": false
+        }
+      ],
+      "6": [
+        {
+          "date": "2016-08-19",
+          "n_windows": 116,
+          "complete_day": false
+        },
+        {
+          "date": "2016-08-20",
+          "n_windows": 288,
+          "complete_day": true
+        },
+        {
+          "date": "2016-08-21",
+          "n_windows": 288,
+          "complete_day": true
+        },
+        {
+          "date": "2016-08-22",
+          "n_windows": 288,
+          "complete_day": true
+        },
+        {
+          "date": "2016-08-23",
+          "n_windows": 288,
+          "complete_day": true
+        },
+        {
+          "date": "2016-08-24",
+          "n_windows": 288,
+          "complete_day": true
+        },
+        {
+          "date": "2016-08-25",
+          "n_windows": 288,
+          "complete_day": true
+        },
+        {
+          "date": "2016-08-26",
+          "n_windows": 288,
+          "complete_day": true
+        },
+        {
+          "date": "2016-08-27",
+          "n_windows": 288,
+          "complete_day": true
+        },
+        {
+          "date": "2016-08-28",
+          "n_windows": 288,
+          "complete_day": true
+        },
+        {
+          "date": "2016-08-29",
+          "n_windows": 288,
+          "complete_day": true
+        },
+        {
+          "date": "2016-08-30",
+          "n_windows": 288,
+          "complete_day": true
+        },
+        {
+          "date": "2016-08-31",
+          "n_windows": 282,
+          "complete_day": false
+        }
+      ],
+      "12": [
+        {
+          "date": "2016-08-19",
+          "n_windows": 110,
+          "complete_day": false
+        },
+        {
+          "date": "2016-08-20",
+          "n_windows": 288,
+          "complete_day": true
+        },
+        {
+          "date": "2016-08-21",
+          "n_windows": 288,
+          "complete_day": true
+        },
+        {
+          "date": "2016-08-22",
+          "n_windows": 288,
+          "complete_day": true
+        },
+        {
+          "date": "2016-08-23",
+          "n_windows": 288,
+          "complete_day": true
+        },
+        {
+          "date": "2016-08-24",
+          "n_windows": 288,
+          "complete_day": true
+        },
+        {
+          "date": "2016-08-25",
+          "n_windows": 288,
+          "complete_day": true
+        },
+        {
+          "date": "2016-08-26",
+          "n_windows": 288,
+          "complete_day": true
+        },
+        {
+          "date": "2016-08-27",
+          "n_windows": 288,
+          "complete_day": true
+        },
+        {
+          "date": "2016-08-28",
+          "n_windows": 288,
+          "complete_day": true
+        },
+        {
+          "date": "2016-08-29",
+          "n_windows": 288,
+          "complete_day": true
+        },
+        {
+          "date": "2016-08-30",
+          "n_windows": 288,
+          "complete_day": true
+        },
+        {
+          "date": "2016-08-31",
+          "n_windows": 288,
+          "complete_day": true
+        }
+      ]
+    }
+  },
+  "figures": {
+    "dpi": 200,
+    "files": [
+      "01_node_extremes.png",
+      "02_node_flow_correlation.png",
+      "03_hourly_errors.png",
+      "04_day_type_errors.png",
+      "05_flow_quantile_errors.png",
+      "06_bootstrap_mae.png",
+      "07_daily_mae.png"
+    ]
+  },
+  "verification_seconds": 2.7760365599999943,
+  "total_seconds_before_protocol_and_notes": 12.647792351999996,
+  "protected_files_unchanged": true,
+  "protected_file_sha256": {
+    "README.md": "8e7328ccd353464653df3e52de70dc20feacbef42b1267c6ac2c03ee7cab75f3",
+    ".gitignore": "203ee5661e1b210d7ad1fe830032d0d80e6962a75c4267297283a6689dc8d9bb",
+    "utils/metrics.py": "cd1d1e8266bbd338d7b0b055ab88fc5a31314baa8465979e8b36263245752b18",
+    "utils/prediction_export.py": "a99e1e930766836203c954ddcb19f4fba8b632b0544f4ecc9016d6bab8f58307",
+    "results/experiment_metrics.csv": "1d0087e80ed20ec8886cb0a2038ba63e48b36d7b4f3d8a5dbceeb45d6d05c74b",
+    "results/experiment_manifest.json": "b4ba5e3b93956f2abef31f4428402fee14a0c9301a8abb8f4e6759362f0b816e",
+    "configs/METR-LA/forecasting.py": "2d881e48beb7960f83b3a165211109c6a974e2eaf2edabec41b4ec5823649661",
+    "configs/METR-LA/pretraining.py": "1a73cbf58a55117aaf914c249fe4564399a3944988c814381ec59bc759051b3b",
+    "configs/PEMS-BAY/forecasting.py": "4f507282171f1b7a81cd13e284f638886591e57c1fae7b5e31842cc160309daf",
+    "configs/PEMS-BAY/pretraining.py": "ffb913abd5c760722df19deb9a2980555d2570ccadb10a8662aef61f348bf31b",
+    "configs/PEMS04/forecasting.py": "b9ffda0d828f6dfd0c6187aadff4dace1416f37a6a5e077a76cd3d221ab42bf9",
+    "configs/PEMS04/pretraining.py": "caeeb8938d0901c2710647b0b03011aece142e9a18134e882e6ac0489cb21176",
+    "configs/PEMS08/forecasting.py": "22dbf9f8a9a7839861c9353a298a8499ba5f8820c9e9c2d7d84ea93b0ff3ee08",
+    "configs/PEMS08/pretraining.py": "ac79e54a9b038f0741ed6164e444bbf51a68989ddd63ca137b0db270d3830278",
+    "configs/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "configs/actual/METR-LA.py": "b17da5722fc5ace1485af90382bc4b4fc96669fbb2fb6e42bc3da708572aa3cf",
+    "configs/actual/PEMS-BAY.py": "fbe8638e5160bd5ff9055fc9d7dcf4fe7b8f815dc558c24ed9d8dbf73b12af64",
+    "configs/actual/PEMS04.py": "52a2a578c00468ddb8d7f2cfc9de5f75b987c8bc603a5a2f3785f6ebfadccd8a",
+    "configs/actual/PEMS08.py": "4ef7fcb2d0302903ba21f5ec20be51e6baee1b5082052751fcfa57995e64ba1a",
+    "configs/actual/__init__.py": "5172d18355e18dcd4c19a6a879680cb1aa1345ee6d9dc4b94f9efe57bd11dbcc",
+    "configs/actual/common.py": "b64f18260f8118221717cb2bf142a61fd76c5a470aefb45bd0313d60ab5ea0fa",
+    "models/graph_wavenet.py": "1ede8b217b023a254c0a1d6ce4dc405298c2418ef59222738b9340d4788684ad",
+    "models/lsttn.py": "3f3d67b970c885c4399e2093bf59b4097fb03567dde17512cdea1148c6c4b4c1",
+    "models/transformer.py": "52746e2018fe126e6ea8e70956fda1699919b8f4d19593b316a24b022a9e54f9"
+  },
+  "source_index_sha256": "b764746dc31e429b0a3936c0d203ba02940e60c0c20a0b02a8d23f55499ab793",
+  "export_hash_manifest_sha256": "5a079ec212fd8e17644d83c97cb96629c7d54bee4f8e41c24c4a42c3dab63928",
+  "script_sha256": "78701934c2e45e7aa281c8e80d1452d1ea7b4d91704cf8d30878888f461cc393"
+}

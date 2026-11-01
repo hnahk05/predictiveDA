@@ -1,0 +1,899 @@
+{
+  "status": "success",
+  "created_utc": "2026-11-01T13:18:18.855318+00:00",
+  "purpose": "INFERENCE cost, not training cost or A6000 training benchmark",
+  "versions": {
+    "python": "3.9.25",
+    "torch": "1.8.1+cu111",
+    "cuda_build": "11.1",
+    "cudnn": 8005
+  },
+  "platform": "Linux-6.6.87.2-microsoft-standard-WSL2-x86_64-with-glibc2.43",
+  "hardware": {
+    "gpu": "NVIDIA GeForce RTX 3050 6GB Laptop GPU",
+    "total_memory_bytes": 6441926656,
+    "device": 0
+  },
+  "checkpoint": {
+    "path": ".local_checks/restored-pems08/pems08-backup-20261031T195318Z-5220693f/runs/PEMS08-repo96-author-pretrained/0001/checkpoints/a63106bc1277e979c479021bcb4929ac/LSTTN_best_val_loss.pt",
+    "sha256": "d3b8b3fa9f988c5018266e84f24397c24a60311024c08ad7f7bd531020bab55d",
+    "epoch": 68,
+    "strict_load": true,
+    "missing_keys": [],
+    "unexpected_keys": []
+  },
+  "model": {
+    "width": 96,
+    "hidden": [
+      32,
+      32
+    ],
+    "nodes": 170,
+    "short_steps": 12,
+    "long_steps": 4032,
+    "patch_steps": 12,
+    "tokens": 336,
+    "heads": 4,
+    "encoder_layers": 4
+  },
+  "parameter_counts": {
+    "registered": {
+      "total": 1834012,
+      "requires_grad_true": 1166992,
+      "frozen": 667020
+    },
+    "by_top_level_block": {
+      "transformer1": {
+        "total": 667020,
+        "requires_grad_true": 667020,
+        "frozen": 0
+      },
+      "transformer": {
+        "total": 667020,
+        "requires_grad_true": 0,
+        "frozen": 667020
+      },
+      "long_term_trend_extractor": {
+        "total": 18560,
+        "requires_grad_true": 18560,
+        "frozen": 0
+      },
+      "short_term_trend_extractor": {
+        "total": 368168,
+        "requires_grad_true": 368168,
+        "frozen": 0
+      },
+      "weekly_seasonality_extractor": {
+        "total": 24936,
+        "requires_grad_true": 24936,
+        "frozen": 0
+      },
+      "daily_seasonality_extractor": {
+        "total": 24936,
+        "requires_grad_true": 24936,
+        "frozen": 0
+      },
+      "trend_seasonality_mlp": {
+        "total": 28928,
+        "requires_grad_true": 28928,
+        "frozen": 0
+      },
+      "mlp": {
+        "total": 34444,
+        "requires_grad_true": 34444,
+        "frozen": 0
+      }
+    },
+    "top_level_calls_observed_first_warmup": {
+      "transformer": 1,
+      "long_term_trend_extractor": 1,
+      "weekly_seasonality_extractor": 1,
+      "daily_seasonality_extractor": 1,
+      "trend_seasonality_mlp": 1,
+      "short_term_trend_extractor": 1,
+      "mlp": 1
+    },
+    "registered_blocks_not_called": {
+      "transformer1": {
+        "total": 667020,
+        "requires_grad_true": 667020,
+        "frozen": 0
+      }
+    },
+    "warning": "requires_grad=True counts registered parameters, not proof of updates during training. transformer1 is an extra registered model not called in this forward. The active Transformer also registers pretraining-head parameters unused in inference."
+  },
+  "flags": {
+    "eval": true,
+    "no_grad": true,
+    "precision": "FP32",
+    "AMP": false,
+    "TF32_matmul": false,
+    "TF32_cudnn": false,
+    "cudnn_benchmark": false,
+    "cudnn_deterministic": false,
+    "softmax_compat_enabled": true,
+    "softmax_wrapper_installed": true,
+    "softmax_split_threshold_elements": 1073741824,
+    "observed_split_calls": 0
+  },
+  "measurement": {
+    "requested_batches": [
+      1,
+      2,
+      4
+    ],
+    "warmup_per_batch": 5,
+    "measured_per_batch": 20,
+    "main_timer": "perf_counter around forward, CUDA synchronized before/after; no hooks",
+    "std": "sample standard deviation, ddof=1",
+    "input": "real first test windows, dataset float32",
+    "excluded": "checkpoint loading, CPU data slicing/stacking, input H2D copies, inverse scaling, metrics and export",
+    "included": "model forward including any internal support CPU-to-GPU copies retained from author code",
+    "block_timer": "separate pass of 20 forwards; pre/post hooks and CUDA events on default stream",
+    "remainder": "profile full CUDA-event interval minus Transformer and Graph WaveNet; includes other blocks, reshapes, internal copies and dispatch gaps; not isolated kernel compute",
+    "memory": "max_memory_allocated, reset after resident inputs and synchronization each measured iteration; includes model, inputs, live activations and outputs. Not nvidia-smi VRAM; reserved memory reported separately",
+    "attention": "B * 170 * 4 * 336^2 elements, FP32 4 bytes; one dense per-head attention matrix in one layer only, not full peak memory or sum over layers",
+    "CPU_measurement": "not performed; optional and outside this GPU benchmark",
+    "no_training": true
+  },
+  "results": [
+    {
+      "device": "cuda:0",
+      "batch": 1,
+      "status": "success",
+      "warmup_batches": 5,
+      "measured_batches": 20,
+      "latency_mean_ms": 117.70890155000018,
+      "latency_std_ms": 1.4612078031597828,
+      "peak_allocated_bytes": 764135936,
+      "peak_allocated_GB": 0.764135936,
+      "peak_allocated_GiB": 0.7116570472717285,
+      "peak_reserved_bytes": 1140850688,
+      "model_baseline_allocated_bytes": 7385600,
+      "attention_elements_one_layer": 76769280,
+      "attention_FP32_bytes_one_matrix": 307077120,
+      "attention_FP32_GB_one_matrix": 0.30707712,
+      "peak_allocated_to_one_attention_matrix_ratio": 2.488417033480059,
+      "profile_transformer_mean_ms": 105.89285507202149,
+      "profile_graph_wavenet_mean_ms": 8.291617608070373,
+      "profile_remainder_mean_ms": 3.263967490196228,
+      "profile_full_event_mean_ms": 117.44844017028808,
+      "softmax_compat_enabled": true,
+      "split_softmax_calls": 0,
+      "torch_version": "1.8.1+cu111",
+      "gpu": "NVIDIA GeForce RTX 3050 6GB Laptop GPU",
+      "total_parameters": 1834012,
+      "frozen_parameters": 667020,
+      "requires_grad_true": 1166992
+    },
+    {
+      "device": "cuda:0",
+      "batch": 2,
+      "status": "success",
+      "warmup_batches": 5,
+      "measured_batches": 20,
+      "latency_mean_ms": 227.83484549999926,
+      "latency_std_ms": 1.542567829234716,
+      "peak_allocated_bytes": 1522695680,
+      "peak_allocated_GB": 1.52269568,
+      "peak_allocated_GiB": 1.4181208610534668,
+      "peak_reserved_bytes": 2248146944,
+      "model_baseline_allocated_bytes": 7385600,
+      "attention_elements_one_layer": 153538560,
+      "attention_FP32_bytes_one_matrix": 614154240,
+      "attention_FP32_GB_one_matrix": 0.61415424,
+      "peak_allocated_to_one_attention_matrix_ratio": 2.4793375683606778,
+      "profile_transformer_mean_ms": 214.7319221496582,
+      "profile_graph_wavenet_mean_ms": 8.618371152877808,
+      "profile_remainder_mean_ms": 4.272123384475708,
+      "profile_full_event_mean_ms": 227.6224166870117,
+      "softmax_compat_enabled": true,
+      "split_softmax_calls": 0,
+      "torch_version": "1.8.1+cu111",
+      "gpu": "NVIDIA GeForce RTX 3050 6GB Laptop GPU",
+      "total_parameters": 1834012,
+      "frozen_parameters": 667020,
+      "requires_grad_true": 1166992
+    },
+    {
+      "device": "cuda:0",
+      "batch": 4,
+      "status": "success",
+      "warmup_batches": 5,
+      "measured_batches": 20,
+      "latency_mean_ms": 452.9595220000001,
+      "latency_std_ms": 1.7141866916613389,
+      "peak_allocated_bytes": 3038005760,
+      "peak_allocated_GB": 3.03800576,
+      "peak_allocated_GiB": 2.8293633460998535,
+      "peak_reserved_bytes": 4471128064,
+      "model_baseline_allocated_bytes": 7385600,
+      "attention_elements_one_layer": 307077120,
+      "attention_FP32_bytes_one_matrix": 1228308480,
+      "attention_FP32_GB_one_matrix": 1.22830848,
+      "peak_allocated_to_one_attention_matrix_ratio": 2.473324746565293,
+      "profile_transformer_mean_ms": 436.24473876953124,
+      "profile_graph_wavenet_mean_ms": 10.035479927062989,
+      "profile_remainder_mean_ms": 6.672506523132324,
+      "profile_full_event_mean_ms": 452.9527252197266,
+      "softmax_compat_enabled": true,
+      "split_softmax_calls": 0,
+      "torch_version": "1.8.1+cu111",
+      "gpu": "NVIDIA GeForce RTX 3050 6GB Laptop GPU",
+      "total_parameters": 1834012,
+      "frozen_parameters": 667020,
+      "requires_grad_true": 1166992
+    }
+  ],
+  "per_batch_details": [
+    {
+      "batch": 1,
+      "unhooked_wall_ms": [
+        115.77703100000036,
+        115.47101000000026,
+        116.76592100000249,
+        117.1753510000002,
+        119.08917199999536,
+        117.87044999999807,
+        118.3656740000032,
+        120.16542199999947,
+        119.36433600000385,
+        119.62919299999442,
+        117.50761800000475,
+        117.31758900000244,
+        116.00619600000073,
+        118.52148999999912,
+        115.86254199999502,
+        119.65175800000338,
+        118.67604199999704,
+        116.34465600000254,
+        118.250046,
+        116.36653400000085
+      ],
+      "unhooked_peak_allocated_bytes": [
+        764135936,
+        764135936,
+        764135936,
+        764135936,
+        764135936,
+        764135936,
+        764135936,
+        764135936,
+        764135936,
+        764135936,
+        764135936,
+        764135936,
+        764135936,
+        764135936,
+        764135936,
+        764135936,
+        764135936,
+        764135936,
+        764135936,
+        764135936
+      ],
+      "separate_profile_per_batch": [
+        {
+          "full_event_ms": 121.6789779663086,
+          "transformer_ms": 105.76588439941406,
+          "graph_wavenet_ms": 11.561984062194824,
+          "remainder_ms": 4.351109504699707
+        },
+        {
+          "full_event_ms": 119.9672622680664,
+          "transformer_ms": 105.78636932373047,
+          "graph_wavenet_ms": 11.04793643951416,
+          "remainder_ms": 3.1329565048217773
+        },
+        {
+          "full_event_ms": 116.67609405517578,
+          "transformer_ms": 105.81401824951172,
+          "graph_wavenet_ms": 7.330944061279297,
+          "remainder_ms": 3.5311317443847656
+        },
+        {
+          "full_event_ms": 118.58716583251953,
+          "transformer_ms": 105.91027069091797,
+          "graph_wavenet_ms": 9.713664054870605,
+          "remainder_ms": 2.963231086730957
+        },
+        {
+          "full_event_ms": 117.40239715576172,
+          "transformer_ms": 106.04032135009766,
+          "graph_wavenet_ms": 8.332287788391113,
+          "remainder_ms": 3.029788017272949
+        },
+        {
+          "full_event_ms": 116.22402954101562,
+          "transformer_ms": 105.923583984375,
+          "graph_wavenet_ms": 7.54585599899292,
+          "remainder_ms": 2.754589557647705
+        },
+        {
+          "full_event_ms": 116.16044616699219,
+          "transformer_ms": 105.8373794555664,
+          "graph_wavenet_ms": 7.323840141296387,
+          "remainder_ms": 2.9992265701293945
+        },
+        {
+          "full_event_ms": 116.6569595336914,
+          "transformer_ms": 105.93587493896484,
+          "graph_wavenet_ms": 7.372799873352051,
+          "remainder_ms": 3.3482847213745117
+        },
+        {
+          "full_event_ms": 116.78524780273438,
+          "transformer_ms": 105.8887710571289,
+          "graph_wavenet_ms": 7.642111778259277,
+          "remainder_ms": 3.2543649673461914
+        },
+        {
+          "full_event_ms": 119.0235824584961,
+          "transformer_ms": 105.84268951416016,
+          "graph_wavenet_ms": 9.422816276550293,
+          "remainder_ms": 3.7580766677856445
+        },
+        {
+          "full_event_ms": 117.59065246582031,
+          "transformer_ms": 105.85088348388672,
+          "graph_wavenet_ms": 8.730879783630371,
+          "remainder_ms": 3.0088891983032227
+        },
+        {
+          "full_event_ms": 118.59353637695312,
+          "transformer_ms": 105.9450912475586,
+          "graph_wavenet_ms": 9.340096473693848,
+          "remainder_ms": 3.3083486557006836
+        },
+        {
+          "full_event_ms": 117.18793487548828,
+          "transformer_ms": 106.02803039550781,
+          "graph_wavenet_ms": 7.372799873352051,
+          "remainder_ms": 3.787104606628418
+        },
+        {
+          "full_event_ms": 116.42291259765625,
+          "transformer_ms": 105.98809814453125,
+          "graph_wavenet_ms": 7.20579195022583,
+          "remainder_ms": 3.22902250289917
+        },
+        {
+          "full_event_ms": 116.88726043701172,
+          "transformer_ms": 105.97068786621094,
+          "graph_wavenet_ms": 7.841728210449219,
+          "remainder_ms": 3.0748443603515625
+        },
+        {
+          "full_event_ms": 116.40962982177734,
+          "transformer_ms": 105.86930847167969,
+          "graph_wavenet_ms": 7.475552082061768,
+          "remainder_ms": 3.0647692680358887
+        },
+        {
+          "full_event_ms": 116.04822540283203,
+          "transformer_ms": 105.76895904541016,
+          "graph_wavenet_ms": 7.297183990478516,
+          "remainder_ms": 2.9820823669433594
+        },
+        {
+          "full_event_ms": 117.2616958618164,
+          "transformer_ms": 105.89593505859375,
+          "graph_wavenet_ms": 8.252127647399902,
+          "remainder_ms": 3.113633155822754
+        },
+        {
+          "full_event_ms": 116.72306823730469,
+          "transformer_ms": 105.80274963378906,
+          "graph_wavenet_ms": 7.389887809753418,
+          "remainder_ms": 3.530430793762207
+        },
+        {
+          "full_event_ms": 116.68172454833984,
+          "transformer_ms": 105.99219512939453,
+          "graph_wavenet_ms": 7.632063865661621,
+          "remainder_ms": 3.0574655532836914
+        }
+      ],
+      "separate_profile_statistics": {
+        "full_event_ms": {
+          "mean": 117.44844017028808,
+          "std_sample": 1.4472711076907845,
+          "min": 116.04822540283203,
+          "max": 121.6789779663086,
+          "observations": 20
+        },
+        "transformer_ms": {
+          "mean": 105.89285507202149,
+          "std_sample": 0.08458094141955048,
+          "min": 105.76588439941406,
+          "max": 106.04032135009766,
+          "observations": 20
+        },
+        "graph_wavenet_ms": {
+          "mean": 8.291617608070373,
+          "std_sample": 1.291678903170474,
+          "min": 7.20579195022583,
+          "max": 11.561984062194824,
+          "observations": 20
+        },
+        "remainder_ms": {
+          "mean": 3.263967490196228,
+          "std_sample": 0.3720272335291001,
+          "min": 2.754589557647705,
+          "max": 4.351109504699707,
+          "observations": 20
+        }
+      },
+      "test_window_ranges": {
+        "warmup": [
+          0,
+          4
+        ],
+        "measured": [
+          5,
+          24
+        ]
+      },
+      "note": "Separate profiling repeats the same 20 measured input batches; it does not replace the unhooked wall-time measurement."
+    },
+    {
+      "batch": 2,
+      "unhooked_wall_ms": [
+        226.71424600000023,
+        227.4871609999991,
+        227.04476399999862,
+        227.59099299999974,
+        229.78752100000577,
+        230.81326399999824,
+        228.0555510000042,
+        228.42533700000445,
+        228.0405749999943,
+        226.75478200000043,
+        226.95863799999927,
+        225.87011499999932,
+        229.48249999999604,
+        227.26885600000202,
+        226.08132099999523,
+        230.995944,
+        225.66638899999703,
+        229.336583999995,
+        227.5250769999957,
+        226.79729200000054
+      ],
+      "unhooked_peak_allocated_bytes": [
+        1522695680,
+        1522695680,
+        1522695680,
+        1522695680,
+        1522695680,
+        1522695680,
+        1522695680,
+        1522695680,
+        1522695680,
+        1522695680,
+        1522695680,
+        1522695680,
+        1522695680,
+        1522695680,
+        1522695680,
+        1522695680,
+        1522695680,
+        1522695680,
+        1522695680,
+        1522695680
+      ],
+      "separate_profile_per_batch": [
+        {
+          "full_event_ms": 228.61241149902344,
+          "transformer_ms": 214.89561462402344,
+          "graph_wavenet_ms": 9.585663795471191,
+          "remainder_ms": 4.131133079528809
+        },
+        {
+          "full_event_ms": 226.99673461914062,
+          "transformer_ms": 214.614013671875,
+          "graph_wavenet_ms": 8.255488395690918,
+          "remainder_ms": 4.127232551574707
+        },
+        {
+          "full_event_ms": 227.99539184570312,
+          "transformer_ms": 214.9416961669922,
+          "graph_wavenet_ms": 7.822336196899414,
+          "remainder_ms": 5.231359481811523
+        },
+        {
+          "full_event_ms": 227.13682556152344,
+          "transformer_ms": 214.69183349609375,
+          "graph_wavenet_ms": 8.113311767578125,
+          "remainder_ms": 4.3316802978515625
+        },
+        {
+          "full_event_ms": 226.59210205078125,
+          "transformer_ms": 214.48704528808594,
+          "graph_wavenet_ms": 8.100992202758789,
+          "remainder_ms": 4.004064559936523
+        },
+        {
+          "full_event_ms": 226.86090087890625,
+          "transformer_ms": 214.7993621826172,
+          "graph_wavenet_ms": 8.032416343688965,
+          "remainder_ms": 4.029122352600098
+        },
+        {
+          "full_event_ms": 226.7605743408203,
+          "transformer_ms": 214.86387634277344,
+          "graph_wavenet_ms": 7.790495872497559,
+          "remainder_ms": 4.106202125549316
+        },
+        {
+          "full_event_ms": 227.51536560058594,
+          "transformer_ms": 214.86285400390625,
+          "graph_wavenet_ms": 8.30998420715332,
+          "remainder_ms": 4.342527389526367
+        },
+        {
+          "full_event_ms": 227.33692932128906,
+          "transformer_ms": 214.65087890625,
+          "graph_wavenet_ms": 8.974335670471191,
+          "remainder_ms": 3.711714744567871
+        },
+        {
+          "full_event_ms": 225.69418334960938,
+          "transformer_ms": 214.5576934814453,
+          "graph_wavenet_ms": 7.532544136047363,
+          "remainder_ms": 3.603945732116699
+        },
+        {
+          "full_event_ms": 228.2224884033203,
+          "transformer_ms": 214.94989013671875,
+          "graph_wavenet_ms": 9.042943954467773,
+          "remainder_ms": 4.229654312133789
+        },
+        {
+          "full_event_ms": 226.48646545410156,
+          "transformer_ms": 214.72256469726562,
+          "graph_wavenet_ms": 8.144895553588867,
+          "remainder_ms": 3.6190052032470703
+        },
+        {
+          "full_event_ms": 229.77792358398438,
+          "transformer_ms": 214.5771484375,
+          "graph_wavenet_ms": 8.890111923217773,
+          "remainder_ms": 6.310663223266602
+        },
+        {
+          "full_event_ms": 226.7737274169922,
+          "transformer_ms": 214.8495330810547,
+          "graph_wavenet_ms": 7.838719844818115,
+          "remainder_ms": 4.085474491119385
+        },
+        {
+          "full_event_ms": 230.68873596191406,
+          "transformer_ms": 214.58944702148438,
+          "graph_wavenet_ms": 11.31827163696289,
+          "remainder_ms": 4.781017303466797
+        },
+        {
+          "full_event_ms": 231.3224334716797,
+          "transformer_ms": 214.71334838867188,
+          "graph_wavenet_ms": 11.907072067260742,
+          "remainder_ms": 4.70201301574707
+        },
+        {
+          "full_event_ms": 226.1855926513672,
+          "transformer_ms": 214.60684204101562,
+          "graph_wavenet_ms": 7.490560054779053,
+          "remainder_ms": 4.08819055557251
+        },
+        {
+          "full_event_ms": 227.83126831054688,
+          "transformer_ms": 214.85874938964844,
+          "graph_wavenet_ms": 8.70911979675293,
+          "remainder_ms": 4.263399124145508
+        },
+        {
+          "full_event_ms": 226.74176025390625,
+          "transformer_ms": 214.5628204345703,
+          "graph_wavenet_ms": 8.292351722717285,
+          "remainder_ms": 3.8865880966186523
+        },
+        {
+          "full_event_ms": 226.91651916503906,
+          "transformer_ms": 214.84323120117188,
+          "graph_wavenet_ms": 8.215807914733887,
+          "remainder_ms": 3.857480049133301
+        }
+      ],
+      "separate_profile_statistics": {
+        "full_event_ms": {
+          "mean": 227.6224166870117,
+          "std_sample": 1.4767152876235432,
+          "min": 225.69418334960938,
+          "max": 231.3224334716797,
+          "observations": 20
+        },
+        "transformer_ms": {
+          "mean": 214.7319221496582,
+          "std_sample": 0.14528477795713368,
+          "min": 214.48704528808594,
+          "max": 214.94989013671875,
+          "observations": 20
+        },
+        "graph_wavenet_ms": {
+          "mean": 8.618371152877808,
+          "std_sample": 1.15606015143738,
+          "min": 7.490560054779053,
+          "max": 11.907072067260742,
+          "observations": 20
+        },
+        "remainder_ms": {
+          "mean": 4.272123384475708,
+          "std_sample": 0.6200833946478854,
+          "min": 3.603945732116699,
+          "max": 6.310663223266602,
+          "observations": 20
+        }
+      },
+      "test_window_ranges": {
+        "warmup": [
+          0,
+          9
+        ],
+        "measured": [
+          10,
+          49
+        ]
+      },
+      "note": "Separate profiling repeats the same 20 measured input batches; it does not replace the unhooked wall-time measurement."
+    },
+    {
+      "batch": 4,
+      "unhooked_wall_ms": [
+        450.58354499999353,
+        452.5818720000032,
+        454.81743400000596,
+        453.42861099999965,
+        453.34382699999765,
+        454.268926999994,
+        453.45978900000006,
+        456.25720000000314,
+        450.94757299999344,
+        451.3974179999991,
+        451.14443800000004,
+        451.80090600000256,
+        450.8711779999999,
+        452.36394100000155,
+        452.9792410000013,
+        454.78762100000836,
+        452.86800499999913,
+        455.4332019999947,
+        454.9366620000086,
+        450.919049999996
+      ],
+      "unhooked_peak_allocated_bytes": [
+        3038005760,
+        3038005760,
+        3038005760,
+        3038005760,
+        3038005760,
+        3038005760,
+        3038005760,
+        3038005760,
+        3038005760,
+        3038005760,
+        3038005760,
+        3038005760,
+        3038005760,
+        3038005760,
+        3038005760,
+        3038005760,
+        3038005760,
+        3038005760,
+        3038005760,
+        3038005760
+      ],
+      "separate_profile_per_batch": [
+        {
+          "full_event_ms": 455.8453674316406,
+          "transformer_ms": 436.1717834472656,
+          "graph_wavenet_ms": 13.004799842834473,
+          "remainder_ms": 6.668784141540527
+        },
+        {
+          "full_event_ms": 452.2760009765625,
+          "transformer_ms": 436.6131286621094,
+          "graph_wavenet_ms": 9.072640419006348,
+          "remainder_ms": 6.590231895446777
+        },
+        {
+          "full_event_ms": 453.22552490234375,
+          "transformer_ms": 436.4748840332031,
+          "graph_wavenet_ms": 9.710399627685547,
+          "remainder_ms": 7.040241241455078
+        },
+        {
+          "full_event_ms": 451.84820556640625,
+          "transformer_ms": 437.0165710449219,
+          "graph_wavenet_ms": 8.544416427612305,
+          "remainder_ms": 6.28721809387207
+        },
+        {
+          "full_event_ms": 453.7305603027344,
+          "transformer_ms": 436.6356506347656,
+          "graph_wavenet_ms": 10.678272247314453,
+          "remainder_ms": 6.416637420654297
+        },
+        {
+          "full_event_ms": 453.95709228515625,
+          "transformer_ms": 436.2608642578125,
+          "graph_wavenet_ms": 11.203519821166992,
+          "remainder_ms": 6.492708206176758
+        },
+        {
+          "full_event_ms": 451.0926818847656,
+          "transformer_ms": 435.8410339355469,
+          "graph_wavenet_ms": 8.670207977294922,
+          "remainder_ms": 6.581439971923828
+        },
+        {
+          "full_event_ms": 452.01873779296875,
+          "transformer_ms": 435.99871826171875,
+          "graph_wavenet_ms": 8.947487831115723,
+          "remainder_ms": 7.072531700134277
+        },
+        {
+          "full_event_ms": 453.7291259765625,
+          "transformer_ms": 435.857421875,
+          "graph_wavenet_ms": 10.871808052062988,
+          "remainder_ms": 6.999896049499512
+        },
+        {
+          "full_event_ms": 452.53125,
+          "transformer_ms": 436.1973876953125,
+          "graph_wavenet_ms": 9.72390365600586,
+          "remainder_ms": 6.609958648681641
+        },
+        {
+          "full_event_ms": 451.61322021484375,
+          "transformer_ms": 436.5527038574219,
+          "graph_wavenet_ms": 8.628128051757812,
+          "remainder_ms": 6.4323883056640625
+        },
+        {
+          "full_event_ms": 452.8804016113281,
+          "transformer_ms": 436.9879150390625,
+          "graph_wavenet_ms": 9.137439727783203,
+          "remainder_ms": 6.755046844482422
+        },
+        {
+          "full_event_ms": 451.9668273925781,
+          "transformer_ms": 436.41650390625,
+          "graph_wavenet_ms": 8.892416000366211,
+          "remainder_ms": 6.657907485961914
+        },
+        {
+          "full_event_ms": 456.2691955566406,
+          "transformer_ms": 436.65203857421875,
+          "graph_wavenet_ms": 12.484319686889648,
+          "remainder_ms": 7.132837295532227
+        },
+        {
+          "full_event_ms": 454.9139709472656,
+          "transformer_ms": 436.53118896484375,
+          "graph_wavenet_ms": 11.592703819274902,
+          "remainder_ms": 6.790078163146973
+        },
+        {
+          "full_event_ms": 452.3434753417969,
+          "transformer_ms": 435.599365234375,
+          "graph_wavenet_ms": 9.784319877624512,
+          "remainder_ms": 6.959790229797363
+        },
+        {
+          "full_event_ms": 451.5812683105469,
+          "transformer_ms": 435.4303894042969,
+          "graph_wavenet_ms": 9.556991577148438,
+          "remainder_ms": 6.5938873291015625
+        },
+        {
+          "full_event_ms": 454.37030029296875,
+          "transformer_ms": 435.2983093261719,
+          "graph_wavenet_ms": 12.510208129882812,
+          "remainder_ms": 6.5617828369140625
+        },
+        {
+          "full_event_ms": 450.9127502441406,
+          "transformer_ms": 435.8635559082031,
+          "graph_wavenet_ms": 8.60262393951416,
+          "remainder_ms": 6.44657039642334
+        },
+        {
+          "full_event_ms": 451.94854736328125,
+          "transformer_ms": 436.495361328125,
+          "graph_wavenet_ms": 9.092991828918457,
+          "remainder_ms": 6.360194206237793
+        }
+      ],
+      "separate_profile_statistics": {
+        "full_event_ms": {
+          "mean": 452.9527252197266,
+          "std_sample": 1.519945647335861,
+          "min": 450.9127502441406,
+          "max": 456.2691955566406,
+          "observations": 20
+        },
+        "transformer_ms": {
+          "mean": 436.24473876953124,
+          "std_sample": 0.482682961690798,
+          "min": 435.2983093261719,
+          "max": 437.0165710449219,
+          "observations": 20
+        },
+        "graph_wavenet_ms": {
+          "mean": 10.035479927062989,
+          "std_sample": 1.4430911907454633,
+          "min": 8.544416427612305,
+          "max": 13.004799842834473,
+          "observations": 20
+        },
+        "remainder_ms": {
+          "mean": 6.672506523132324,
+          "std_sample": 0.25211044569772945,
+          "min": 6.28721809387207,
+          "max": 7.132837295532227,
+          "observations": 20
+        }
+      },
+      "test_window_ranges": {
+        "warmup": [
+          0,
+          19
+        ],
+        "measured": [
+          20,
+          99
+        ]
+      },
+      "note": "Separate profiling repeats the same 20 measured input batches; it does not replace the unhooked wall-time measurement."
+    }
+  ],
+  "protected_files_unchanged": true,
+  "protected_input_source_sha256": {
+    "README.md": "8e7328ccd353464653df3e52de70dc20feacbef42b1267c6ac2c03ee7cab75f3",
+    ".gitignore": "203ee5661e1b210d7ad1fe830032d0d80e6962a75c4267297283a6689dc8d9bb",
+    "utils/cuda_softmax_compat.py": "5d4083d7c7d68a1a7e8b69b0ba5f844602a4b251505e4062889ec350276f4afa",
+    "utils/datasets.py": "3e917d543ca01485b649fcbbc51b76881f1ed7520bd3684162314e4d90550271",
+    "utils/load_data.py": "b80f899eea324b008e5c8f4c801f1d9869ff40ce1e09d9305dfc6716c91ea076",
+    "results/experiment_manifest.json": "b4ba5e3b93956f2abef31f4428402fee14a0c9301a8abb8f4e6759362f0b816e",
+    "results/experiment_metrics.csv": "1d0087e80ed20ec8886cb0a2038ba63e48b36d7b4f3d8a5dbceeb45d6d05c74b",
+    "datasets/PEMS08/data.pkl": "1ce0b588a501bde4ecfe2d3f384c2563af7ab650b8abb83b6783866c089626cd",
+    "datasets/PEMS08/test_index.pkl": "b764746dc31e429b0a3936c0d203ba02940e60c0c20a0b02a8d23f55499ab793",
+    "datasets/sensor_graph/adj_mx_08.pkl": "272d794ba411213395071ecde75a96293277fc14f5601a140c3e6d611b0606f4",
+    "models/graph_wavenet.py": "1ede8b217b023a254c0a1d6ce4dc405298c2418ef59222738b9340d4788684ad",
+    "models/lsttn.py": "3f3d67b970c885c4399e2093bf59b4097fb03567dde17512cdea1148c6c4b4c1",
+    "models/transformer.py": "52746e2018fe126e6ea8e70956fda1699919b8f4d19593b316a24b022a9e54f9",
+    "configs/METR-LA/forecasting.py": "2d881e48beb7960f83b3a165211109c6a974e2eaf2edabec41b4ec5823649661",
+    "configs/METR-LA/pretraining.py": "1a73cbf58a55117aaf914c249fe4564399a3944988c814381ec59bc759051b3b",
+    "configs/PEMS-BAY/forecasting.py": "4f507282171f1b7a81cd13e284f638886591e57c1fae7b5e31842cc160309daf",
+    "configs/PEMS-BAY/pretraining.py": "ffb913abd5c760722df19deb9a2980555d2570ccadb10a8662aef61f348bf31b",
+    "configs/PEMS04/forecasting.py": "b9ffda0d828f6dfd0c6187aadff4dace1416f37a6a5e077a76cd3d221ab42bf9",
+    "configs/PEMS04/pretraining.py": "caeeb8938d0901c2710647b0b03011aece142e9a18134e882e6ac0489cb21176",
+    "configs/PEMS08/forecasting.py": "22dbf9f8a9a7839861c9353a298a8499ba5f8820c9e9c2d7d84ea93b0ff3ee08",
+    "configs/PEMS08/pretraining.py": "ac79e54a9b038f0741ed6164e444bbf51a68989ddd63ca137b0db270d3830278",
+    "configs/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "configs/actual/METR-LA.py": "b17da5722fc5ace1485af90382bc4b4fc96669fbb2fb6e42bc3da708572aa3cf",
+    "configs/actual/PEMS-BAY.py": "fbe8638e5160bd5ff9055fc9d7dcf4fe7b8f815dc558c24ed9d8dbf73b12af64",
+    "configs/actual/PEMS04.py": "52a2a578c00468ddb8d7f2cfc9de5f75b987c8bc603a5a2f3785f6ebfadccd8a",
+    "configs/actual/PEMS08.py": "4ef7fcb2d0302903ba21f5ec20be51e6baee1b5082052751fcfa57995e64ba1a",
+    "configs/actual/__init__.py": "5172d18355e18dcd4c19a6a879680cb1aa1345ee6d9dc4b94f9efe57bd11dbcc",
+    "configs/actual/common.py": "b64f18260f8118221717cb2bf142a61fd76c5a470aefb45bd0313d60ab5ea0fa"
+  },
+  "script_sha256": "5e5b7bc0223d01c4113b6a39fe94147fc6c9576eb0f16842638a9edb2906b8e3",
+  "elapsed_seconds": 59.852325097000005,
+  "limitations": [
+    "Single checkpoint/device session; no between-seed or cross-device statistical claim.",
+    "Separate hook/event measurements have instrumentation overhead and are not the main unhooked timing.",
+    "Laptop power, temperature and other processes can affect timings; hardware clock/power settings were not changed.",
+    "One attention-matrix estimate excludes other buffers, scores/softmax copies, parameters and allocator overhead."
+  ]
+}

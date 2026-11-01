@@ -1,0 +1,10 @@
+{
+  "run_id": "PEMS08-repo96-author-pretrained",
+  "attempt": 1,
+  "run_status": "success",
+  "export_files_sha_verified": 113,
+  "test_samples": 3566,
+  "metrics_recomputed_match": true,
+  "prediction_alignment_verified": true,
+  "note": "CPU analysis of an existing completed run; not a new training run."
+}
