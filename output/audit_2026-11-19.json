@@ -1,0 +1,62 @@
+{
+  "audit_date_local": "2026-11-19",
+  "timezone": "Asia/Saigon",
+  "sources": [
+    {
+      "path": "C:\\Users\\PC\\Downloads\\2403.16495v1.pdf",
+      "sha256": "642dd9d1b23151eead16477ee6181af794f0ac7b9e0b066cf64a3fafbecd2c05"
+    },
+    {
+      "path": "C:\\Users\\PC\\Downloads\\predictiveDA.pdf",
+      "sha256": "91b5f6840f4041a98e1eccd3fbee83dbbb2eead2653fb4261565d78df3cfe032"
+    }
+  ],
+  "extensions": [
+    {
+      "protocol": "D:\\Project_Github\\predictiveDA\\results\\extension\\baselines_pems08_protocol.json",
+      "script": "D:\\Project_Github\\predictiveDA\\scripts\\extension\\run_baselines_pems08.py",
+      "recorded_status": "success",
+      "script_hash_match": true,
+      "reexecuted_in_this_audit": false
+    },
+    {
+      "protocol": "D:\\Project_Github\\predictiveDA\\results\\extension\\error_analysis\\protocol.json",
+      "script": "D:\\Project_Github\\predictiveDA\\scripts\\extension\\analyze_pems08_errors.py",
+      "recorded_status": "success",
+      "script_hash_match": true,
+      "reexecuted_in_this_audit": false
+    },
+    {
+      "protocol": "D:\\Project_Github\\predictiveDA\\results\\extension\\graph_conv_check.json",
+      "script": "D:\\Project_Github\\predictiveDA\\scripts\\extension\\verify_graph_conv.py",
+      "recorded_status": "success",
+      "script_hash_match": true,
+      "reexecuted_in_this_audit": false
+    },
+    {
+      "protocol": "D:\\Project_Github\\predictiveDA\\results\\extension\\inference_cost.json",
+      "script": "D:\\Project_Github\\predictiveDA\\scripts\\extension\\measure_inference_cost.py",
+      "recorded_status": "success",
+      "script_hash_match": true,
+      "reexecuted_in_this_audit": false
+    },
+    {
+      "protocol": "D:\\Project_Github\\predictiveDA\\results\\extension\\sensitivity\\protocol.json",
+      "script": "D:\\Project_Github\\predictiveDA\\scripts\\extension\\run_perturbation_pems08.py",
+      "recorded_status": "success",
+      "script_hash_match": true,
+      "reexecuted_in_this_audit": false
+    }
+  ],
+  "export_hash_files": 113,
+  "export_hash_failures": [],
+  "checkpoint_hash_match": true,
+  "metric_recomputed_in_this_audit": false,
+  "training_launched": false,
+  "gpu_rented": false,
+  "limitations": [
+    "Evidence of existing outputs is not a fresh rerun.",
+    "PDF marks E1-E5 as proposed; repository protocols contain results.",
+    "Paper/report disagree on PEMS08 year; source metadata needs verification."
+  ]
+}

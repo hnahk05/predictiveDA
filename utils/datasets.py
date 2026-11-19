@@ -2,7 +2,7 @@ import torch
 from torch.utils.data import Dataset
 from utils import load_pkl
 
-
+# Lấy data QK làm đầu vào + data TL làm đáp án => để học
 class MTSDataset(Dataset):
     def __init__(self, raw_file_path, index_file_path, seq_len, throw=False, pretrain=False) -> None:
         super().__init__()

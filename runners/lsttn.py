@@ -14,7 +14,7 @@ from utils.datasets import MTSDataset
 from utils.load_data import max_min_scale, standard_scale
 from utils.metrics import masked_mae, masked_rmse, masked_mape, all_metrics
 
-
+# Học - Dự báo - Đánh giá model
 class LSTTNRunner(ReproductionMixin, Runner):
     def __init__(self, cfg: dict):
         super().__init__(cfg)

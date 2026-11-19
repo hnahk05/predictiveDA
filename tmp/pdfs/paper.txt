@@ -1,0 +1,1275 @@
+
+=== PAGE 1 ===
+LSTTN: A Long-Short Term Transformer-based Spatio-temporal Neural Network for
+Traffic Flow Forecasting
+Qinyao Luoa,b, Silu Hea, Xing Hana, Yuhan Wanga, Haifeng Lia,b,∗∗
+aSchool of Geosciences and Info-Physics, Central South University, No.932 South Lushan Road, Changsha, 410083, Hunan, China
+bXiangjiang Laboratory, No. 569, YueLu Avenue, Changsha, 410083, Hunan, China
+Abstract
+Accurate traffic forecasting is a fundamental problem in intelligent transportation systems and learning long-range tra ffic rep-
+resentations with key information through spatiotemporal graph neural networks (STGNNs) is a basic assumption of current traffic
+flow prediction models. However, due to structural limitations, existing STGNNs can only utilize short-range tra ffic flow data;
+therefore, the models cannot adequately learn the complex trends and periodic features in tra ffic flow. Besides, it is challenging to
+extract the key temporal information from the long historical traffic series and obtain a compact representation. To solve the above
+problems, we propose a novel LSTTN (Long-Short Term Transformer-based Network) framework comprehensively considering
+the long- and short-term features in historical tra ffic flow. First, we employ a masked subseries Transformer to infer the content
+of masked subseries from a small portion of unmasked subseries and their temporal context in a pretraining manner, forcing the
+model to efficiently learn compressed and contextual subseries temporal representations from long historical series. Then, based on
+the learned representations, long-term trend is extracted by using stacked 1D dilated convolution layers, and periodic features are
+extracted by dynamic graph convolution layers. For the di fficulties in making time-step level prediction, LSTTN adopts a short-
+term trend extractor to learn fine-grained short-term temporal features. Finally, LSTTN fuses the long-term trend, periodic features
+and short-term features to obtain the prediction results. Experiments on four real-world datasets show that in 60-minute-ahead
+long-term forecasting, the LSTTN model achieves a minimum improvement of 5.63% and a maximum improvement of 16.78%
+over baseline models. The source code is available at https://github.com/GeoX-Lab/LSTTN.
+Keywords: Traffic forecasting, spatiotemporal modeling, long-short term forecasting, Transformer, Mask Subseries Strategy.
+1. Introduction
+With the rapid development of urbanization, intelligent trans-
+portation system (ITS) plays an increasingly important role in
+people’s daily travel life, and the tra ffic flow forecasting sys-
+tem is also an essential component of ITS. Accurate traffic pre-
+diction information can help drivers plan their travel routes in
+advance to minimize the time delay on the road, and also help
+related departments to arrange personnel in advance to guide
+the traffic in congested areas.
+The task of traffic flow forecasting is challenging due to its
+complex spatial dependencies and nonlinear temporal relations.
+Traditional traffic flow prediction methods such as ARIMA [1]
+and V AR [2] require specific assumptions on traffic data. How-
+ever, real-world data are often too complex to satisfy those as-
+sumptions, limiting the applicability of those methods to a great
+extent. More importantly, they cannot capture the complex non-
+linear temporal dependencies and do not take the spatial de-
+pendencies in the tra ffic network into account. That generates
+adverse impact on their prediction accuracies in practical appli-
+∗Corresponding author: Haifeng Li (lihaifeng@csu.edu.cn)
+∗∗Citation: Q. Luo, S. He, X. Han, Y . Wang, H. Li. LSTTN: A Long-Short
+Term Transformer-based spatiotemporal neural network for tra ffic flow fore-
+casting. Knowledge-Based Systems. 2024, 293: 111637
+cations. In the era with well-developed technologies of sens-
+ing and data processing, vast amounts of tra ffic data become
+available to city managers. Along with the rapid advancement
+of deep learning, many methods forecasting tra ffic flow utiliz-
+ing deep learning and big data have been proposed and dra-
+matically improved the forecasting results compared to tradi-
+tional methods. Their performances indicate the great poten-
+tial of deep learning-based, data-driven tra ffic flow forecasting
+methods. Such methods have become the mainstream forecast-
+ing methods today. Early spatiotemporal prediction methods
+adopted CNNs to model the spatial dependecies and achieved
+better prediction performance than traditional methods [3, 4].
+Since a traffic network is naturally a non-Euclidean graph struc-
+ture, with the proposal of graph neural networks (GNNs), re-
+searchers have started to employ them to model the spatial de-
+pendecies in tra ffic networks, and they have combined GNNs
+with temporal models such as RNNs and 1-dimensional (1D)
+CNNs to build traffic flow prediction models [5, 6].
+However, the vast majority of these models are limited to
+using short historical series (e.g., 12 time steps or 1 hour of his-
+torical traffic flow features) as model input, but the information
+in short-term data is often insu fficient to adequately represent
+the rich temporal features present in historical tra ffic data. Us-
+ing the upper figure in Figure 1 as an example, to predict the
+traffic flow after 06:00, even if we use 6-hour-long historical
+Preprint submitted to Knowledge-Based Systems March 26, 2024
+arXiv:2403.16495v1  [cs.LG]  25 Mar 2024
+
+=== PAGE 2 ===
+Figure 1: A snapshot of a historical time series of sensor 400236 and sensor
+400240 in the PEMS-BAY dataset. The sequences in the upper figure corre-
+spond to the green window in the lower figure. The short-term historical trend
+of 00:00-0–6:00 is not sufficient for the model to accurately predict future traf-
+fic flow changes, but considering the long-term trend and periodicity in the long
+historical series can help the model better determine future trends.
+data from 00:00 to 06:00, it is still difficult for the model to ac-
+curately determine the different trends in traffic flow at different
+locations by relying only on the short-time trend information
+provided by this part of the historical data since the trends and
+values of the historical series recorded by the two sensors are
+also very close. The trend and periodicity features in long his-
+torical series can be of great help to the model in determining
+the complex trends in tra ffic flow. As shown in the lower fig-
+ure in Figure 1, it is easier for the model to infer different future
+trends based on the different long-term trend features of the two
+series and the recurring temporal features in the purple circles.
+In addition, effectively learning the key temporal information in
+long historical series is also an issue worth considering. It is in-
+efficient to directly input each time step of long historical series
+into the model; in addition, since traffic flow series have certain
+continuity, there is often redundant information in long histor-
+ical series, and the model should have the ability to e fficiently
+extract the key representations from long series.
+To solve the above problems, we introduce long histori-
+cal series into the tra ffic flow forecasting model so that the
+model can make a comprehensive judgment about future traffic
+flow fluctuations with the help of long-term trend information.
+We further propose a novel tra ffic flow forecasting framework
+called LSTTN (Long-Short Term Transformer-based Network),
+which can take short-term trends into account while obtain-
+ing long-term trends and periodic features from long-term key
+temporal information-rich representations. The contributions of
+this paper can be summarized as follows:
+1. We propose a tra ffic flow forecasting framework that in-
+tegrates long- and short-term temporal features and can
+effectively utilize the long-term trend and periodic fea-
+tures in long historical series, LSTTN.
+2. Specific long-range dependecies-capturing components
+are designed under the proposed framework. The trans-
+former model is pretrained by a mask reconstruction task
+to obtain compressed and contextual subseries tempo-
+ral representations. Then, long-term trend features are
+extracted from the obtained subseries representations by
+stacked 1D convolutional layers, and a spatial-based graph
+convolution is adopted to obtain periodic features in long
+historical series.
+3. We evaluate the proposed framework on four real-world
+datasets, and the experimental results show that the LSTTN
+model outperforms the baseline models for all predic-
+tion horizons. The visualization of the prediction results
+shows that the LSTTN model is robust to missing data
+and abrupt changes.The source code of this paper is avail-
+able at https://github.com/GeoX-Lab/LSTTN.
+The rest of this paper is organized as follows. Section 2 re-
+views previous traffic flow forecasting methods, Section 3 for-
+mally describes the traffic flow forecasting task and presents the
+overall framework and design details, and Section 4 evaluates
+the method through multiple sets of experiments. Finally, Sec-
+tion 5 concludes the paper and provides possible future research
+directions.
+2. Related Work
+Traffic flow prediction is a fundamental task in intelligent
+transportation systems. According to the modeling approach,
+mainstream tra ffic flow prediction methods can be classified
+as statistical-based methods and data-driven spatial-temporal
+graph neural network methods.
+2.1. Statistical-based Tra ffic Flow Forecasting Methods
+Most early tra ffic flow forecasting methods are based on
+statistics, such as historical average (HA) [7] models, ARIMA
+[1] models, and Kalman filtering [8]. The historical weighted
+average model is based on the temporal periodicity of tra ffic
+flow and takes the average value of tra ffic features at the same
+time-of-day as the prediction result. ARIMA requires input
+time series to be stationary after di fferencing and captures the
+linear relationship in the di fferenced time series. The Kalman
+filter completes the prediction by modeling the state of the dy-
+namic system.
+Most of the early tra ffic flow forecasting models migrated
+the methods that were applied to ordinary time series, ignoring
+the complex interactions between roads in the tra ffic network
+and lacking consideration of spatial dependencies in traffic flow
+data.
+2.2. STGNN-based Tra ffic Flow Forecasting Methods
+2.2.1. Structural Design of STGNN-based Tra ffic Flow Fore-
+casting Methods
+In recent years, the use of neural networks to model the
+spatiotemporal dependecies in traffic flow and train the models
+on massive data has become a new trend in the field of tra ffic
+flow prediction, and has achieved better results than previous
+works [9]. Some methods apply convolutional neural networks
+(CNNs) to model the spatial relationships of tra ffic data orga-
+nized in the form of grids [10, 11]. They consider the Euclidean
+2
+
+=== PAGE 3 ===
+distance and spatial location relationships between roads, but
+lack a measure of topological relationships. However, road net-
+works can be naturally expressed in the form of graphs, which
+are more suitable for describing the topological relationships
+between roads, and the distance between roads can be repre-
+sented as the weights of the edges. The emergence of graph
+neural networks (GNNs) has solved the problem that previous
+deep learning methods had difficulty in terms of modeling non-
+Euclidean data structures, and GNNs have been applied to var-
+ious different tasks ever since [12, 13, 14].
+GNNs can be classified into two categories, namely spectral-
+based GNNs and spatial-based GNNs [15]. Bruna et al. first
+proposed the spectral CNN [16], which generalizes CNNs to
+non-Euclidean space, but the process of spectral decomposi-
+tion of Laplacian matrices suffers from excessive computational
+complexity. ChebNet [17] applies Chebyshev polynomials to
+approximate complex spectral convolutions, e ffectively reduc-
+ing the complexity of the spectral convolution and reducing the
+number of parameters, thus it is less likely to overfit the data.
+GCN [18] can be regarded as a first-order ChebNet with reg-
+ularization. It is computationally e fficient and easy to stack
+in multiple layers. Spatial-based GNNs take the perspective
+of local spatial associations between nodes, and describe the
+process of graph convolution as an aggregation of information
+from the central node and its neighboring nodes. Glimer et
+al. summarized the operations (e.g. aggregation, readout, etc.)
+of the spatial-based GNNs and generalized a class of message
+passing neural networks (MPNN) [19]. The GCN can also be
+regarded as a spatial-based message passing neural network,
+where the weight of the messages from neighbor nodes during
+aggregation is fixed and determined by the degree of the nodes.
+GAT [20] introduces a multihead self-attention mechanism into
+graph neural networks to dynamically assign the weight of mes-
+sages from neighboring nodes during aggregation. Thus, com-
+pared with GCN, GAT can better focus on the information from
+important nodes.
+On the basis of GNNs, studies further introduced the mod-
+eling of temporal dependecies in tra ffic flow and proposed nu-
+merous spatiotemporal graph neural network models for traffic
+forecasting tasks [21, 22, 23, 24, 25, 26]. Depending on the
+modeling of the temporal dependecies, we classify STGNNs
+into RNN-based, CNN-based and Transformer-based STGNNs.
+(1) RNN-based STGNNs. DCRNN [5] uses a gated recur-
+rent unit (GRU), a variant of the RNN, to extract temporal fea-
+tures from data, as the GRU achieves similar performance to
+LSTM with fewer parameters. A di ffusion convolution neural
+network (DCNN) is adopted to simulate the e ffect of the spa-
+tiotemporal changes that spread from one node to other nodes
+in a traffic network. T-GCN [26] instead combines GRU with
+GCN, and the results in two common scenarios, namely, on
+highways and urban roads, show that the performance of T-
+GCN exceeds baseline models. AST-GCN [27] and KST-GCN
+[28] are further proposed to incorporate external factors. How-
+ever, due to the limitations of the linear chain structure of RNNs,
+the parameters of RNN-based STGNNs cannot be trained and
+updated in parallel, so the backpropagation process of these
+models is very time-consuming [6]. On the other hand, as the
+features from earlier steps may be forgotten, RNN-based mod-
+els have difficulty in capturing long-range temporal dependen-
+cies in data.
+(2) CNN-based STGNNs. Some works consider 1D convo-
+lutions to model the temporal dependecies. STGCN [6] adopts
+a 1D causal convolution and gated linear unit (GLU) to ex-
+tract temporal features from tra ffic data, and combines them
+with ChebNet to build a spatiotemporal feature extractor. Graph
+WaveNet [29] constructs an adaptive adjacency matrix that cap-
+tures hidden spatial dependencies in traffic data through an end-
+to-end manner without any prior knowledge and utilizes 1D
+dilated causal convolution to enlarge the model’s temporal re-
+ceptive field. ASTGCN [30] introduces a spatiotemporal atten-
+tion mechanism to capture long-range temporal dependencies
+and the implied spatial connections in the road network and
+combines it with spatial graph convolution and temporal 1D
+convolutions to model the spatiotemporal dynamics in tra ffic
+data. Overall, CNN-based models no longer su ffer from long
+training time and vanishing gradient problems, and 1D convo-
+lutions help CNN-based models learn temporal dependencies
+from traffic data.
+(3) Transformer-based STGNNs. Due to structural con-
+straints, the direct input of long sequences into the models men-
+tioned above may cause the problem of excessive computa-
+tional complexity, so the above methods tend to use short-range
+traffic flow data (e.g., one-hour historical tra ffic flow informa-
+tion) to predict future traffic flows. However, the inherent peri-
+odicity and the long-term trend information in tra ffic flows are
+difficult to extract directly from short historical time series. Re-
+cently, with the emergence of Transformer [31], some research
+has begun to focus on how to use it to fully mine long-range de-
+pendencies in historical time series based. While ensuring that
+the model parameters can be trained in parallel, Transformer
+enables direct connection between the individual time steps of
+the input sequence independent of the linear chain structure of
+RNNs or the receptive field in CNNs. This approach can help
+Transformer-based models better capture long-range dependen-
+cies in traffic data. Traffic Transformer [23] designs various en-
+coding strategies for the positional encoding mechanism to help
+Transformer learn day-level and week-level periodicity from
+traffic flow data. STTN [32] incorporates the graph convolution
+process into spatial Transformer, and together with temporal
+Transformer, STTN can capture long-range dependencies from
+traffic data. Although the above methods take the dependecies
+between distant time steps into account, they still only use short
+historical time series to make predictions. Other works con-
+sider improving the original Transformer model to make pre-
+dictions based on long sequences. For example, Informer [33]
+proposed ProbSparse attention to reduce the complexity of the
+original self-attention mechanism. In addition, a generative de-
+coder is employed to avoid the error accumulation problem that
+arises with increasing time steps. However, these works ignore
+the spatial dependecies present in tra ffic networks and capture
+mostly trend features while failing to better capture the inherent
+periodicity in traffic data [34].
+3
+
+=== PAGE 4 ===
+2.2.2. Learning Paradigm of STGNN-based Tra ffic Flow Fore-
+casting Methods
+In general, STGNNs mostly adopt a supervised learning
+paradigm and use only tra ffic flow features of future moments
+as supervision signals to guide the model’s training process. In
+recent years, the rapid development of self-supervised learn-
+ing, which learns representations from massive data without
+additional labels, has led to a large number of applications in
+computer vision [35, 36], natural language processing [37, 38],
+and graph representation learning [39, 40, 41]. Additionally,
+STGNNs can also benefit from additional supervision signals.
+Considering the relatively small size of most of the publicly
+available traffic datasets, STGCL [42] designs various data aug-
+mentation methods and uses contrastive learning as an auxiliary
+task to guide STGNNs to better distinguish different spatiotem-
+poral features in historical data. ST-SSL [43], on the other hand,
+uses the perspective of spatiotemporal heterogeneity and aug-
+ments the graph structure and traffic features. STEP [44] passes
+the long-range representations obtained from Transformer into
+a graph structure learning module to learn spatial dependencies
+from long historical sequences but does not sufficiently account
+for the long-term trend and the periodic features that are unique
+to long sequences.
+Given the above background, in this paper, we consider ex-
+ploiting the long-term trend and periodicity from long historical
+traffic data and expect the model to produce accurate predic-
+tion results based on the long-range and compact representa-
+tions learned from the long-term sequences.
+3. Methodology
+3.1. Problem Definition
+Definition 1 (Traffic network). A traffic network G can be ex-
+pressed as G = (V, E, A). The node set V ( |V| = N) denotes
+sensors or road crossings in the tra ffic network, and the edge
+set E can be obtained according to the spatial distances of sen-
+sors or the topological relations of roads.
+Definition 2 (Traffic forecasting problem). The traffic forecast-
+ing problem can be expressed as predicting the tra ffic features
+F future time steps ahead given the historical features of H time
+steps and the adjacency matrix A:
+[Xt, Xt+1, . . . ,Xt+F−1] = f (A, [Xt−H, Xt−H+1, . . . ,Xt−1]) (1)
+where X∈ RN×T denotes the tra ffic feature matrix, and T de-
+notes the total length of the series in the dataset. The vast ma-
+jority of current tra ffic forecasting methods f accept a short
+historical series, e.g., H = 12. In this paper, we attempt to uti-
+lize the temporal patterns of traffic flow from a longer historical
+series, which can be expressed as follows:
+[Xt, Xt+1, . . . ,Xt+F−1] = f
+
+A, Xshort, Xlong
+
+(2)
+where Xshort = [Xt−S , Xt−S +1, . . . ,Xt−1], S denotes the length
+of the short-term historical series given to the model. Xlong =
+[Xt−L, Xt−L+1, . . . ,Xt−1]. L denotes the length of the long his-
+torical series.
+3.2. LSTTN Framework
+The overall LSTTN framework is shown in Figure 2. We
+adopt a subseries temporal representation learner to extract subseries-
+level temporal representations from long-term series and design
+a long-term trend extractor, periodicity extractor and short-term
+trend extractor to obtain long- and short-term temporal features
+from subseries-level representations. Specifically:
+1. Subseries temporal representation learner (STRL). As it
+is inefficient to learn time-step level fine-grained repre-
+sentations for long-term series, we instead learn subseries-
+level representations from the temporal context by using
+a mask reconstruction task.
+2. Long-term trend extractor. This module expands the model’s
+temporal receptive field by stacking dilated 1-dimensional
+convolutional layers to capture long-term trends from sub-
+series representations.
+3. Periodicity extractor. This module captures the inherent
+periodicity in traffic flow from the representations of the
+same period of time from the previous same week-of-day
+and the previous day.
+4. Short-term trend extractor. As the subseries representa-
+tions are coarse-grained, we cannot obtain time-step level
+forecasting results from those representations. The mod-
+ule directly utilizes the existing STGNN model to learn
+local fine-grained trend features from the short-term his-
+torical series.
+Figure 2: An overview of the LSTTN framework. The long historical time
+series Xlong is split into subseries of equal lengths, and the last subseries is
+taken as the short-term historical time series Xshort. The subseries-level tem-
+poral representation S, which is rich in key temporal information, is learned
+by the subseries temporal representation learner, and then, long-term trend and
+periodic features are extracted from S. Meanwhile, time-step level short-term
+trend are extracted directly from Xshort. Finally, the long-term and short-term
+features are fused to obtain the prediction results.
+3.3. Masked Sub-series Transformer
+The fundamental purpose of the masked subseries Trans-
+former (MST) is to infer the contents of masked subseries from
+a small number of subseries and their temporal context so that
+the model can efficiently learn compressed, context information-
+rich subseries representations from long time series. The design
+4
+
+=== PAGE 5 ===
+of MST consists of two basic problems: (1) the masking strat-
+egy and (2) the model for learning representations.
+(1) Masking strategy
+Two important elements of the masking strategy of the MST
+need to be considered: the basic unit for masking and the mask
+ratio.
+(a) The basic unit for masking. Existing methods usually
+use a 5-minute time step as the basic unit of input data, which
+is inefficient for capturing the trend of long time series. Inspired
+by [44, 45, 46], we divide the long series into equal-length
+subseries containing multiple time steps, and the subseries are
+taken as the basic unit of the model input.
+(b) Mask ratio. Both BERT [37] and MAE [35] learn the
+essential semantic information in the data by mask reconstruc-
+tion. In natural language, the semantic information of words
+is richer, and sentences rarely have redundant parts and have
+high information density, so BERT sets a lower masking ratio
+of 15%. The information density of image data is relatively low,
+and there is spatial continuity of pixel points, so even if MAE
+masks off 75% of the pixels, the main content of the image can
+still be inferred. Long-term tra ffic flow data are similar to im-
+ages with temporal continuity and low information density, so a
+relatively high masking ratio is needed. We apply 75% random
+masking in this paper.
+(2) Model for learning representations
+Another issue to consider is which model to choose to learn
+the subseries representations. For time series, one of the differ-
+ences between Transformer and temporal models such as RNN
+and 1D CNN is that the inputs to each time step in Transformer
+are directly connected to each other. Regardless of increases
+in time step, Transformer learns representations with previous
+temporal features being considered. In this paper, the Trans-
+former encoder is adopted as the STRL.
+Figure 3: The structure of masked subseries Transformer
+As shown in Figure 3, MST consists of two parts: the STRL
+and the self-supervised task head. The STRL learns the sub-
+series temporal representation, and the self-supervised task head
+reconstructs the complete long series based on the temporal
+representation of the unmasked subseries and the mask tokens.
+Specifically, first, Xlong = [Xt−L, Xt−L+1, . . . ,Xt−1], the long his-
+torical series is divided into nonoverlapping subseries contain-
+ing S time steps, so the number of subseries is N = L/S . We
+randomly mask 75% of the subseries, and the set of masked
+subseries is denoted as Xmasked. The remaining data are denoted
+as Xunmasked and are used as the input to STRL:
+Sunmasked = STRL(Xunmasked) (3)
+where Sunmasked denotes the representations of Xunmasked, which
+is the output by STRL. The self-supervised task head consists
+of a Transformer layer and a linear output layer and can recon-
+struct the complete long series givenSunmasked and the learnable
+mask token S[MASK] as follows:
+h ˆXmasked, ˆXunmaskedi = TaskHead Sunmasked, S[MASK] (4)
+The goal of the pretraining stage is to make the error be-
+tween the reconstructed ˆXmasked and the masked truth values as
+small as possible, so only the masked subseries are considered
+when calculating the loss:
+Lpretrain
+ ˆXmasked, Xmasked; ΘT =  ˆXmasked− Xmasked (5)
+where ΘT represents the learnable parameters of the whole Trans-
+former.
+3.4. Long-term Trend Extractor
+The relatively small amount of information in a short-term
+historical series is not sufficient for the model to infer complex
+future changes in tra ffic flow, while the long historical series
+can help the model determine the fluctuation of tra ffic flow in
+future moments. For this reason, we design a long-term trend
+extractor to extract the long-term trend features in tra ffic flow
+from the subseries temporal representations.
+Figure 4: A demonstration of the 1-dimensional dilated convolution layer. The
+yellow parallelograms at the bottom represent input data, and the red parallel-
+ogram represents the output. Layers in the middle are hidden layers. As the
+number of layers increases, the receptive field grows exponentially, enabling
+the efficient capture of long-range features.
+Commonly adopted basic structures for temporal feature ex-
+traction include the RNN and 1-dimensional CNN. However,
+as RNNs cannot process the features of each time step in par-
+allel and are prone to the problem of gradient vanishing and
+gradient explosion, RNNs have difficulty handling long series.
+Ordinary 1-dimensional CNNs have a limited receptive field,
+and increasing that field requires stacking multiple CNN layers,
+5
+
+=== PAGE 6 ===
+which leads to a large increase in the number of model param-
+eters with increasing model depth. As shown in Figure 4, we
+adopt stacked 1-dimensional dilated convolution layers [47] as
+the long-term trend extractor. The receptive field of the mod-
+ule grows exponentially as the number of 1-dimensional dilated
+convolution layers increases, which can capture trend features
+efficiently while avoiding problems such as gradient vanishing.
+The dilated convolution operation can be expressed as follows:
+x∗d C(m) =
+k−1X
+j=0
+C(m)x(m− d× j) (6)
+where m denotes the m-th element in seriesx, C∈ Rk represents
+the convolution kernel, and d represents the dilation rate. In this
+paper, a convolution layer can be expressed as follows:
+Di = Convi(Di−1) = MaxPool(gelu(Di−1∗d Ci)) (7)
+where the max pooling operation is adopted to reduce dimen-
+sions. The dilation rate d of the i-th layer is set to 2 i. When
+i = 1, the input to the module is the set of subseries temporal
+representations S, i.e., D1 = S = [S1, S2, . . . ,SN]. The output of
+the last convolution layer is taken as the long-term trend feature
+Hlong.
+3.5. Periodicity Extractor
+Periodicity is also an important pattern of traffic flow. Gen-
+erally, there is daily and weekly periodicity in tra ffic flow, and
+traffic in the same time period from di fferent dates can show
+very similar spatiotemporal patterns. In this paper, we build
+a periodicity extractor to capture periodic spatiotemporal fea-
+tures from the subseries representations of the corresponding
+time period in the previous week and the previous day. As the
+representations of the subseries already contain temporal infor-
+mation and no longer have temporal dimensions, this module
+mainly considers extracting the spatial dependencies among the
+input features across different time steps of each node while re-
+taining the temporal information of the subseries. Let the du-
+ration of a day corresponds to a series of l segments; then, the
+representations of the corresponding moments from the previ-
+ous week and the previous day can be denoted asSweek = SN−7×l
+and Sday = SN−l, respectively ( N denotes the number of sub-
+series which equals L/S ). As shown in Figure 5, Sweek and
+Sday are passed into a spatial-based graph convolution module
+for the obtainment of periodic temporal features Hday and Hday.
+This module is similar to the one proposed in [29]. As Figure
+5 indicates, the graph convolution module combines the spatial
+dependencies defined by the structure of the tra ffic graph and
+the spatial dependencies hidden in the graph.
+Hweek = PKk=0 Pkf SweekWk1 + PkbSweekWk2 + AkadpSweekWk3 (8)
+Hday = PKk=0 Pkf SdayWk4 + PkbSdayWk5 + AkadpSdayWk6 (9)
+where P f = APn
+j=1 Ai j and Pb = ATPnj=1 ATi j correspond to the forward
+diffusion and backward diffusion of graph signals, respectively,
+and represent corresponding transition matrices. The power of
+the matrices k represents the number of steps in the di ffusion
+process. W denotes the weight matrices. Aadp is a self-adaptive
+neighbor matrix which can be considered as the transition ma-
+trix of a hidden diffusion process. Aadp = Softmax
+
+ReLU
+
+E1ET2
+
+.
+E1 and E2 represent the source node embedding and target node
+embedding, respectively. The spatial dependency weight be-
+tween the source node and target node is derived by multiplying
+E1 and E2. ReLU() is for eliminating weak dependencies, and
+Softmax() is for normalization.
+Figure 5: A demonstration of the spatial-based graph convolution module. In
+this module, the spatial dependencies between two nodes are supposed to come
+from three diffusions, forward diffusion and backward diffusion that are defined
+by graph structure, as well as the di ffusion hidden in graph. If there is no
+available graph structure, this module will only capture the dependencies which
+are from hidden diffusion and depicted by the self-adaptive neighbor matrix.
+3.6. Short-term Trend Extractor
+The granularity of the subseries-level temporal representa-
+tions extracted from long series is coarse, which makes it diffi-
+cult for the model to accurately predict the fine-grained tra ffic
+flow trends at the time-step level. In addition, there is a strong
+temporal correlation between the future short-term tra ffic flow
+and the historical short-term traffic flow, so the short-term trend
+needs to be modeled separately.
+It has been widely proved that STGNNs excel at capturing
+fine-grained features from short-term series [29, 5, 6]. Basi-
+cally, they complete the feature capture in two steps. First, they
+learn spatial features and temporal features separately via spa-
+tial learning networks and temporal learning networks. Then
+they fuse two kinds of features through a certain spatiotempo-
+ral fusion neural architecture. Given the acknowledged capa-
+bility of STGNNs, we can directly adopt an existing STGNN
+such as Graph WaveNet [29], DCRNN [5] or STGCN [6], as
+the short-term trend extractor to obtain finer-grained short-term
+trend Hshort:
+Hshort = STGNN (A, Xshort) (10)
+6
+
+=== PAGE 7 ===
+where Xshort represents the last subseries in the long series,
+i.e., the subseries closest to the current moment, A represents
+the neighbor matrix, STGNN() represents the adopted STGNN
+model.
+3.7. Feature Fusion
+To comprehensively consider the long- and short-term fea-
+tures in the long historical series, the previously obtained long-
+term trend features, periodic features and short-term trend fea-
+tures are fused to obtain the final prediction result ˆY:
+ˆY = MLPMLPHlong∥Hweek∥Hday∥Hshort (11)
+where∥ denotes the concatenation operation. The aim of the
+traffic flow forecasting task is to make the model output as close
+as possible to the true values, so L1 loss is chosen as the objec-
+tive function. It is expressed as follows:
+Lforecast
+ ˆY, Y; Θ =  ˆY− Y (12)
+where Y = [Xt, Xt+1, . . . ,Xt+F−1] represents the ground truth
+and Θ denotes the set of learnable parameters in the whole
+model.
+4. Experiments
+4.1. Datasets
+Four public real-world traffic flow datasets were chosen to
+fully evaluate the performance of our model.
+(1) METR-LA. This dataset contains traffic speed data col-
+lected from 207 sensors on the Los Angeles County freeway
+system, ranging from March 1, 2012 to June 30, 2012.
+(2) PEMS-BAY . This dataset consists of traffic flow speeds
+collected from 325 sensors on highways in bay area, ranging
+from Jan 1, 2017 to May 31, 2017.
+(3) PEMS04. This dataset consists of tra ffic flow, occu-
+pancy and speed data, collected from 307 sensors on 29 high-
+ways in California. The time span of the dataset is from January
+to February 2018.
+(4) PEMS08. This dataset contains tra ffic data collected
+from 170 sensors on 8 highways in California. Similar to PEMS04,
+it consists of three features: flow, occupancy and speed. The
+time span of the dataset is from July to August 2018.
+Detailed statistical information about the four datasets is
+provided in Table 1. To provide a fair comparison, the dataset
+division in this paper is kept consistent with other examples in
+the literature. For METR-LA and PEMS-BAY , the ratio of the
+training, validation and test sets is 7:2:1, and for PEMS04 and
+PEMS08, it is 6:2:2.
+4.2. Experimental Setup
+4.2.1. Evaluation Metrics
+Let the number of samples in the dataset be n. In addition,
+let Yi = Xt:t+F = [Xt, Xt+1, . . . ,Xt+F−1] denote the ground truth
+of the i-th sample in the dataset and ˆYi denote the prediction
+result provided by the model. We adopt the following metrics
+to evaluate the performance of our model:
+• Root mean squared error (RMSE):
+RMSE =
+vt
+1
+n
+nX
+i=1
+ ˆYi− Yi2 (13)
+• Mean absolute error (MAE):
+MAE = 1n nXi=1  ˆYi− Yi (14)
+• Mean absolute percentage error (MAPE):
+MAPE = 1n nXi=1  ˆYi− YiYi  (15)
+For consistency with previous works and to provide a fair
+comparison with other baselines, we omit missing data when
+calculating the metrics above.
+4.2.2. Baseline Models
+We compare our method with the following nine traffic fore-
+casting models. The former five are widely adopted baseline
+models and the latter four are models proposed in nearly two
+years. A brief description of each model is provided as below:
+(1) DCRNN [5], a combination of di ffusion convolutional
+neural network and a gated recurrent unit;
+(2) STGCN [6], a spatiotemporal network that stacks 1D
+gated convolution blocks and graph convolution blocks;
+(3) Graph WaveNet [29], a spatiotemporal network that uti-
+lizes adaptive dependency matrix and merges 1D causal convo-
+lution and graph convolution to capture spatiotemporal depen-
+dencies;
+(4) GMAN [48], a multihead attention network that cap-
+tures the spatial relationship between di fferent nodes and the
+temporal relationship between different time steps;
+(5) MTGNN [49], a model capable of learning multi-scale
+spatio-temporal features without prior knowledge about graph
+structure via a graph learning layer;
+(6) DDSTGCN [50], a dual dynamic STGCN that utilizes
+edge features to transform traffic flow graphs into hypergraphs;
+(7) STID [51], a model that encodes information based on
+simple multi-layer perceptrons and makes predictions through
+a regression layer;
+(8) DSTET [52], a transformer network which enhances the
+characterzation of spatial-temporal features through decoupling
+the spatial and temporal embedding;
+(9) DAGN [53], a domain adversarial graph neural network
+which captures node-pair adjacent relationships to enable dy-
+namic aggregation of spatial-temporal information.
+4.2.3. Experimental Environment and Hyperparameter Settings
+All of the experiments are conducted on the Linux platform
+equipped with an Intel Xeon Gold 5218R and a NVIDIA RTX
+A6000 GPU, and the models are implemented with PyTorch
+[54]. The length of the input sequence is set to two weeks,
+7
+
+=== PAGE 8 ===
+Table 1: Stastistics of datasets
+Dataset Nodes Edges Time interval Samples
+METR-LA 207 1722 5mins 34272
+PEMS-BAY 325 2694 5mins 52116
+PEMS04 307 987 5mins 16992
+PEMS08 170 718 5mins 17856
+which is equivalent to 4032 time steps for datasets with a 5-
+minute interval between each data point. The batch size is set
+to 32, and the number of training iterations was 100. We use the
+Adam optimizer [55] to train the model, and a multistep learn-
+ing rate scheduler is adopted to control how the learning rate
+decreases as the training process progresses. The hidden dimen-
+sion of the long-term trend extractor and periodicity extractor is
+set to 4. The hyperparameters of the STGNN are set according
+to those provided in the original paper, and the STGNN used in
+the experimental part of this paper is Graph WaveNet.
+4.3. Experimental Results
+4.3.1. Prediction Accuracy
+We compare the LSTTN model with the nine baseline mod-
+els on the four real-world traffic datasets. The results are shown
+in Table 2. To provide fair comparisons, for the five widely
+adopted baseline models, we adopt the experimental results from
+the LibCity [56] benchmark. In the benchmark, the hyperpa-
+rameters of those baseline models have been carefully adjusted,
+and the results are better than those given in the original papers
+in most cases. For the four baseline models proposed in recent
+two years, the experimental results are extracted from [52] and
+[53]. The former paper provides the top results of DDSTGCN,
+STID and DSTET under the same experimental setting, the lat-
+ter presents the best performance of DAGN.
+According to Table 2, the LSTTN model acquires very high
+prediction accuracy on all four datasets. Though the perfor-
+mance of the LSTTN model on PEMS08 is slightly inferior
+to Graph WaveNet and DSTET, on the other three datasets,
+the advantage of the LSTTN model over baseline models is
+quite significant. Especially, on METR-LA, the dataset with
+the largest number of samples, the LSTTN model outperforms
+all nine baseline models in all metrics and for all prediction
+horizons, On the second largest dataset, PEMS-BAY , in MAPE,
+even compared to the most comparative baseline model, DSTET,
+the LSTTN model achieves improvements of 0.94%, 4.01% and
+8.47% at 15 min, 30 min and 60 min horizons, respectively.
+It is also worth nothing that, on the three datasets, as the pre-
+diction horizon increases, the improvements achieved by the
+LSTTN model in all three metrics become larger. Specifically,
+when predicting the next 60 min, the LSTTN model achieves
+improvements of 9.55% in RMSE, 8.73% in MAE and 12.92%
+in MAPE on METR-LA. Similarly, on PEMS-BAY , improve-
+ments of 9.86% in RMSE, 13.38% in MAE and 16.78% in
+MAPE are observed. And on PEMS04, improvements of 5.63%
+in RMSE, 7.05% in MAE and 13.44% in MAPE are achieved
+by the LSTTN model. Those results indicate that the LSTTN
+model has stronger long-term prediction capability in compari-
+son.
+Another thing worth noting is that except the LSTTN model,
+DSTET is the only one predicting tra ffic flow with considera-
+tion into periodicity. The result that DSTET displays the best
+performance among nine baseline models corroborates the im-
+portance of utilizing periodicity. Since one major difference be-
+tween DSTET and the LSTTN model is that the LSTTN model
+also captures long-term trend, the advantage of the LSTTN model
+over DSTET may be attributed to its introduction of long-term
+trend for prediction.
+4.3.2. Ablation Studies
+To demonstrate that each module in the LSTTN model can
+effectively improve the prediction performance, ablation exper-
+iments are conducted on the METR-LA dataset. the experimen-
+tal results are shown in Table 4.3.2, where w/o LT represents the
+original the LSTTN model without a long-term trend extractor,
+w/o P represents the original model without a periodicity ex-
+tractor, w/o ST indicates that the short-term trend extractor, i.e.,
+STGNN, was removed from the original model, and ST only
+indicates that only STGNN was used to generate prediction re-
+sults.
+As seen from the table, (1) the LSTTN model without the
+long-term trend module has worse performance than the orig-
+inal the LSTTN model for all prediction horizons, and as the
+horizon increases, the difference in their performances also in-
+creases, with a maximum difference of approximately 17% (60
+min, MAPE metric). This result may have been found because
+the fluctuation in traffic flow is relatively small in a short hori-
+zon and has a high correlation with short-term historical fea-
+tures. However, as the horizon becomes longer, the short-term
+historical features become increasingly insu fficient in terms of
+adequately judging complex future temporal trends, and the
+long-term trend tends to play a more important role. (2) The
+performance of the LSTTN model without the periodicity mod-
+ule is weaker than that of the original model for all horizons,
+which indicates that explicitly modeling the periodicity in traf-
+fic flow helps improve the model’s performance. However, the
+contribution of periodicity to the performance improvement is
+relatively small compared to that of the long-term trend. (3)
+The prediction performance of the LSTTN model without the
+short-term trend module is significantly worse than that of the
+original model, which illustrates the necessity of retaining the
+short-term trend module. It is worth noting that the metric val-
+ues of the LSTTN model without the short-term trend module
+are very close at di fferent forecast lengths, which may happen
+because the model that only utilizes coarse subseries represen-
+tations cannot infer the fine-grained time-step level fluctuations.
+8
+
+=== PAGE 9 ===
+Table 2: Prediction performances of traffic forecasting models on multiple datasets. The best results are marked in bold, and the second-best results are underlined.
+METR-LA PEMS-BAY PEMS04 PEMS08
+15 min 30 min 60 min 15 min 30 min 60 min 15 min 30 min 60 min 15 min 30 min 60 min
+DCRNN
+RMSE 4.61 5.33 6.25 2.18 2.84 3.58 29.50 31.35 34.20 22.08 23.64 25.99
+MAE 2.49 2.74 3.08 1.10 1.33 1.59 18.51 19.70 21.56 14.30 15.22 16.70
+MAPE 6.19% 7.12% 8.44% 2.21% 2.82% 3.58% 12.60% 13.45% 14.87% 9.31% 9.86% 10.79%
+STGCN
+RMSE 4.80 5.51 6.34 2.46 2.98 3.57 29.53 30.49 31.86 22.87 23.88 25.32
+MAE 2.59 2.82 3.11 1.32 1.50 1.73 18.70 19.28 20.11 14.80 15.33 16.22
+MAPE 6.61% 7.43% 8.53% 2.77% 3.23% 3.86% 13.06% 13.42% 13.98% 9.81% 10.11% 10.64%
+Graph WaveNet
+RMSE 4.84 5.54 6.33 2.20 2.83 3.50 27.70 28.60 29.81 20.70 21.76 23.34
+MAE 2.58 2.83 3.14 1.10 1.32 1.57 17.20 17.76 18.56 13.03 13.55 14.34
+MAPE 6.58% 7.58% 8.89% 2.23% 2.82% 3.51% 12.02% 12.49% 13.35% 8.76% 8.98% 9.76%
+GMAN
+RMSE 4.99 5.51 6.17 2.46 2.99 3.56 28.91 29.66 30.77 22.40 23.23 24.61
+MAE 2.80 3.01 3.31 1.33 1.54 1.78 18.47 18.88 19.59 14.92 15.29 16.11
+MAPE 7.44% 8.21% 9.26% 2.73% 3.26% 3.90% 15.66% 15.78% 16.12% 12.31% 12.52% 13.15%
+MTGNN
+RMSE 4.55 5.19 6.01 2.21 2.85 3.55 27.97 28.92 30.23 21.05 22.10 23.58
+MAE 2.46 2.69 3.00 1.11 1.34 1.59 17.41 17.97 18.73 13.55 14.08 14.96
+MAPE 6.87% 7.00% 8.14% 2.25% 2.86% 3.58% 12.75% 13.31% 13.81% 10.00% 9.99% 10.56%
+DDSTGCN
+RMSE 5.01 6.02 7.13 2.71 3.64 4.37 28.38 29.54 30.69 21.14 22.23 24.12
+MAE 2.64 3.00 3.44 1.29 1.60 1.89 17.69 18.51 19.51 13.54 14.02 14.70
+MAPE 6.76% 8.12% 9.74% 2.69% 3.62% 4.46% 12.34% 12.70% 13.46% 8.82% 9.71% 10.41%
+STID
+RMSE 5.53 6.60 7.54 2.81 3.72 4.40 28.48 29.86 31.79 21.66 23.57 25.89
+MAE 2.80 3.18 3.55 1.30 1.62 1.89 17.51 18.29 19.58 13.28 14.21 15.58
+MAPE 7.70% 9.40% 10.95% 2.73% 3.68% 4.47% 12.00% 12.46% 13.38% 8.62% 9.24% 10.33%
+DSTET
+RMSE 4.52 5.22 6.08 2.17 2.85 3.60 27.38 28.66 29.77 20.24 21.63 23.53
+MAE 2.46 2.71 3.03 1.06 1.29 1.57 16.90 17.68 18.48 12.25 13.21 14.11
+MAPE 6.05% 6.95% 8.30% 2.13% 2.74% 3.54% 11.59% 12.44% 12.71% 8.03% 8.83% 9.30%
+DAGN
+RMSE 5.03 6.00 7.49 2.58 3.22 4.21 29.68 32.02 38.87 23.56 25.46 31.97
+MAE 2.67 3.03 3.67 1.28 1.49 1.86 19.13 20.53 23.63 15.16 16.68 20.94
+MAPE 6.85% 8.16% 10.55% 2.75% 3.38% 4.50% 13.85% 14.31% 15.55% 10.87% 11.29% 14.30%
+LSTTN
+(Ours)
+RMSE 4.42 5.10 5.92 2.18 2.76 3.41 27.74 28.67 30.00 20.78 21.89 23.47
+MAE 2.42 2.65 2.96 1.06 1.26 1.48 17.06 17.62 18.46 13.17 13.71 14.54
+MAPE 5.94% 6.80% 7.93% 2.11% 2.63% 3.24% 11.34% 11.68% 12.17% 8.63% 9.09% 9.77%
+Table 3: Ablation studies
+15 min 30 min 60 min
+RMSE MAE MAPE RMSE MAE MAPE RMSE MAE MAPE
+Ours 4.42 2.42 5.98% 5.10 2.65 6.80% 5.92 2.96 7.93%
+w/o LT 4.71 2.50 6.43% 5.59 2.81 7.76% 6.74 3.23 9.57%
+w/o P 4.46 2.43 6.02% 5.21 2.69 6.98% 6.15 3.04 8.30%
+w/o ST 8.71 4.07 12.03% 8.72 4.07 12.04% 8.75 4.09 12.11%
+ST only 4.84 2.58 6.58% 5.54 2.83 7.58% 6.33 3.14 8.89%
+9
+
+=== PAGE 10 ===
+(a)
+ (b)
+Figure 6: Loss values of the Transformer model on the validation set during the
+pretraining stage. (a) Change in validation losses as iteration continues, and (b)
+the lowest validation loss values during iterations with different dimensions of
+subseries representations.
+4.3.3. Hyperparameter Analysis
+(1) Dimension of subseries representations. The dimension
+of each subseries representation output by Transformer, i.e., the
+dimension of the hidden Transformer layer during the pretrain-
+ing stage, is an important hyperparameter of the model. We
+selected the best dimension from [32, 64, 96, 128] and con-
+ducted experiments on the METR-LA dataset. To account for
+model generalizability while avoiding test set information leak-
+age, the validation loss was used as an evaluation metric. A
+lower loss value indicates a better ability to reconstruct masked
+subseries from given contexts and to capture the contextual as-
+sociations in long series. As shown in Figure 6(b), with the
+increase in dimension, the validation loss shows a trend of de-
+creasing and then increasing, and when the dimension is set to
+32, the subseries representations cannot adequately express the
+contextual information and their own temporal information in
+the long-term sequence. When the dimension is set to 96 or
+128, as shown in Figure 6(a), it becomes easy for the model
+to overfit the training set, and the loss value is slightly worse
+than that when the dimension is set to 64. Therefore, we set the
+dimension of the subseries representations to 64 in this paper.
+(2) Dimension of the hidden layers in the long-term trend
+module and periodicity module. We found the optimal hidden
+layer dimension from [1, 4, 8, 16, 32] and conducted experi-
+ments on the METR-LA dataset. From Figure 7, it can be ob-
+served that when the dimension is set to 4, the value of each
+metric reaches the optimum, while a larger dimension causes
+a performance drop. A small dimension is not su fficient for
+the model to fully capture the trend and periodic features in
+the data, while a large dimension may cause the model to over-
+fit the training set and reduce the generalizability, resulting in
+poor model performance on the test set. Therefore, we set the
+hidden layer dimension of the long-term trend module and the
+periodicity module to 4 to obtain the best performance.
+4.3.4. Visualization
+To demonstrate the performance and advantages of the LSTTN
+model more clearly, we visualize the 15-minute ahead, 30-minute
+ahead and 60-minute ahead prediction results of the LSTTN
+model and Graph WaveNet on the METR-LA dataset. Figure
+Figure 7: Loss values of the Transformer model on the validation set during the
+pretraining stage. (a) Change in validation losses as iteration continues, and (b)
+the lowest validation loss values during iterations with different dimensions of
+subseries representations.
+10
+
+=== PAGE 11 ===
+Figure 8: Visualization of 15-minute ahead predictions on a snapshot of the
+METR-LA test set
+Figure 9: Visualization of 30-minute ahead predictions on a snapshot of the
+METR-LA test set
+11
+
+=== PAGE 12 ===
+Figure 10: Visualization of 60-minute ahead predictions on a snapshot of the
+METR-LA test set
+8∼ 10 show the prediction results for sensor 773023 and sen-
+sor 771673 (corresponding to node 91 and node 196, respec-
+tively) from June 10 (Sunday) to June 19, 2012 (Tuesday). The
+zero values in the ground truth indicate missing data. It can
+be observed that the LSTTN model is able to provide accurate
+prediction results for all prediction horizons. In addition, the
+LSTTN model has two major advantages:
+(1) LSTTN can sense sudden changes in tra ffic flow more
+quickly.
+To further compare the performance from a smaller scale,
+we visualize the prediction of sensor 773023 (node 91) on June
+19. It can be found that the accuracy of both the LSTTN model
+and Graph WaveNet decreases as we increase the horizon, and
+the accuracy drops more significantly in the case of large fluc-
+tuations. However, the deviation in the results provided by the
+LSTTN model is smaller in comparison. For example, when
+the tra ffic speed rebounded suddenly and significantly at ap-
+proximately 19:00 as the evening travel peak ended, and such
+sudden change is neither a random occurrence nor a short-term
+trend, but a periodic feature , As seen in Figure 8 ∼ 10, both
+the LSTTN model and Graph WaveNet exhibited a certain time
+delay in predicting the sudden change, and the time delay was
+more significant when the prediction horizon was larger. How-
+ever, the time delay for the LSTTN model is relatively smaller,
+and the predicted value is closer to the ground truth. Consid-
+ering that Graph WaveNet is designed to learn short-term trend
+only, the performance di fference between Graph Wavenet and
+the LSTTN model may be attributed to that Graph WaveNet
+mistakenly regards the sudden change in the short-term sequence
+as a noise instead of a feature, whereas the LSTTN model cap-
+tures this feature by the periodicity extractor and utilizes it for
+predictions.
+(2) LSTTN can make rough predictions even when short-
+time historical data are missing.
+Missing data often occurs in traffic road network data due to
+communication failures, sensor malfunctions or system main-
+tenance. For example, the network-wide level tra ffic data are
+missing on June 9, 17 and 18, 2012, in the METR-LA dataset.
+the LSTTN model is able to make rough prediction results based
+on the temporal information provided by the long historical
+time series even when a period of data is missing. From the pre-
+diction result shown in Figure 10, we can see that since the input
+window of the ordinary STGNN (e.g., Graph WaveNet) is short,
+when the length of missing data is longer than the STGNN in-
+put window, the input time series will only contain zeros, and
+the ordinary STGNNs cannot utilize any valid temporal infor-
+mation and can only output an average value without any fluctu-
+ation. However, the LSTTN model can still provide meaningful
+prediction results in this case. For instance, the LSTTN model
+successfully predicted the spiky temporal pattern of node 91;
+for node 196, whose speed changes more smoothly, the LSTTN
+model can predict the trend of rapid increase and then slow de-
+crease during the missing data period. This result indicates that
+the LSTTN model can e ffectively utilize long-term trends and
+the periodic information provided by the long historical time
+series to obtain rough prediction results even when there is a
+long period of missing data.
+12
+
+=== PAGE 13 ===
+4.3.5. Execution cost analysis
+We analyse the execution costs of the LSTTN model and the
+three most comparative baseline models on METR-LA using
+the same hardware. For a better interpretation of the execution-
+cost comparison (Table 4), a detailed analysis into the traning
+time of the LSTTN model (Table 5) and a brief comparison
+of model design (Table 6) are provided. According to Table
+4, the LSTTN model requires a larger number of parameters
+and longer training time than the other models. Basically, the
+increases in execution cost come from three aspects:
+1. Employment of Transformer. For the LSTTN model, over
+96% of its training time is spent on the masked sub-series
+Transformer (Table 5). Compared with graph convolu-
+tion network and graph adjacency matrix, Transformer
+requires considerably longer training time. That is also
+reflected in the result that besides the LSTTN model,
+DSTET which also employs Transformer demands sig-
+nificantly longer time for training than the other two mod-
+els without Transformer (Table 4). As for the gap be-
+tween the LSTTN model and DSTET, it is mainly a con-
+sequence of di fference in the length of input sequence.
+As noted in Table 1, the time complexity of Transformer
+is proportional to the length of input sequence (Ls). Since
+DSTET utilizes Transformer to learn the short-term fea-
+tures, while the Transformer employed in the LSTTN
+model is for better learning of long-term features, the in-
+put sequence of the latter Transformer (4032 time steps)
+is hundreds of times longer than that of the former Trans-
+former (12 time steps). That makes training the latter
+Transformer cost much more time than training the latter
+one.
+2. Additional learning of long-term features. As Table 6
+indicates, among the four models, the LSTTN model is
+the only one learning both short-term features (short-term
+trend) and long-term features (long-term trend and pe-
+riodicity). Two more feature-capture modules, namely
+long-term extractor and periodicity extractor, are deployed
+in the LSTTN model, compared with the other models.
+Training the two modules require additional time and pa-
+rameters.
+3. Additional training of feature fusion. As noted earlier,
+the LSTTN models learns three types of features. To
+better utilize the learned features for better forecasting,
+a feature-fusion module is also deployed in the LSTTN
+model. This deployment brings not only additional pa-
+rameters but also additional stage of training to the model.
+5. Conclusion and Future Work
+In consideration of the insu fficiency of short-term features
+for traffic forecasting, this paper proposes a novel framework
+named LSTTN that integrates both the long-term features and
+short-term features present in historical tra ffic data to obtain
+more accurate prediction results. The proposed LSTTN is plug-
+gable for its compatibility with all STGNN models, indicating
+the feasibility of packing LSTTN as a plugin to make it easier
+to deploy LSTTN to application platforms.
+Under the proposed framework, a specific model design is
+also provided. Apart from extracting short-term features using
+STGNN, the LSTTN model also learns two additional long-
+term features, namely long-term trend and periodicity. And for
+valid extraction of long-term features, the LSTTN model first
+learns sub-series temporal representations via a masked sub-
+series Transformer, then based on the learned representations, it
+extracts long-term trend and periodicity utilizing stacked 1D di-
+lated convolution and spatial-based graph convolution, respec-
+tively. Besides, a specific strategy for fusing long-term and
+short term features is also employed for better prediction. Ex-
+periments on real-world datasets with different prediction hori-
+zons show that the LSTTN model achieves better performance
+than other baseline models, which implies the e ffectiveness of
+integrating long-term and short term features to improve the
+prediction accuracy. The conducted ablation experiments verify
+the validity of each learning module of the LSTTN model, and
+the visualization of the prediction results show that the LSTTN
+model is capable of perceiving upcoming abrupt changes faster
+and provide prediction results regardless of missing data. Those
+results also corroborate the role of long-term features, namely
+long-term trend and periodicity can play in traffic forecasting.
+Although LSTTN can effectively utilize the temporal infor-
+mation in long historical series and make more accurate pre-
+dictions, there are still some shortcomings that deserve further
+research:
+1. The evaluation of LSTTN mainly concerns the prediction
+accuracy, whereas high prediction accuracy alone may
+not guarantee its practicability. For example, as stated
+earlier, compared with mainstream STGNNs learning short-
+term features only such as Graph WaveNet, the LSTTN
+model requires longer training time and more parame-
+ters, which will influence the adoption of LSTTN in real-
+world scenarios. Besides solution to the additional train-
+ing cost, issues like user-friendliness should also be well
+considered in the future.
+2. The design of the subseries temporal representation learner,
+the long-term trend extractor, the periodicity extractor
+and the short-term trend extractor in the LSTTN frame-
+work and the strategy used to fuse long- and short-term
+features can all be regarded as feasible concrete imple-
+mentations, and other forms of module design and fusion
+strategies can be further explored. For example, future
+exploration can be done on learning dynamic spatial de-
+pendencies for the extraction of periodic features.
+3. Although ablation studies and visualization analysis are
+performed to improve the transparency and interpretabil-
+ity of the performance of the LSTTN model, there is still
+certain room for improvement.
+CRediT authorship contribution statement
+Qinyao Luo: Conceptualization, Methodology, Writing –
+original draft, Writing - Review & Editing.Silu He: Data cura-
+tion, Writing – original draft, Writing - Review & Editing.Xing
+13
+
+=== PAGE 14 ===
+Table 4: Execution costs of models on METR-LA under a NVIDIA RTX A6000 GPU
+Model Time complexity Most time-consuming component Training time (s /epoch) Params (M)
+Graph WaveNet O(no2 + ne) Graph adjacency matrix,Graph convolution network 19.6 0.99
+MTGNN O(no2 + ne) Graph adjacency matrix,Graph convolution network 22.3 1.61
+DSTET O(Ls2ed) Transformer 48.2 0.72
+LSTTN (ours) O(Ls2ed) Transformer 611.6 2.19
+* For each model, its estimated trainig time is the sum of time used to train its each module.
+** The time complexities of graph adjacency matrix and graph convolution network are O(no2) and O(ne2), no is the number of nodes, ne is the
+number of edges, Ls denotes the length of input sequence, ed denotes the dimension of embedding.
+*** The time complexity of Transformer is O(Ls2ed), Ls denotes the length of input sequence, ed denotes the dimension of embedding.
+Table 5: Training time analysis of LSTNN model on METR-LA under a NVIDIA RTX A6000 GPU
+Module Percentage of the overall training time
+Masked Sub-series Transformer 96.50%
+Long-term Trend Extractor 1.20%
+Periodicity Extractor 0.21%
+Short-term Trend Extractor 2.08%
+Feature Fusion 0.01%
+Han: Software, Validation. Xuhan Wang: Data curation, Writ-
+ing – original draft. Haifeng Li: Conceptualization, Method-
+ology, Writing – original draft, Writing - Review & Editing,
+Supervision, Funding acquisition.
+Declaration of competing interest
+The authors declare that they have no known competing fi-
+nancial interests or personal relationships that could have ap-
+peared to influence the work reported in this paper.
+Data availability
+Data is available at https://github.com/GeoX-Lab/LSTTN.
+Acknowledgement
+This work was supported by the National Natural Science
+Foundation of China [grant numbers 41871364, 4227148 1],
+and Hunan Provincial Natural Science Foundation of China [grant
+number 2022JJ30698].
+References
+[1] G. Yu, C. Zhang, Switching arima model based forecasting for traffic flow,
+in: 2004 IEEE International Conference on Acoustics, Speech, and Signal
+Processing, V ol. 2, IEEE, 2004, pp. ii–429.
+[2] S. R. Chandra, H. Al-Deek, Predictions of freeway tra ffic speeds and vol-
+umes using vector autoregressive models, Journal of Intelligent Trans-
+portation Systems 13 (2) (2009) 53–72.
+[3] J. Zhang, Y . Zheng, D. Qi, Deep spatio-temporal residual networks for
+citywide crowd flows prediction, in: Proceedings of the AAAI conference
+on artificial intelligence, V ol. 31, 2017.
+[4] X. Shi, Z. Chen, H. Wang, D.-Y . Yeung, W.-K. Wong, W.-c. Woo, Con-
+volutional lstm network: A machine learning approach for precipita-
+tion nowcasting, Advances in neural information processing systems 28
+(2015).
+[5] Y . Li, R. Yu, C. Shahabi, Y . Liu, Di ffusion convolutional recur-
+rent neural network: Data-driven tra ffic forecasting, arXiv preprint
+arXiv:1707.01926 (2017).
+[6] B. Yu, H. Yin, Z. Zhu, Spatio-temporal graph convolutional net-
+works: A deep learning framework for tra ffic forecasting, arXiv preprint
+arXiv:1709.04875 (2017).
+[7] B. L. Smith, M. J. Demetsky, Tra ffic flow forecasting: comparison
+of modeling approaches, Journal of transportation engineering 123 (4)
+(1997) 261–266.
+[8] J. W. Gao, Z. W. Leng, B. Zhang, X. Liu, G. Q. Cai, The application of
+adaptive kalman filter in traffic flow forecasting, in: Advanced Materials
+Research, V ol. 680, Trans Tech Publ, 2013, pp. 495–500.
+[9] W. Jiang, J. Luo, Graph neural network for tra ffic forecasting: A survey,
+Expert Systems with Applications (2022) 117921.
+[10] X. Ma, Z. Dai, Z. He, J. Ma, Y . Wang, Y . Wang, Learning tra ffic as im-
+ages: A deep convolutional neural network for large-scale transportation
+network speed prediction, Sensors 17 (4) (2017) 818.
+[11] Y . Liu, H. Zheng, X. Feng, Z. Chen, Short-term tra ffic flow prediction
+with conv-lstm, in: 2017 9th International Conference on Wireless Com-
+munications and Signal Processing (WCSP), IEEE, 2017, pp. 1–6.
+[12] T. N. Kipf, M. Welling, Variational graph auto-encoders, arXiv preprint
+arXiv:1611.07308 (2016).
+[13] M. Zhang, Z. Cui, M. Neumann, Y . Chen, An end-to-end deep learning
+architecture for graph classification, in: Proceedings of the AAAI confer-
+ence on artificial intelligence, V ol. 32, 2018.
+[14] H. Li, J. Cao, J. Zhu, Y . Liu, Q. Zhu, G. Wu, Curvature graph neural
+network, Information Sciences 592 (2022) 50–66.
+[15] Z. Wu, S. Pan, F. Chen, G. Long, C. Zhang, S. Y . Philip, A comprehensive
+survey on graph neural networks, IEEE transactions on neural networks
+and learning systems 32 (1) (2020) 4–24.
+[16] J. Bruna, W. Zaremba, A. Szlam, Y . LeCun, Spectral networks and locally
+connected networks on graphs, arXiv preprint arXiv:1312.6203 (2013).
+[17] M. De fferrard, X. Bresson, P. Vandergheynst, Convolutional neural net-
+works on graphs with fast localized spectral filtering, Advances in neural
+information processing systems 29 (2016).
+[18] T. N. Kipf, M. Welling, Semi-supervised classification with graph convo-
+lutional networks, arXiv preprint arXiv:1609.02907 (2016).
+[19] J. Gilmer, S. S. Schoenholz, P. F. Riley, O. Vinyals, G. E. Dahl, Neural
+message passing for quantum chemistry, in: International conference on
+machine learning, PMLR, 2017, pp. 1263–1272.
+[20] P. Veli ˇckovi´c, G. Cucurull, A. Casanova, A. Romero, P. Lio, Y . Bengio,
+Graph attention networks, arXiv preprint arXiv:1710.10903 (2017).
+[21] J. Bai, J. Zhu, Y . Song, L. Zhao, Z. Hou, R. Du, H. Li, A3t-gcn: Atten-
+14
+
+=== PAGE 15 ===
+Table 6: A brief comparison of model design
+Components Learned features
+Graph adjacency matrix Graph convolution network Transformer Short-term trend Periodicity Long-term trend
+Graph WaveNet ! ! % ! % %
+MTGNN ! ! % ! % %
+DSTET ! % ! ! % %
+LSTTN (ours) ! ! ! ! ! !
+tion temporal graph convolutional network for traffic forecasting, ISPRS
+International Journal of Geo-Information 10 (7) (2021) 485.
+[22] S. He, Q. Luo, R. Du, L. Zhao, H. Li, Stgc-gnns: A gnn-based tra ffic pre-
+diction framework with a spatial-temporal granger causality graph, arXiv
+preprint arXiv:2210.16789 (2022).
+[23] L. Cai, K. Janowicz, G. Mai, B. Yan, R. Zhu, Tra ffic transformer: Cap-
+turing the continuity and periodicity of time series for tra ffic forecasting,
+Transactions in GIS 24 (3) (2020) 736–755.
+[24] C. Park, C. Lee, H. Bahng, Y . Tae, S. Jin, K. Kim, S. Ko, J. Choo, St-
+grat: A novel spatio-temporal graph attention networks for accurately
+forecasting dynamically changing road speed, in: Proceedings of the
+29th ACM international conference on information & knowledge man-
+agement, 2020, pp. 1215–1224.
+[25] A. Roy, K. K. Roy, A. A. Ali, M. A. Amin, A. M. Rahman, Unified spatio-
+temporal modeling for traffic forecasting using graph neural network, in:
+2021 International Joint Conference on Neural Networks (IJCNN), IEEE,
+2021, pp. 1–8.
+[26] L. Zhao, Y . Song, C. Zhang, Y . Liu, P. Wang, T. Lin, M. Deng, H. Li, T-
+gcn: A temporal graph convolutional network for traffic prediction, IEEE
+transactions on intelligent transportation systems 21 (9) (2019) 3848–
+3858.
+[27] J. Zhu, Q. Wang, C. Tao, H. Deng, L. Zhao, H. Li, Ast-gcn: Attribute-
+augmented spatiotemporal graph convolutional network for tra ffic fore-
+casting, IEEE Access 9 (2021) 35973–35983.
+[28] J. Zhu, X. Han, H. Deng, C. Tao, L. Zhao, P. Wang, T. Lin, H. Li, Kst-
+gcn: A knowledge-driven spatial-temporal graph convolutional network
+for tra ffic forecasting, IEEE Transactions on Intelligent Transportation
+Systems 23 (9) (2022) 15055–15065.
+[29] Z. Wu, S. Pan, G. Long, J. Jiang, C. Zhang, Graph wavenet for
+deep spatial-temporal graph modeling, arXiv preprint arXiv:1906.00121
+(2019).
+[30] S. Guo, Y . Lin, N. Feng, C. Song, H. Wan, Attention based spatial-
+temporal graph convolutional networks for tra ffic flow forecasting, in:
+Proceedings of the AAAI conference on artificial intelligence, V ol. 33,
+2019, pp. 922–929.
+[31] A. Vaswani, N. Shazeer, N. Parmar, J. Uszkoreit, L. Jones, A. N. Gomez,
+Ł. Kaiser, I. Polosukhin, Attention is all you need, Advances in neural
+information processing systems 30 (2017).
+[32] M. Xu, W. Dai, C. Liu, X. Gao, W. Lin, G.-J. Qi, H. Xiong, Spatial-
+temporal transformer networks for traffic flow forecasting, arXiv preprint
+arXiv:2001.02908 (2020).
+[33] H. Zhou, S. Zhang, J. Peng, S. Zhang, J. Li, H. Xiong, W. Zhang, In-
+former: Beyond efficient transformer for long sequence time-series fore-
+casting, in: Proceedings of the AAAI conference on artificial intelligence,
+V ol. 35, 2021, pp. 11106–11115.
+[34] A. Zeng, M. Chen, L. Zhang, Q. Xu, Are transformers e ffective for time
+series forecasting?, arXiv preprint arXiv:2205.13504 (2022).
+[35] K. He, X. Chen, S. Xie, Y . Li, P. Doll ´ar, R. Girshick, Masked autoen-
+coders are scalable vision learners, in: Proceedings of the IEEE /CVF
+Conference on Computer Vision and Pattern Recognition, 2022, pp.
+16000–16009.
+[36] D. Chen, Y . Chen, Y . Li, F. Mao, Y . He, H. Xue, Self-supervised learning
+for few-shot image classification, in: ICASSP 2021-2021 IEEE Interna-
+tional Conference on Acoustics, Speech and Signal Processing (ICASSP),
+IEEE, 2021, pp. 1745–1749.
+[37] J. Devlin, M.-W. Chang, K. Lee, K. Toutanova, Bert: Pre-training of deep
+bidirectional transformers for language understanding, arXiv preprint
+arXiv:1810.04805 (2018).
+[38] A. Radford, J. Wu, R. Child, D. Luan, D. Amodei, I. Sutskever, et al.,
+Language models are unsupervised multitask learners, OpenAI blog 1 (8)
+(2019) 9.
+[39] H. Li, J. Cao, J. Zhu, Q. Luo, S. He, X. Wang, Augmentation-free graph
+contrastive learning of invariant-discriminative representations, IEEE
+Transactions on Neural Networks and Learning Systems (2023).
+[40] J. Zhu, B. Li, Z. Zhang, L. Zhao, H. Li, High-order topology-enhanced
+graph convolutional networks for dynamic graphs, Symmetry 14 (10)
+(2022) 2218.
+[41] J. Zhu, M. Hong, R. Du, H. Li, Alleviating neighbor bias: augmenting
+graph self-supervise learning with structural equivalent positive samples,
+arXiv preprint arXiv:2212.04365 (2022).
+[42] X. Liu, Y . Liang, C. Huang, Y . Zheng, B. Hooi, R. Zimmermann, When
+do contrastive learning signals help spatio-temporal graph forecasting?,
+in: Proceedings of the 30th International Conference on Advances in Ge-
+ographic Information Systems, 2022, pp. 1–12.
+[43] J. Ji, J. Wang, C. Huang, J. Wu, B. Xu, Z. Wu, J. Zhang, Y . Zheng,
+Spatio-temporal self-supervised learning for traffic flow prediction, arXiv
+preprint arXiv:2212.04475 (2022).
+[44] Z. Shao, Z. Zhang, F. Wang, Y . Xu, Pre-training enhanced spatial-
+temporal graph neural network for multivariate time series forecasting,
+in: Proceedings of the 28th ACM SIGKDD Conference on Knowledge
+Discovery and Data Mining, 2022, pp. 1567–1577.
+[45] Z. Li, Z. Rao, L. Pan, P. Wang, Z. Xu, Ti-mae: Self-supervised masked
+time series autoencoders, arXiv preprint arXiv:2301.08871 (2023).
+[46] Y . Nie, N. H. Nguyen, P. Sinthong, J. Kalagnanam, A time series is
+worth 64 words: Long-term forecasting with transformers, arXiv preprint
+arXiv:2211.14730 (2022).
+[47] F. Yu, V . Koltun, Multi-scale context aggregation by dilated convolutions,
+arXiv preprint arXiv:1511.07122 (2015).
+[48] C. Zheng, X. Fan, C. Wang, J. Qi, Gman: A graph multi-attention network
+for traffic prediction, in: Proceedings of the AAAI conference on artificial
+intelligence, V ol. 34, 2020, pp. 1234–1241.
+[49] Z. Wu, S. Pan, G. Long, J. Jiang, X. Chang, C. Zhang, Connecting the
+dots: Multivariate time series forecasting with graph neural networks,
+in: Proceedings of the 26th ACM SIGKDD international conference on
+knowledge discovery & data mining, 2020, pp. 753–763.
+[50] Y . Sun, X. Jiang, Y . Hu, F. Duan, K. Guo, B. Wang, J. Gao, B. Yin,
+Dual dynamic spatial-temporal graph convolution network for traffic pre-
+diction, IEEE Transactions on Intelligent Transportation Systems 23 (12)
+(2022) 23680–23693.
+[51] Z. Shao, Z. Zhang, F. Wang, W. Wei, Y . Xu, Spatial-temporal identity: A
+simple yet e ffective baseline for multivariate time series forecasting, in:
+Proceedings of the 31st ACM International Conference on Information &
+Knowledge Management, 2022, pp. 4454–4458.
+[52] W. Sun, R. Cheng, Y . Jiao, J. Gao, Z. Zheng, N. Lu, Transformer network
+with decoupled spatial–temporal embedding for tra ffic flow forecasting,
+Applied Intelligence (2023) 1–21.
+[53] X. Ouyang, Y . Yang, Y . Zhang, W. Zhou, J. Wan, S. Du, Domain adver-
+sarial graph neural network with cross-city graph structure learning for
+traffic prediction, Knowledge-Based Systems 278 (2023) 110885.
+[54] A. Paszke, S. Gross, F. Massa, A. Lerer, J. Bradbury, G. Chanan,
+T. Killeen, Z. Lin, N. Gimelshein, L. Antiga, et al., Pytorch: An imper-
+ative style, high-performance deep learning library, Advances in neural
+information processing systems 32 (2019).
+[55] D. P. Kingma, J. Ba, Adam: A method for stochastic optimization, arXiv
+preprint arXiv:1412.6980 (2014).
+[56] J. Wang, J. Jiang, W. Jiang, C. Li, W. X. Zhao, Libcity: An open library
+for traffic prediction, in: Proceedings of the 29th International Conference
+on Advances in Geographic Information Systems, 2021, pp. 145–148.
+15
