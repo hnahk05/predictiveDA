@@ -1,0 +1,388 @@
+{
+  "status": "FAIL",
+  "tolerance": {
+    "atol": 1e-05,
+    "rtol": 0.0001,
+    "reason": "FP32 CPU inverse scaling and GPU kernel/batch-size rounding; fixed before inference."
+  },
+  "environment": {
+    "python": "3.9.13",
+    "torch": "1.8.1+cu111",
+    "numpy": "1.26.4",
+    "cuda_build": "11.1",
+    "cudnn": 8005,
+    "device": "cuda",
+    "gpu": "NVIDIA GeForce RTX 3050 6GB Laptop GPU",
+    "platform": "Windows-10-10.0.26300-SP0"
+  },
+  "checkpoint": {
+    "path": "D:\\Project_Github\\predictiveDA\\.local_checks\\restored-pems08\\pems08-backup-20261031T195318Z-5220693f\\runs\\PEMS08-repo96-author-pretrained\\0001\\checkpoints\\a63106bc1277e979c479021bcb4929ac\\LSTTN_best_val_loss.pt",
+    "sha256": "d3b8b3fa9f988c5018266e84f24397c24a60311024c08ad7f7bd531020bab55d",
+    "matches_recorded_hash": true,
+    "epoch": 68,
+    "strict_load": true,
+    "missing_keys": [],
+    "unexpected_keys": []
+  },
+  "pretrained": {
+    "path": "D:\\Project_Github\\predictiveDA\\pretrained_transformers\\PEMS08.pt",
+    "sha256": "4b7efb021ce4b432347f46f4197ab8dbab9f01c7e0a0265f81a764cb1633a73e",
+    "matches_forecasting_transformer": true
+  },
+  "data_audit": {
+    "train": {
+      "count": 10700,
+      "first": [
+        0,
+        12,
+        24
+      ],
+      "last": [
+        10699,
+        10711,
+        10723
+      ],
+      "chronological": true
+    },
+    "valid": {
+      "count": 3567,
+      "first": [
+        10700,
+        10712,
+        10724
+      ],
+      "last": [
+        14266,
+        14278,
+        14290
+      ],
+      "chronological": true
+    },
+    "test": {
+      "count": 3566,
+      "first": [
+        14267,
+        14279,
+        14291
+      ],
+      "last": [
+        17832,
+        17844,
+        17856
+      ],
+      "chronological": true
+    },
+    "label_overlap": {
+      "train_valid": 11,
+      "valid_test": 11,
+      "train_test": 0
+    },
+    "data_shape": [
+      17856,
+      170,
+      3
+    ],
+    "scaler": {
+      "min": 0.0,
+      "max": 1077.0
+    },
+    "raw_shape": [
+      17856,
+      170,
+      3
+    ],
+    "raw_flow_extrema": {
+      "all": [
+        0.0,
+        1147.0
+      ],
+      "train_through_last_label": [
+        0.0,
+        1077.0
+      ]
+    },
+    "inverse_flow_raw_max_abs": 0.0001220703125,
+    "time_channels_match": [
+      true,
+      true
+    ]
+  },
+  "eval_all_modules": true,
+  "model_modes": {
+    "ablation": "full",
+    "ablation_mode": "legacy",
+    "transformer_policy": "baseline",
+    "graph_modes": [
+      "author"
+    ],
+    "cache": false,
+    "amp": false
+  },
+  "samples": [
+    {
+      "test_position": 0,
+      "index": [
+        14267,
+        14279,
+        14291
+      ],
+      "export": "D:\\Project_Github\\predictiveDA\\artifacts\\report-inputs\\PEMS08\\batch_000000.npz",
+      "export_row": 0,
+      "shapes": {
+        "short_x": [
+          1,
+          12,
+          170,
+          3
+        ],
+        "long_x": [
+          1,
+          4032,
+          170,
+          3
+        ],
+        "y": [
+          1,
+          12,
+          170,
+          3
+        ],
+        "model_output": [
+          1,
+          170,
+          12
+        ],
+        "prediction": [
+          12,
+          170
+        ]
+      },
+      "finite": true,
+      "target_exact": true,
+      "mask_exact": true,
+      "max_abs_difference": 0.0001220703125,
+      "mean_abs_difference": 9.637720444623161e-06,
+      "elements": 2040,
+      "above_tolerance": 0,
+      "export_dtype": "float32",
+      "violations": []
+    },
+    {
+      "test_position": 31,
+      "index": [
+        14298,
+        14310,
+        14322
+      ],
+      "export": "D:\\Project_Github\\predictiveDA\\artifacts\\report-inputs\\PEMS08\\batch_000000.npz",
+      "export_row": 31,
+      "shapes": {
+        "short_x": [
+          1,
+          12,
+          170,
+          3
+        ],
+        "long_x": [
+          1,
+          4032,
+          170,
+          3
+        ],
+        "y": [
+          1,
+          12,
+          170,
+          3
+        ],
+        "model_output": [
+          1,
+          170,
+          12
+        ],
+        "prediction": [
+          12,
+          170
+        ]
+      },
+      "finite": true,
+      "target_exact": true,
+      "mask_exact": true,
+      "max_abs_difference": 0.0001220703125,
+      "mean_abs_difference": 1.0312772264667586e-05,
+      "elements": 2040,
+      "above_tolerance": 0,
+      "export_dtype": "float32",
+      "violations": []
+    },
+    {
+      "test_position": 32,
+      "index": [
+        14299,
+        14311,
+        14323
+      ],
+      "export": "D:\\Project_Github\\predictiveDA\\artifacts\\report-inputs\\PEMS08\\batch_000001.npz",
+      "export_row": 0,
+      "shapes": {
+        "short_x": [
+          1,
+          12,
+          170,
+          3
+        ],
+        "long_x": [
+          1,
+          4032,
+          170,
+          3
+        ],
+        "y": [
+          1,
+          12,
+          170,
+          3
+        ],
+        "model_output": [
+          1,
+          170,
+          12
+        ],
+        "prediction": [
+          12,
+          170
+        ]
+      },
+      "finite": true,
+      "target_exact": true,
+      "mask_exact": true,
+      "max_abs_difference": 0.0001220703125,
+      "mean_abs_difference": 1.0374948090197993e-05,
+      "elements": 2040,
+      "above_tolerance": 0,
+      "export_dtype": "float32",
+      "violations": []
+    },
+    {
+      "test_position": 3565,
+      "index": [
+        17832,
+        17844,
+        17856
+      ],
+      "export": "D:\\Project_Github\\predictiveDA\\artifacts\\report-inputs\\PEMS08\\batch_000111.npz",
+      "export_row": 13,
+      "shapes": {
+        "short_x": [
+          1,
+          12,
+          170,
+          3
+        ],
+        "long_x": [
+          1,
+          4032,
+          170,
+          3
+        ],
+        "y": [
+          1,
+          12,
+          170,
+          3
+        ],
+        "model_output": [
+          1,
+          170,
+          12
+        ],
+        "prediction": [
+          12,
+          170
+        ]
+      },
+      "finite": true,
+      "target_exact": true,
+      "mask_exact": true,
+      "max_abs_difference": 9.918212890625e-05,
+      "mean_abs_difference": 1.4575526994817397e-05,
+      "elements": 2040,
+      "above_tolerance": 5,
+      "export_dtype": "float32",
+      "violations": [
+        {
+          "horizon_step": 5,
+          "sensor_position": 33,
+          "prediction": -0.5261998772621155,
+          "reference": -0.5262640714645386,
+          "absolute_difference": 6.41942024230957e-05,
+          "allowed_difference": 6.262640714645386e-05
+        },
+        {
+          "horizon_step": 10,
+          "sensor_position": 147,
+          "prediction": -0.4485248923301697,
+          "reference": -0.4484606981277466,
+          "absolute_difference": 6.41942024230957e-05,
+          "allowed_difference": 5.484606981277466e-05
+        },
+        {
+          "horizon_step": 10,
+          "sensor_position": 169,
+          "prediction": -0.12479352951049805,
+          "reference": -0.12472933530807495,
+          "absolute_difference": 6.41942024230957e-05,
+          "allowed_difference": 2.2472933530807498e-05
+        },
+        {
+          "horizon_step": 11,
+          "sensor_position": 139,
+          "prediction": 0.045802563428878784,
+          "reference": 0.04583466053009033,
+          "absolute_difference": 3.209710121154785e-05,
+          "allowed_difference": 1.4583466053009033e-05
+        },
+        {
+          "horizon_step": 12,
+          "sensor_position": 139,
+          "prediction": 0.037296831607818604,
+          "reference": 0.03723263740539551,
+          "absolute_difference": 6.41942024230957e-05,
+          "allowed_difference": 1.3723263740539552e-05
+        }
+      ]
+    }
+  ],
+  "comparison_summary": {
+    "elements": 8160,
+    "above_tolerance": 5,
+    "max_abs_difference": 0.0001220703125,
+    "mean_abs_difference": 1.1225241948576535e-05
+  },
+  "no_parameter_gradients": true,
+  "graph_toy": {
+    "author": [
+      1.0,
+      10.0
+    ],
+    "neighbor_aggregation": [
+      10.0,
+      1.0
+    ]
+  },
+  "protected_files_sha256": {
+    "D:\\Project_Github\\predictiveDA\\.local_checks\\restored-pems08\\pems08-backup-20261031T195318Z-5220693f\\runs\\PEMS08-repo96-author-pretrained\\0001\\checkpoints\\a63106bc1277e979c479021bcb4929ac\\LSTTN_best_val_loss.pt": "d3b8b3fa9f988c5018266e84f24397c24a60311024c08ad7f7bd531020bab55d",
+    "D:\\Project_Github\\predictiveDA\\pretrained_transformers\\PEMS08.pt": "4b7efb021ce4b432347f46f4197ab8dbab9f01c7e0a0265f81a764cb1633a73e",
+    "D:\\Project_Github\\predictiveDA\\datasets\\PEMS08\\data.pkl": "1ce0b588a501bde4ecfe2d3f384c2563af7ab650b8abb83b6783866c089626cd",
+    "D:\\Project_Github\\predictiveDA\\datasets\\PEMS08\\min.pkl": "57b2b8454ba63a1fbaa64a28cf497c18931e9b190d6b93df117a82dae606ea6f",
+    "D:\\Project_Github\\predictiveDA\\datasets\\PEMS08\\max.pkl": "f7bcec339418df548d28f1513cbf4f62201322e2f78539a052836c2f7d3e0cb4",
+    "D:\\Project_Github\\predictiveDA\\datasets\\sensor_graph\\adj_mx_08.pkl": "272d794ba411213395071ecde75a96293277fc14f5601a140c3e6d611b0606f4",
+    "D:\\Project_Github\\predictiveDA\\datasets\\PEMS08\\train_index.pkl": "167ad0baa63cea964bc5880d02121731428666259c8b23dbfb787a840d70388e",
+    "D:\\Project_Github\\predictiveDA\\datasets\\PEMS08\\valid_index.pkl": "9bee72fefb58a3ee47403fbfe1f5562308afdede65890067429d3b30d2559123",
+    "D:\\Project_Github\\predictiveDA\\datasets\\PEMS08\\test_index.pkl": "b764746dc31e429b0a3936c0d203ba02940e60c0c20a0b02a8d23f55499ab793",
+    "D:\\Project_Github\\predictiveDA\\artifacts\\report-inputs\\PEMS08\\batch_000000.npz": "c5167285ab288447ca837df695bc7fa457bcd2259a7011e917c0e40bd8993167",
+    "D:\\Project_Github\\predictiveDA\\artifacts\\report-inputs\\PEMS08\\batch_000001.npz": "5bb246bebe8c9c18eefa4d5a64144f5e7252eefd21a010e4aaeaba0cf93d9915",
+    "D:\\Project_Github\\predictiveDA\\artifacts\\report-inputs\\PEMS08\\batch_000111.npz": "a2502ae79c24106c5dec587d3e99ca404de1a9e2bfc85986f6a712c068e53b08"
+  },
+  "protected_files_unchanged": true
+}
