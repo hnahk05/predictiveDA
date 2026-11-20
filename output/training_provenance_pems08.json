@@ -1,0 +1,581 @@
+{
+  "run_id": "PEMS08-repo96-author-pretrained",
+  "attempt": 1,
+  "archived_source_version": {
+    "git_commit": "c4c7abb5cbccde7fe87754776ba01fb8ce5fa383",
+    "working_tree_dirty": true,
+    "note": "Commit script changes before cloning this code on cloud. Bundle is a working-tree snapshot, not proof of a clean commit."
+  },
+  "current_head": "15bce516f931f1fa78bb4c1dd2e126d392760320",
+  "current_worktree_status": " M protocol.md\n",
+  "author_commit": "68185aa8ffd266d4d1a3acffeb6875a144335554",
+  "runtime_config": {
+    "config": "configs/PEMS08/forecasting.py",
+    "configured_gpu_num": 2,
+    "effective_gpu_num": 1,
+    "global_batch": 32,
+    "epochs": 100,
+    "softmax_compat": true,
+    "pretrained": {
+      "path": "/workspace/predictiveDA/pretrained_transformers/PEMS08.pt",
+      "width": 96,
+      "strict_load": true,
+      "sha256": "4b7efb021ce4b432347f46f4197ab8dbab9f01c7e0a0265f81a764cb1633a73e"
+    },
+    "width": 96,
+    "hidden": [
+      32,
+      32
+    ],
+    "best": "checkpoints/a63106bc1277e979c479021bcb4929ac/LSTTN_best_val_loss.pt",
+    "metrics": {
+      "3": {
+        "MAE": 13.399619263977147,
+        "RMSE": 21.644650690855023,
+        "MAPE_ratio": 0.08991705984887435
+      },
+      "6": {
+        "MAE": 14.193402831876062,
+        "RMSE": 23.48866084181253,
+        "MAPE_ratio": 0.09927706522798825
+      },
+      "12": {
+        "MAE": 15.38800702628231,
+        "RMSE": 25.568519388362635,
+        "MAPE_ratio": 0.1137805642449632
+      }
+    }
+  },
+  "configs": [
+    {
+      "path": "D:\\Project_Github\\predictiveDA\\.local_checks\\restored-pems08\\pems08-backup-20261031T195318Z-5220693f\\configs\\PEMS08\\forecasting.py",
+      "sha256": "22dbf9f8a9a7839861c9353a298a8499ba5f8820c9e9c2d7d84ea93b0ff3ee08",
+      "match_recorded": true
+    },
+    {
+      "path": "D:\\Project_Github\\predictiveDA\\.local_checks\\restored-pems08\\pems08-backup-20261031T195318Z-5220693f\\configs\\PEMS08\\pretraining.py",
+      "sha256": "ac79e54a9b038f0741ed6164e444bbf51a68989ddd63ca137b0db270d3830278",
+      "match_recorded": true
+    }
+  ],
+  "archived_python_source_files": [
+    {
+      "path": "source/configs/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "recorded_sha256": null,
+      "match_recorded": null,
+      "current_path": "D:\\Project_Github\\predictiveDA\\configs\\__init__.py",
+      "current_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "source/configs/METR-LA/forecasting.py",
+      "sha256": "2d881e48beb7960f83b3a165211109c6a974e2eaf2edabec41b4ec5823649661",
+      "recorded_sha256": null,
+      "match_recorded": null,
+      "current_path": "D:\\Project_Github\\predictiveDA\\configs\\METR-LA\\forecasting.py",
+      "current_sha256": "2d881e48beb7960f83b3a165211109c6a974e2eaf2edabec41b4ec5823649661"
+    },
+    {
+      "path": "source/configs/METR-LA/pretraining.py",
+      "sha256": "1a73cbf58a55117aaf914c249fe4564399a3944988c814381ec59bc759051b3b",
+      "recorded_sha256": null,
+      "match_recorded": null,
+      "current_path": "D:\\Project_Github\\predictiveDA\\configs\\METR-LA\\pretraining.py",
+      "current_sha256": "1a73cbf58a55117aaf914c249fe4564399a3944988c814381ec59bc759051b3b"
+    },
+    {
+      "path": "source/configs/PEMS-BAY/forecasting.py",
+      "sha256": "4f507282171f1b7a81cd13e284f638886591e57c1fae7b5e31842cc160309daf",
+      "recorded_sha256": null,
+      "match_recorded": null,
+      "current_path": "D:\\Project_Github\\predictiveDA\\configs\\PEMS-BAY\\forecasting.py",
+      "current_sha256": "4f507282171f1b7a81cd13e284f638886591e57c1fae7b5e31842cc160309daf"
+    },
+    {
+      "path": "source/configs/PEMS-BAY/pretraining.py",
+      "sha256": "ffb913abd5c760722df19deb9a2980555d2570ccadb10a8662aef61f348bf31b",
+      "recorded_sha256": null,
+      "match_recorded": null,
+      "current_path": "D:\\Project_Github\\predictiveDA\\configs\\PEMS-BAY\\pretraining.py",
+      "current_sha256": "ffb913abd5c760722df19deb9a2980555d2570ccadb10a8662aef61f348bf31b"
+    },
+    {
+      "path": "source/configs/PEMS04/forecasting.py",
+      "sha256": "b9ffda0d828f6dfd0c6187aadff4dace1416f37a6a5e077a76cd3d221ab42bf9",
+      "recorded_sha256": null,
+      "match_recorded": null,
+      "current_path": "D:\\Project_Github\\predictiveDA\\configs\\PEMS04\\forecasting.py",
+      "current_sha256": "b9ffda0d828f6dfd0c6187aadff4dace1416f37a6a5e077a76cd3d221ab42bf9"
+    },
+    {
+      "path": "source/configs/PEMS04/pretraining.py",
+      "sha256": "caeeb8938d0901c2710647b0b03011aece142e9a18134e882e6ac0489cb21176",
+      "recorded_sha256": null,
+      "match_recorded": null,
+      "current_path": "D:\\Project_Github\\predictiveDA\\configs\\PEMS04\\pretraining.py",
+      "current_sha256": "caeeb8938d0901c2710647b0b03011aece142e9a18134e882e6ac0489cb21176"
+    },
+    {
+      "path": "source/configs/PEMS08/forecasting.py",
+      "sha256": "22dbf9f8a9a7839861c9353a298a8499ba5f8820c9e9c2d7d84ea93b0ff3ee08",
+      "recorded_sha256": null,
+      "match_recorded": null,
+      "current_path": "D:\\Project_Github\\predictiveDA\\configs\\PEMS08\\forecasting.py",
+      "current_sha256": "22dbf9f8a9a7839861c9353a298a8499ba5f8820c9e9c2d7d84ea93b0ff3ee08"
+    },
+    {
+      "path": "source/configs/PEMS08/pretraining.py",
+      "sha256": "ac79e54a9b038f0741ed6164e444bbf51a68989ddd63ca137b0db270d3830278",
+      "recorded_sha256": null,
+      "match_recorded": null,
+      "current_path": "D:\\Project_Github\\predictiveDA\\configs\\PEMS08\\pretraining.py",
+      "current_sha256": "ac79e54a9b038f0741ed6164e444bbf51a68989ddd63ca137b0db270d3830278"
+    },
+    {
+      "path": "source/models/graph_wavenet.py",
+      "sha256": "1ede8b217b023a254c0a1d6ce4dc405298c2418ef59222738b9340d4788684ad",
+      "recorded_sha256": null,
+      "match_recorded": null,
+      "current_path": "D:\\Project_Github\\predictiveDA\\models\\graph_wavenet.py",
+      "current_sha256": "1ede8b217b023a254c0a1d6ce4dc405298c2418ef59222738b9340d4788684ad"
+    },
+    {
+      "path": "source/models/lsttn.py",
+      "sha256": "3f3d67b970c885c4399e2093bf59b4097fb03567dde17512cdea1148c6c4b4c1",
+      "recorded_sha256": null,
+      "match_recorded": null,
+      "current_path": "D:\\Project_Github\\predictiveDA\\models\\lsttn.py",
+      "current_sha256": "3f3d67b970c885c4399e2093bf59b4097fb03567dde17512cdea1148c6c4b4c1"
+    },
+    {
+      "path": "source/models/transformer.py",
+      "sha256": "52746e2018fe126e6ea8e70956fda1699919b8f4d19593b316a24b022a9e54f9",
+      "recorded_sha256": null,
+      "match_recorded": null,
+      "current_path": "D:\\Project_Github\\predictiveDA\\models\\transformer.py",
+      "current_sha256": "52746e2018fe126e6ea8e70956fda1699919b8f4d19593b316a24b022a9e54f9"
+    },
+    {
+      "path": "source/runners/lsttn.py",
+      "sha256": "495760c871dd376f7162d2d3993a6f138de286f4748768586ba4424fa1f47a35",
+      "recorded_sha256": null,
+      "match_recorded": null,
+      "current_path": "D:\\Project_Github\\predictiveDA\\runners\\lsttn.py",
+      "current_sha256": "a4d2031d038efbc5a9c036794e12b2aca58376242e98aa6bd763e93480b469e7"
+    },
+    {
+      "path": "source/runners/transformer.py",
+      "sha256": "3ecea8821b5fba2cfa81b8bde35da985e6bcfb6e8602fd053fb1c52c76335581",
+      "recorded_sha256": null,
+      "match_recorded": null,
+      "current_path": "D:\\Project_Github\\predictiveDA\\runners\\transformer.py",
+      "current_sha256": "3ecea8821b5fba2cfa81b8bde35da985e6bcfb6e8602fd053fb1c52c76335581"
+    },
+    {
+      "path": "source/utils/__init__.py",
+      "sha256": "16113539d9875d817f6483b12c2a4e62b193d2c52fd93d5454be64452fa62767",
+      "recorded_sha256": null,
+      "match_recorded": null,
+      "current_path": "D:\\Project_Github\\predictiveDA\\utils\\__init__.py",
+      "current_sha256": "16113539d9875d817f6483b12c2a4e62b193d2c52fd93d5454be64452fa62767"
+    },
+    {
+      "path": "source/utils/adj_mx.py",
+      "sha256": "94bd707386580714379d5b256829e1d87a9f971390010911e1c34c95455dc5e7",
+      "recorded_sha256": null,
+      "match_recorded": null,
+      "current_path": "D:\\Project_Github\\predictiveDA\\utils\\adj_mx.py",
+      "current_sha256": "94bd707386580714379d5b256829e1d87a9f971390010911e1c34c95455dc5e7"
+    },
+    {
+      "path": "source/utils/cuda_softmax_compat.py",
+      "sha256": "5d4083d7c7d68a1a7e8b69b0ba5f844602a4b251505e4062889ec350276f4afa",
+      "recorded_sha256": null,
+      "match_recorded": null,
+      "current_path": "D:\\Project_Github\\predictiveDA\\utils\\cuda_softmax_compat.py",
+      "current_sha256": "5d4083d7c7d68a1a7e8b69b0ba5f844602a4b251505e4062889ec350276f4afa"
+    },
+    {
+      "path": "source/utils/datasets.py",
+      "sha256": "3e917d543ca01485b649fcbbc51b76881f1ed7520bd3684162314e4d90550271",
+      "recorded_sha256": null,
+      "match_recorded": null,
+      "current_path": "D:\\Project_Github\\predictiveDA\\utils\\datasets.py",
+      "current_sha256": "fc9adf555712e0d2c94ccad7e0f9089d67ae334ce1c191c02b2031dd75a61e59"
+    },
+    {
+      "path": "source/utils/load_data.py",
+      "sha256": "b80f899eea324b008e5c8f4c801f1d9869ff40ce1e09d9305dfc6716c91ea076",
+      "recorded_sha256": null,
+      "match_recorded": null,
+      "current_path": "D:\\Project_Github\\predictiveDA\\utils\\load_data.py",
+      "current_sha256": "b80f899eea324b008e5c8f4c801f1d9869ff40ce1e09d9305dfc6716c91ea076"
+    },
+    {
+      "path": "source/utils/log.py",
+      "sha256": "a89822e0a8557df362537c3e2fbf4414cab49eb5b740b4a9cff6be7fb3151079",
+      "recorded_sha256": null,
+      "match_recorded": null,
+      "current_path": "D:\\Project_Github\\predictiveDA\\utils\\log.py",
+      "current_sha256": "a89822e0a8557df362537c3e2fbf4414cab49eb5b740b4a9cff6be7fb3151079"
+    },
+    {
+      "path": "source/utils/metrics.py",
+      "sha256": "cd1d1e8266bbd338d7b0b055ab88fc5a31314baa8465979e8b36263245752b18",
+      "recorded_sha256": null,
+      "match_recorded": null,
+      "current_path": "D:\\Project_Github\\predictiveDA\\utils\\metrics.py",
+      "current_sha256": "cd1d1e8266bbd338d7b0b055ab88fc5a31314baa8465979e8b36263245752b18"
+    },
+    {
+      "path": "source/utils/paths.py",
+      "sha256": "9004bb2770b2804ca72270947ecfb6013d2a3ba70931fa379e4b8e658357a4bb",
+      "recorded_sha256": null,
+      "match_recorded": null,
+      "current_path": "D:\\Project_Github\\predictiveDA\\utils\\paths.py",
+      "current_sha256": "9004bb2770b2804ca72270947ecfb6013d2a3ba70931fa379e4b8e658357a4bb"
+    },
+    {
+      "path": "source/utils/prediction_export.py",
+      "sha256": "a99e1e930766836203c954ddcb19f4fba8b632b0544f4ecc9016d6bab8f58307",
+      "recorded_sha256": null,
+      "match_recorded": null,
+      "current_path": "D:\\Project_Github\\predictiveDA\\utils\\prediction_export.py",
+      "current_sha256": "a99e1e930766836203c954ddcb19f4fba8b632b0544f4ecc9016d6bab8f58307"
+    },
+    {
+      "path": "source/utils/reproduction.py",
+      "sha256": "4da2bd5afb37a7ad45407b23589c6db295ca322d6c71af0bf0951a6181732f45",
+      "recorded_sha256": null,
+      "match_recorded": null,
+      "current_path": "D:\\Project_Github\\predictiveDA\\utils\\reproduction.py",
+      "current_sha256": "4da2bd5afb37a7ad45407b23589c6db295ca322d6c71af0bf0951a6181732f45"
+    }
+  ],
+  "forecast_checkpoint": {
+    "path": "D:\\Project_Github\\predictiveDA\\.local_checks\\restored-pems08\\pems08-backup-20261031T195318Z-5220693f\\runs\\PEMS08-repo96-author-pretrained\\0001\\checkpoints\\a63106bc1277e979c479021bcb4929ac\\LSTTN_best_val_loss.pt",
+    "sha256": "d3b8b3fa9f988c5018266e84f24397c24a60311024c08ad7f7bd531020bab55d",
+    "match_recorded": true
+  },
+  "pretrained_checkpoint": {
+    "path": "D:\\Project_Github\\predictiveDA\\pretrained_transformers\\PEMS08.pt",
+    "sha256": "4b7efb021ce4b432347f46f4197ab8dbab9f01c7e0a0265f81a764cb1633a73e",
+    "match_recorded": true
+  },
+  "all_runs_recorded": [
+    {
+      "dataset": "PEMS08",
+      "role": "main",
+      "run_id": "PEMS08-repo96-author-pretrained",
+      "attempt": 1,
+      "epochs": 100,
+      "batch": 32,
+      "width": 96,
+      "hidden": [
+        32,
+        32
+      ],
+      "gpu": "RTX A6000",
+      "metrics": {
+        "3": {
+          "MAE": 13.399619263977147,
+          "RMSE": 21.644650690855023,
+          "MAPE_ratio": 0.08991705984887435
+        },
+        "6": {
+          "MAE": 14.193402831876062,
+          "RMSE": 23.48866084181253,
+          "MAPE_ratio": 0.09927706522798825
+        },
+        "12": {
+          "MAE": 15.38800702628231,
+          "RMSE": 25.568519388362635,
+          "MAPE_ratio": 0.1137805642449632
+        }
+      },
+      "replay_config": "configs/actual/PEMS08.py",
+      "recorded_config": "configs/PEMS08/forecasting.py",
+      "best_epoch": 68,
+      "optimizer": "Adam",
+      "optimizer_parameters": {
+        "lr": 0.005,
+        "weight_decay": 1e-05,
+        "eps": 1e-08
+      },
+      "scheduler": "MultiStepLR",
+      "scheduler_parameters": {
+        "milestones": [
+          1,
+          18,
+          36,
+          54,
+          72
+        ],
+        "gamma": 0.5
+      },
+      "warmup_epochs": 100,
+      "curriculum_interval_epochs": 6,
+      "short_history": 12,
+      "long_history": 4032,
+      "patch_size": 12,
+      "encoder_layers": 4,
+      "attention_heads": 4,
+      "seed": 0,
+      "effective_gpu_num": 1,
+      "provided_pretrained_sha256": "4b7efb021ce4b432347f46f4197ab8dbab9f01c7e0a0265f81a764cb1633a73e",
+      "author_declared_settings": {
+        "gpu_num": 2,
+        "loader_batch": 32,
+        "epochs": 100
+      },
+      "strict_pretrained_load_verified": true,
+      "metrics_recomputed_match": true,
+      "all_expected_artifacts_sha_verified": true,
+      "training_from_scratch_pretrain": false,
+      "nodes": 170,
+      "windows": {
+        "train": 10700,
+        "valid": 3567,
+        "test": 3566
+      },
+      "train_batches_per_epoch": 335,
+      "training_batches_through_saved_epoch": 33500
+    },
+    {
+      "dataset": "METR-LA",
+      "role": "exploratory",
+      "run_id": "local-deadline-METR-LA-e15",
+      "attempt": 2,
+      "epochs": 15,
+      "batch": 4,
+      "width": 64,
+      "hidden": [
+        4,
+        4
+      ],
+      "gpu": "RTX3050Laptop6GB",
+      "metrics": {
+        "3": {
+          "MAE": 2.74611557583029,
+          "RMSE": 5.218267764204246,
+          "MAPE_ratio": 0.07389784933681393
+        },
+        "6": {
+          "MAE": 11.499353214082275,
+          "RMSE": 14.047603758755669,
+          "MAPE_ratio": 0.31348805145869557
+        },
+        "12": {
+          "MAE": 11.500728479262742,
+          "RMSE": 14.048471369898854,
+          "MAPE_ratio": 0.31350808615887965
+        }
+      },
+      "replay_config": "configs/actual/METR-LA.py",
+      "recorded_config": "configs/deadline/METR-LA.py",
+      "best_epoch": 15,
+      "optimizer": "Adam",
+      "optimizer_parameters": {
+        "lr": 0.005,
+        "weight_decay": 1e-05,
+        "eps": 1e-08
+      },
+      "scheduler": "MultiStepLR",
+      "scheduler_parameters": {
+        "milestones": [
+          1,
+          18,
+          36,
+          54,
+          72
+        ],
+        "gamma": 0.5
+      },
+      "warmup_epochs": 0,
+      "curriculum_interval_epochs": 6,
+      "short_history": 12,
+      "long_history": 4032,
+      "patch_size": 12,
+      "encoder_layers": 4,
+      "attention_heads": 4,
+      "seed": 0,
+      "effective_gpu_num": 1,
+      "provided_pretrained_sha256": "2b11f29d973a1e719e7261e843c22bb84e7a64edeae9c93b7e25ab6a74eee66c",
+      "author_declared_settings": {
+        "gpu_num": 0,
+        "loader_batch": 32,
+        "epochs": 100
+      },
+      "strict_pretrained_load_verified": true,
+      "metrics_recomputed_match": true,
+      "all_expected_artifacts_sha_verified": true,
+      "training_from_scratch_pretrain": false,
+      "curriculum_warning": "Only horizons1..3 received direct supervision by epoch15; horizons6/12 are not fully trained.",
+      "execution_note": "Trained in an isolated local copy, stopped after checkpoint15, then separately tested best epoch15 with0test workers. Replay config directly trains15epochs.",
+      "nodes": 207,
+      "windows": {
+        "train": 23974,
+        "valid": 3425,
+        "test": 6850
+      },
+      "train_batches_per_epoch": 5994,
+      "training_batches_through_saved_epoch": 89910
+    },
+    {
+      "dataset": "PEMS04",
+      "role": "exploratory",
+      "run_id": "local-deadline-PEMS04-e2",
+      "attempt": 1,
+      "epochs": 2,
+      "batch": 2,
+      "width": 96,
+      "hidden": [
+        32,
+        32
+      ],
+      "gpu": "RTX3050Laptop6GB",
+      "metrics": {
+        "3": {
+          "MAE": 21.69882512323848,
+          "RMSE": 31.598874918990756,
+          "MAPE_ratio": 0.24042012187352266
+        },
+        "6": {
+          "MAE": 23.48237715900901,
+          "RMSE": 33.70654839427979,
+          "MAPE_ratio": 0.26550678191070076
+        },
+        "12": {
+          "MAE": 26.730383331221503,
+          "RMSE": 37.74374567342493,
+          "MAPE_ratio": 0.33309773360029854
+        }
+      },
+      "replay_config": "configs/actual/PEMS04.py",
+      "recorded_config": "configs/deadline/PEMS04.py",
+      "best_epoch": 2,
+      "optimizer": "Adam",
+      "optimizer_parameters": {
+        "lr": 0.002,
+        "weight_decay": 1e-05,
+        "eps": 1e-08
+      },
+      "scheduler": "MultiStepLR",
+      "scheduler_parameters": {
+        "milestones": [
+          1,
+          18,
+          36,
+          54,
+          72
+        ],
+        "gamma": 0.5
+      },
+      "warmup_epochs": 100,
+      "curriculum_interval_epochs": 6,
+      "short_history": 12,
+      "long_history": 4032,
+      "patch_size": 12,
+      "encoder_layers": 4,
+      "attention_heads": 4,
+      "seed": 0,
+      "effective_gpu_num": 1,
+      "provided_pretrained_sha256": "fd97253336ac8d1c00c943e4de252be44ccb543d14d0ee9f317fe160f38a5160",
+      "author_declared_settings": {
+        "gpu_num": 2,
+        "loader_batch": 8,
+        "epochs": 100
+      },
+      "strict_pretrained_load_verified": true,
+      "metrics_recomputed_match": true,
+      "all_expected_artifacts_sha_verified": true,
+      "training_from_scratch_pretrain": false,
+      "nodes": 307,
+      "windows": {
+        "train": 10181,
+        "valid": 3394,
+        "test": 3394
+      },
+      "train_batches_per_epoch": 5091,
+      "training_batches_through_saved_epoch": 10182
+    },
+    {
+      "dataset": "PEMS-BAY",
+      "role": "exploratory",
+      "run_id": "local-deadline-PEMS-BAY-e1",
+      "attempt": 1,
+      "epochs": 1,
+      "batch": 2,
+      "width": 96,
+      "hidden": [
+        32,
+        32
+      ],
+      "gpu": "RTX3050Laptop6GB",
+      "metrics": {
+        "3": {
+          "MAE": 1.3788281842717667,
+          "RMSE": 2.9406950395044382,
+          "MAPE_ratio": 0.02975540455216984
+        },
+        "6": {
+          "MAE": 1.6739506198389882,
+          "RMSE": 3.814862730366182,
+          "MAPE_ratio": 0.03835233769281884
+        },
+        "12": {
+          "MAE": 1.9410885895665817,
+          "RMSE": 4.565908508212435,
+          "MAPE_ratio": 0.04700857150605184
+        }
+      },
+      "replay_config": "configs/actual/PEMS-BAY.py",
+      "recorded_config": "configs/deadline/PEMS-BAY.py",
+      "best_epoch": 1,
+      "optimizer": "Adam",
+      "optimizer_parameters": {
+        "lr": 0.001,
+        "weight_decay": 1e-05,
+        "eps": 1e-08
+      },
+      "scheduler": "MultiStepLR",
+      "scheduler_parameters": {
+        "milestones": [
+          1,
+          18,
+          36,
+          54,
+          72
+        ],
+        "gamma": 0.5
+      },
+      "warmup_epochs": 30,
+      "curriculum_interval_epochs": 3,
+      "short_history": 12,
+      "long_history": 4032,
+      "patch_size": 12,
+      "encoder_layers": 4,
+      "attention_heads": 4,
+      "seed": 0,
+      "effective_gpu_num": 1,
+      "provided_pretrained_sha256": "9c4f35e517dc1e904a68c4a06c88becdc0c223598865438278f21981074da443",
+      "author_declared_settings": {
+        "gpu_num": 2,
+        "loader_batch": 32,
+        "epochs": 100
+      },
+      "strict_pretrained_load_verified": true,
+      "metrics_recomputed_match": true,
+      "all_expected_artifacts_sha_verified": true,
+      "training_from_scratch_pretrain": false,
+      "nodes": 325,
+      "windows": {
+        "train": 36465,
+        "valid": 5209,
+        "test": 10419
+      },
+      "train_batches_per_epoch": 18233,
+      "training_batches_through_saved_epoch": 18233
+    }
+  ]
+}

@@ -11,4 +11,8 @@ def make(dataset, stage='forecasting', width=64, hidden=4, ablation='full'):
     if stage == 'forecasting':
         cfg.MODEL.PARAM.LSTTN.update(long_trend_hidden_dim=hidden, seasonality_hidden_dim=hidden, ablation=ablation,
             pretrained_path=f'pretrained_transformers/{dataset}_w{width}.pt')
+        if ablation != 'full':
+            # New ablation experiments use consistent full fusion order and skip removed branches.
+            # Legacy behavior remains explicitly available in the model for old artifacts.
+            cfg.MODEL.PARAM.LSTTN['ablation_mode'] = 'skip_compute'
     return cfg

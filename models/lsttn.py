@@ -8,6 +8,7 @@ from models.transformer import Transformer
 from models.graph_wavenet import GraphWaveNet
 
 import time
+import warnings
 
 
 class StackedDilatedConv(nn.Module):
@@ -48,8 +49,14 @@ class DynamicGraphConv(nn.Module):
         self.dropout = nn.Dropout(p=dropout)
         self.order = order
         self.graph_mode = graph_mode
+        if graph_mode not in ('author', 'baseline', 'corrected'):
+            raise ValueError('Unknown graph_mode: ' + graph_mode)
 
     def conv(self, x, adj_mx):
+        if self.graph_mode == 'corrected':
+            # Same source n -> destination m convention as GraphWaveNet nconv.
+            # Supports are already transposed by doubletransition; do not transpose again.
+            return torch.einsum('bnh,nm->bmh', (x, adj_mx)).contiguous()
         return torch.einsum("bnh,nm->bnh", (x, adj_mx)).contiguous()
 
     def forward(self, x, supports):
@@ -84,10 +91,21 @@ class LSTTN(nn.Module):
         stgnn = GraphWaveNet(**stgnn_args.GWNET)
         self.pretrained_path = lsttn_args.get("pretrained_path")
         self.ablation = lsttn_args.get("ablation", "full")
+        self.ablation_mode = lsttn_args.get('ablation_mode', 'legacy')
+        self.transformer_policy = lsttn_args.get('transformer_policy', 'baseline')
+        if self.ablation_mode not in ('legacy', 'mask_only', 'skip_compute'):
+            raise ValueError(self.ablation_mode)
+        if self.transformer_policy not in ('baseline', 'fixed_eval'):
+            raise ValueError(self.transformer_policy)
+        if self.ablation != 'full':
+            warnings.warn('Ablation changes checkpoint semantics; strict load alone does not '
+                          'validate this variant. Retrain for an architecture comparison.', UserWarning)
         if self.ablation not in ("full", "wo_lt", "wo_p", "wo_st", "st_only"):
             raise ValueError(self.ablation)
-        if self.ablation != "st_only":
+        if self.ablation != "st_only" or self.ablation_mode == 'mask_only':
             self.load_pretrained_transformer()
+        if self.transformer_policy == 'fixed_eval':
+            self.transformer.eval()
 
         self.num_nodes = lsttn_args["num_nodes"]
         self.pre_len = lsttn_args["pre_len"]
@@ -135,7 +153,62 @@ class LSTTN(nn.Module):
         for param in self.transformer.parameters():
             param.requires_grad = False
 
-    def forward(self, short_x, long_x):
+    def train(self, mode=True):
+        super().train(mode)
+        if getattr(self, 'transformer_policy', 'baseline') == 'fixed_eval':
+            self.transformer.eval()
+        return self
+
+    def encode_long(self, x, cache=None):
+        if cache is None:
+            return self.transformer(x)
+        from utils.transformer_cache import encode_cached
+        return encode_cached(self.transformer, x, cache, self.transformer_policy)
+
+    def forward(self, short_x, long_x, transformer_cache=None):
+        if self.ablation_mode == 'legacy':
+            return self._forward_legacy(short_x, long_x, transformer_cache)
+        skip = self.ablation_mode == 'skip_compute'
+        remove_lt = self.ablation in ('wo_lt', 'st_only')
+        remove_p = self.ablation in ('wo_p', 'st_only')
+        remove_st = self.ablation == 'wo_st'
+        batch, _, nodes, _ = short_x.shape
+        lt = short_x.new_zeros(batch, nodes, self.long_trend_hidden_dim)
+        week = short_x.new_zeros(batch, nodes, self.seasonality_hidden_dim)
+        day = torch.zeros_like(week)
+        if not (skip and remove_lt and remove_p):
+            x = long_x[..., [0]].permute(0, 2, 3, 1)
+            representation = self.encode_long(x, transformer_cache)
+            count, width = representation.shape[-2:]
+            if not (skip and remove_lt):
+                lt = self.long_term_trend_extractor(
+                    representation.reshape(-1, count, width).transpose(1, 2))[:, :, -1]
+                lt = lt.reshape(batch, nodes, -1)
+            if not (skip and remove_p):
+                week = self.weekly_seasonality_extractor(representation[:, :, -169, :], self.supports)
+                day = self.daily_seasonality_extractor(representation[:, :, -25, :], self.supports)
+        if remove_lt:
+            lt = torch.zeros_like(lt)
+        if remove_p:
+            week, day = torch.zeros_like(week), torch.zeros_like(day)
+        # st_only excludes the entire long/periodic path including its fusion biases.
+        if skip and self.ablation == 'st_only':
+            trend = short_x.new_zeros(batch, nodes, self.mlp_hidden_dim)
+        else:
+            trend = self.trend_seasonality_mlp(torch.cat((lt, week, day), dim=-1))
+            if self.ablation == 'st_only':
+                trend = torch.zeros_like(trend)
+        short_width = self.mlp[0].in_features - self.mlp_hidden_dim
+        if skip and remove_st:
+            short = short_x.new_zeros(batch, nodes, short_width)
+        else:
+            short = self.short_term_trend_extractor(short_x.transpose(1, 3)).squeeze(-1).transpose(1, 2)
+            if remove_st:
+                short = torch.zeros_like(short)
+        # Full baseline uses [short, trend], including when either is masked.
+        return self.mlp(torch.cat((short, trend), dim=-1))
+
+    def _forward_legacy(self, short_x, long_x, transformer_cache=None):
         if self.ablation == "st_only":
             short = self.short_term_trend_extractor(short_x.transpose(1, 3)).squeeze(-1).transpose(1, 2)
             zeros = short.new_zeros((*short.shape[:2], self.mlp_hidden_dim))
@@ -143,7 +216,7 @@ class LSTTN(nn.Module):
         long_x = long_x[..., [0]]
         long_x = long_x.permute(0, 2, 3, 1)
         batch_size, num_nodes, _, long_seq_len = long_x.size()
-        long_repr = self.transformer(long_x)
+        long_repr = self.encode_long(long_x, transformer_cache)
         batch_size, num_nodes, num_subseq, _ = long_repr.size()
         # (batch_size * num_nodes, transformer_hidden_dim, num_subseq)
         long_trend_hidden = self.long_term_trend_extractor(
