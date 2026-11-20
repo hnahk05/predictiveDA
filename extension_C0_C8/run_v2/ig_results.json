@@ -1,0 +1,68 @@
+{
+  "status": "PASS",
+  "protocol": {
+    "scope": "residual head features only, additive baseline held fixed",
+    "steps": [
+      64,
+      256
+    ],
+    "integration": "trapezoidal",
+    "reference": "train feature mean per sensor",
+    "horizons": [
+      3,
+      6,
+      12
+    ],
+    "sample_rule": "same 16 evenly spaced windows as required occlusion",
+    "completeness_atol_Flow": 0.05,
+    "completeness_rtol": 0.01,
+    "stability_mean_relative_L1_limit": 0.05,
+    "criteria_basis": "Optional diagnostic: absolute budget 0.05 Flow plus 1% output difference; stability average relative attribution L1 5%. Fixed before IG results; failures reported without increasing steps or tolerances."
+  },
+  "results": [
+    {
+      "horizon_minutes": 15,
+      "completeness_max_abs": 0.01979541778564453,
+      "completeness_mean_abs": 0.0011059526586905122,
+      "completeness_violations": 0,
+      "outputs": 2720,
+      "stability_mean_relative_L1": 0.0048147644847631454,
+      "stability_max_relative_L1": 0.036942966282367706,
+      "passed": true
+    },
+    {
+      "horizon_minutes": 30,
+      "completeness_max_abs": 0.029283523559570312,
+      "completeness_mean_abs": 0.001980823464691639,
+      "completeness_violations": 0,
+      "outputs": 2720,
+      "stability_mean_relative_L1": 0.005806603003293276,
+      "stability_max_relative_L1": 0.030090095475316048,
+      "passed": true
+    },
+    {
+      "horizon_minutes": 60,
+      "completeness_max_abs": 0.0535731315612793,
+      "completeness_mean_abs": 0.002625473076477647,
+      "completeness_violations": 0,
+      "outputs": 2720,
+      "stability_mean_relative_L1": 0.007983226329088211,
+      "stability_max_relative_L1": 0.04854132607579231,
+      "passed": true
+    }
+  ],
+  "resources": {
+    "seconds": 2.5085430000000004,
+    "process_rss_sampled_peak_bytes": 2532663296,
+    "cuda_peak_allocated_bytes": 3058688,
+    "cuda_peak_reserved_bytes": 4194304
+  },
+  "weights_unchanged": true,
+  "parameter_gradients_accumulated": false,
+  "gradient_path": "selected horizon output sum; independent per-node MLP",
+  "limitations": [
+    "Head features only; no raw-history/backbone IG",
+    "Reference path can be off distribution",
+    "No causal interpretation"
+  ]
+}

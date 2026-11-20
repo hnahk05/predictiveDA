@@ -1,0 +1,132 @@
+{
+  "hashes": {
+    ".local_checks\\restored-pems08\\pems08-backup-20261031T195318Z-5220693f\\runs\\PEMS08-repo96-author-pretrained\\0001\\checkpoints\\a63106bc1277e979c479021bcb4929ac\\LSTTN_best_val_loss.pt": "d3b8b3fa9f988c5018266e84f24397c24a60311024c08ad7f7bd531020bab55d",
+    "pretrained_transformers\\PEMS08.pt": "4b7efb021ce4b432347f46f4197ab8dbab9f01c7e0a0265f81a764cb1633a73e",
+    "datasets\\PEMS08\\data.pkl": "1ce0b588a501bde4ecfe2d3f384c2563af7ab650b8abb83b6783866c089626cd",
+    "datasets\\PEMS08\\min.pkl": "57b2b8454ba63a1fbaa64a28cf497c18931e9b190d6b93df117a82dae606ea6f",
+    "datasets\\PEMS08\\max.pkl": "f7bcec339418df548d28f1513cbf4f62201322e2f78539a052836c2f7d3e0cb4",
+    "datasets\\PEMS08\\train_index.pkl": "167ad0baa63cea964bc5880d02121731428666259c8b23dbfb787a840d70388e",
+    "datasets\\PEMS08\\valid_index.pkl": "9bee72fefb58a3ee47403fbfe1f5562308afdede65890067429d3b30d2559123",
+    "datasets\\PEMS08\\test_index.pkl": "b764746dc31e429b0a3936c0d203ba02940e60c0c20a0b02a8d23f55499ab793",
+    "datasets\\sensor_graph\\adj_mx_08.pkl": "272d794ba411213395071ecde75a96293277fc14f5601a140c3e6d611b0606f4",
+    "models\\lsttn.py": "4814ea62c8ff90c0b9fc50e057eb30622ab37a1dbd5d1d317dc3f901b066d16a",
+    "models\\transformer.py": "52746e2018fe126e6ea8e70956fda1699919b8f4d19593b316a24b022a9e54f9",
+    "models\\graph_wavenet.py": "1ede8b217b023a254c0a1d6ce4dc405298c2418ef59222738b9340d4788684ad",
+    "utils\\datasets.py": "fc9adf555712e0d2c94ccad7e0f9089d67ae334ce1c191c02b2031dd75a61e59",
+    "configs\\PEMS08\\forecasting.py": "22dbf9f8a9a7839861c9353a298a8499ba5f8820c9e9c2d7d84ea93b0ff3ee08",
+    "extension_C0_C8\\protocol_v2.json": "37f3847472b8643bb5f995bae66205cb061a72b407b4b48c18581d678616247d"
+  },
+  "git_commit": "a1e89e3408accb5367db2a0901ef84f9aa136fdf",
+  "protocol": {
+    "version": "residual_v2",
+    "registered_before_new_inference_and_head_training": true,
+    "c1": {
+      "sample_positions": [
+        0,
+        31,
+        32,
+        509,
+        1528,
+        2546,
+        3056,
+        3565
+      ],
+      "original_numeric_atol": 1e-05,
+      "original_numeric_rtol": 0.0001,
+      "max_normalized_equivalent_error": 3.814697265625e-06,
+      "max_metric_absolute_difference": {
+        "MAE": 0.001,
+        "RMSE": 0.001,
+        "MAPE_percent": 0.001
+      },
+      "basis": "32 FP32 eps in normalized units is a diagnostic budget, not a theorem for the network. Metric budget 0.001 is one tenth of baseline's reported 0.01 resolution, fixed before new metric comparisons. Prior numeric failures are known, so this is a prospective conditional continuation gate, NOT retrospective proof of equivalence or global scientific equivalence.",
+      "decision": "All identity/finite/target checks plus numerical scale budget and metric budget on every selected window at 15/30/60 minutes permit C1_CONDITIONAL_PASS only. Original numeric mismatch remains recorded."
+    },
+    "cache": {
+      "batch_size": 2,
+      "shard_windows": 64,
+      "dtype": "float32",
+      "resume": "verify shard checksum, indices, finite and protocol/source fingerprint before reuse"
+    },
+    "features": {
+      "order": [
+        "12 baseline predictions normalized",
+        "12 observed short Flow normalized",
+        "sin TOD",
+        "cos TOD",
+        "sin relative DOW",
+        "cos relative DOW"
+      ],
+      "dim": 28,
+      "target_not_feature": true
+    },
+    "head": {
+      "architecture": "shared per-node Linear(28,width),ReLU,Linear(width,12); last layer zero initialized",
+      "alpha": 1.0,
+      "output": "baseline original Flow + 538.5 * head(features)",
+      "configs": [
+        {
+          "id": "h16",
+          "width": 16
+        },
+        {
+          "id": "h32",
+          "width": 32
+        }
+      ],
+      "optimizer": "Adam",
+      "lr": 0.001,
+      "weight_decay": 0.0001,
+      "batch_size": 64,
+      "epochs": 12,
+      "patience": 3,
+      "loss": "unmasked mean absolute error original Flow",
+      "selection": "minimum validation interior MAE across all 12 horizons; tie configuration order",
+      "seeds": [
+        0,
+        1,
+        2
+      ],
+      "deployment_seed": 0,
+      "select_seed_by_test": false
+    },
+    "validation_selection": "Keep all split indices; score only labels > last training label and < first test label; excludes shared labels without rewriting split. Full validation metrics also reported.",
+    "xai": {
+      "scope": "residual head cached features; baseline prediction in additive skip remains fixed; NOT attribution of raw LSTTN system",
+      "sample_rule": "16 evenly spaced test positions before viewing test errors",
+      "groups": [
+        "baseline_prediction",
+        "short_old_4",
+        "short_middle_4",
+        "short_recent_4",
+        "time_of_day",
+        "relative_day_of_week"
+      ],
+      "replacements": [
+        "train_feature_mean_per_sensor",
+        "zero_normalized"
+      ],
+      "outputs": "all 170 sensors and all 12 horizons; report 3/6/12 steps",
+      "seed": 0,
+      "ig": "optional; omit if delaying required occlusion"
+    },
+    "constraints": [
+      "no backbone training",
+      "no baseline mutation",
+      "no test selection",
+      "no split rewrite",
+      "no paid GPU"
+    ]
+  },
+  "environment": {
+    "python": "3.9.13",
+    "torch": "1.8.1+cu111",
+    "numpy": "1.26.4",
+    "cuda": "11.1",
+    "device": "cuda",
+    "gpu": "NVIDIA GeForce RTX 3050 6GB Laptop GPU"
+  },
+  "preprocessing_source": "UNKNOWN; supplied pickle indices and train-consistent min/max verified",
+  "pretrained_fit_scope": "UNKNOWN; author checkpoint reused and weights matched exactly",
+  "historical_training_commit": "c4c7abb5cbccde7fe87754776ba01fb8ce5fa383; dirty tree per backup"
+}

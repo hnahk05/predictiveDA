@@ -1,0 +1,19 @@
+{
+  "version": "residual_v2",
+  "registered_before_new_inference_and_head_training": true,
+  "c1": {
+    "sample_positions": [0, 31, 32, 509, 1528, 2546, 3056, 3565],
+    "original_numeric_atol": 0.00001,
+    "original_numeric_rtol": 0.0001,
+    "max_normalized_equivalent_error": 0.000003814697265625,
+    "max_metric_absolute_difference": {"MAE": 0.001, "RMSE": 0.001, "MAPE_percent": 0.001},
+    "basis": "32 FP32 eps in normalized units is a diagnostic budget, not a theorem for the network. Metric budget 0.001 is one tenth of baseline's reported 0.01 resolution, fixed before new metric comparisons. Prior numeric failures are known, so this is a prospective conditional continuation gate, NOT retrospective proof of equivalence or global scientific equivalence.",
+    "decision": "All identity/finite/target checks plus numerical scale budget and metric budget on every selected window at 15/30/60 minutes permit C1_CONDITIONAL_PASS only. Original numeric mismatch remains recorded."
+  },
+  "cache": {"batch_size": 2, "shard_windows": 64, "dtype": "float32", "resume": "verify shard checksum, indices, finite and protocol/source fingerprint before reuse"},
+  "features": {"order": ["12 baseline predictions normalized", "12 observed short Flow normalized", "sin TOD", "cos TOD", "sin relative DOW", "cos relative DOW"], "dim": 28, "target_not_feature": true},
+  "head": {"architecture": "shared per-node Linear(28,width),ReLU,Linear(width,12); last layer zero initialized", "alpha": 1.0, "output": "baseline original Flow + 538.5 * head(features)", "configs": [{"id":"h16","width":16},{"id":"h32","width":32}], "optimizer": "Adam", "lr": 0.001, "weight_decay": 0.0001, "batch_size": 64, "epochs": 12, "patience": 3, "loss": "unmasked mean absolute error original Flow", "selection": "minimum validation interior MAE across all 12 horizons; tie configuration order", "seeds": [0,1,2], "deployment_seed": 0, "select_seed_by_test": false},
+  "validation_selection": "Keep all split indices; score only labels > last training label and < first test label; excludes shared labels without rewriting split. Full validation metrics also reported.",
+  "xai": {"scope": "residual head cached features; baseline prediction in additive skip remains fixed; NOT attribution of raw LSTTN system", "sample_rule": "16 evenly spaced test positions before viewing test errors", "groups": ["baseline_prediction", "short_old_4", "short_middle_4", "short_recent_4", "time_of_day", "relative_day_of_week"], "replacements": ["train_feature_mean_per_sensor", "zero_normalized"], "outputs": "all 170 sensors and all 12 horizons; report 3/6/12 steps", "seed": 0, "ig": "optional; omit if delaying required occlusion"},
+  "constraints": ["no backbone training", "no baseline mutation", "no test selection", "no split rewrite", "no paid GPU"]
+}

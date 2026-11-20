@@ -1,0 +1,33 @@
+{
+  "status": "PASS",
+  "resources": {
+    "seconds": 8.8815936,
+    "process_rss_sampled_peak_bytes": 3513290752,
+    "cuda_peak_allocated_bytes": 1522695680,
+    "cuda_peak_reserved_bytes": 2248146944
+  },
+  "export_batch_seconds": [
+    7.7614446,
+    0.24710620000000105,
+    0.25352830000000104,
+    0.27896639999999984
+  ],
+  "train_head_step_seconds_batch64": 0.0038536149999999656,
+  "head_pilot_batch_note": "8 real windows repeated 8 times for resource measurement only; not training evidence",
+  "compressed_bytes_8_windows": 157454,
+  "gpu_snapshot_after_pilot": "7 %, 3269 MiB, 51",
+  "train_val_export_estimate_seconds": 1808.5441280500074,
+  "estimate_range_observed_seconds": [
+    1762.7320777000075,
+    1990.0068143999988
+  ],
+  "uncertainty": "Observed range from three post-startup batches, not confidence interval; sustained thermals/I/O unmeasured",
+  "tests": {
+    "alpha_zero_exact": true,
+    "zero_initialized_head_exact": true,
+    "only_head_gradients": true,
+    "cache_roundtrip": true,
+    "direct_repeat_exact": true
+  },
+  "feasible": true
+}

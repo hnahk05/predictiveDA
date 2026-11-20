@@ -1,0 +1,66 @@
+{
+  "status": "PASS",
+  "protocol": {
+    "scope": "residual head cached features; baseline prediction in additive skip remains fixed; NOT attribution of raw LSTTN system",
+    "sample_rule": "16 evenly spaced test positions before viewing test errors",
+    "groups": [
+      "baseline_prediction",
+      "short_old_4",
+      "short_middle_4",
+      "short_recent_4",
+      "time_of_day",
+      "relative_day_of_week"
+    ],
+    "replacements": [
+      "train_feature_mean_per_sensor",
+      "zero_normalized"
+    ],
+    "outputs": "all 170 sensors and all 12 horizons; report 3/6/12 steps",
+    "seed": 0,
+    "ig": "optional; omit if delaying required occlusion"
+  },
+  "test_positions": [
+    0,
+    237,
+    475,
+    713,
+    950,
+    1188,
+    1426,
+    1663,
+    1901,
+    2139,
+    2376,
+    2614,
+    2852,
+    3089,
+    3327,
+    3565
+  ],
+  "groups": [
+    "baseline_prediction",
+    "short_old_4",
+    "short_middle_4",
+    "short_recent_4",
+    "time_of_day",
+    "relative_day_of_week"
+  ],
+  "attribution_axes": [
+    "replacement_then_group",
+    "sample",
+    "horizon",
+    "sensor"
+  ],
+  "resources": {
+    "seconds": 0.03952069999999974,
+    "process_rss_sampled_peak_bytes": 2680913920,
+    "cuda_peak_allocated_bytes": 1143808,
+    "cuda_peak_reserved_bytes": 2097152
+  },
+  "weights_unchanged": true,
+  "limits": [
+    "Head feature sensitivity only; additive baseline fixed even when baseline prediction feature is masked.",
+    "Not raw history attribution of whole LSTTN; no causal claim; replacement may be off distribution."
+  ],
+  "integrated_gradients": "NOT RUN: optional; required occlusion completed with two reference choices"
+}

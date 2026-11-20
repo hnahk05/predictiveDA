@@ -1,0 +1,153 @@
+{
+  "status": "PASS",
+  "metrics": [
+    {
+      "method": "residual",
+      "seed": 0,
+      "horizon_minutes": 15,
+      "MAE": 13.35061496401202,
+      "RMSE": 21.614093560225417,
+      "MAPE_percent": 8.957318847062194
+    },
+    {
+      "method": "residual",
+      "seed": 0,
+      "horizon_minutes": 30,
+      "MAE": 14.145270646806194,
+      "RMSE": 23.412914872202126,
+      "MAPE_percent": 9.92242699816602
+    },
+    {
+      "method": "residual",
+      "seed": 0,
+      "horizon_minutes": 60,
+      "MAE": 15.285205684136228,
+      "RMSE": 25.447539737481577,
+      "MAPE_percent": 11.325127162282728
+    },
+    {
+      "method": "residual",
+      "seed": 1,
+      "horizon_minutes": 15,
+      "MAE": 13.3523620604166,
+      "RMSE": 21.61383535681079,
+      "MAPE_percent": 8.925777895544067
+    },
+    {
+      "method": "residual",
+      "seed": 1,
+      "horizon_minutes": 30,
+      "MAE": 14.158549613810148,
+      "RMSE": 23.435562240445066,
+      "MAPE_percent": 9.97894348591136
+    },
+    {
+      "method": "residual",
+      "seed": 1,
+      "horizon_minutes": 60,
+      "MAE": 15.29092787864585,
+      "RMSE": 25.48833453492134,
+      "MAPE_percent": 11.321921309808628
+    },
+    {
+      "method": "residual",
+      "seed": 2,
+      "horizon_minutes": 15,
+      "MAE": 13.353456998439945,
+      "RMSE": 21.61304834213262,
+      "MAPE_percent": 8.938218843729555
+    },
+    {
+      "method": "residual",
+      "seed": 2,
+      "horizon_minutes": 30,
+      "MAE": 14.1674521089546,
+      "RMSE": 23.444108128645453,
+      "MAPE_percent": 10.093532292333297
+    },
+    {
+      "method": "residual",
+      "seed": 2,
+      "horizon_minutes": 60,
+      "MAE": 15.28886381134296,
+      "RMSE": 25.47753145199375,
+      "MAPE_percent": 11.39629133759113
+    },
+    {
+      "method": "baseline_local",
+      "seed": 0,
+      "horizon_minutes": 15,
+      "MAE": 13.399619263255612,
+      "RMSE": 21.6446506960597,
+      "MAPE_percent": 8.991705931428578
+    },
+    {
+      "method": "baseline_local",
+      "seed": 0,
+      "horizon_minutes": 30,
+      "MAE": 14.193402873813165,
+      "RMSE": 23.488660885652966,
+      "MAPE_percent": 9.927706745104691
+    },
+    {
+      "method": "baseline_local",
+      "seed": 0,
+      "horizon_minutes": 60,
+      "MAE": 15.388007056115995,
+      "RMSE": 25.568519358881762,
+      "MAPE_percent": 11.37805639265316
+    },
+    {
+      "method": "baseline_original_export",
+      "seed": 0,
+      "horizon_minutes": 15,
+      "MAE": 13.399619263977147,
+      "RMSE": 21.644650690855023,
+      "MAPE_percent": 8.99170598488744
+    },
+    {
+      "method": "baseline_original_export",
+      "seed": 0,
+      "horizon_minutes": 30,
+      "MAE": 14.193402831876062,
+      "RMSE": 23.488660841812536,
+      "MAPE_percent": 9.92770652279883
+    },
+    {
+      "method": "baseline_original_export",
+      "seed": 0,
+      "horizon_minutes": 60,
+      "MAE": 15.38800702628231,
+      "RMSE": 25.568519388362642,
+      "MAPE_percent": 11.378056424496318
+    }
+  ],
+  "resources": [
+    {
+      "seconds": 3.9290933999999997,
+      "process_rss_sampled_peak_bytes": 2726694912,
+      "cuda_peak_allocated_bytes": 4532224,
+      "cuda_peak_reserved_bytes": 25165824
+    },
+    {
+      "seconds": 0.07565579999999983,
+      "process_rss_sampled_peak_bytes": 2755993600,
+      "cuda_peak_allocated_bytes": 4532224,
+      "cuda_peak_reserved_bytes": 25165824
+    },
+    {
+      "seconds": 0.06605810000000023,
+      "process_rss_sampled_peak_bytes": 2791964672,
+      "cuda_peak_allocated_bytes": 4532224,
+      "cuda_peak_reserved_bytes": 25165824
+    }
+  ],
+  "selected_seed_for_demo": 0,
+  "original_export_prediction_max_abs": 0.0003662109375,
+  "scientific_claim": "Paired held-out comparison under inherited baseline protocol; no statistical significance claim",
+  "limitations": [
+    "11 validation/test shared label timestamps inherited; excluded from new head tuning but baseline checkpoint selection used original validation",
+    "head trained on in-sample predictions from fitted backbone; not out-of-fold stacking",
+    "absolute calendar unverified; use relative clock only"
+  ]
+}

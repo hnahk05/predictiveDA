@@ -1,0 +1,19 @@
+{
+  "scope": "residual head features only, additive baseline held fixed",
+  "steps": [
+    64,
+    256
+  ],
+  "integration": "trapezoidal",
+  "reference": "train feature mean per sensor",
+  "horizons": [
+    3,
+    6,
+    12
+  ],
+  "sample_rule": "same 16 evenly spaced windows as required occlusion",
+  "completeness_atol_Flow": 0.05,
+  "completeness_rtol": 0.01,
+  "stability_mean_relative_L1_limit": 0.05,
+  "criteria_basis": "Optional diagnostic: absolute budget 0.05 Flow plus 1% output difference; stability average relative attribution L1 5%. Fixed before IG results; failures reported without increasing steps or tolerances."
+}

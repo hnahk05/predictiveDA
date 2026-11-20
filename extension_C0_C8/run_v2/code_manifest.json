@@ -1,0 +1,14 @@
+{
+  "files": {
+    "pipeline.py": "db253eb0ffed3ed6427a08187fadc9ffc40f72611b1a110910899c3705a4f883",
+    "run_remaining.py": "5be00b0456151a4448399171f74ae49f52b88ddc431bf242f4b6414f5ac0b1b1",
+    "test_pipeline.py": "5d730c959cf7172f01b4464c8d3aa07bc9ecbb07ed32d6011f510c1c73cf646e",
+    "finalize.py": "a0ce45ad07426c06c32f60b58f5330db4fbbcb3aa9fca2ab6c5d7b263cb54b3f",
+    "package_docs.py": "fa9f5b2188c782ab5beb6095675b16ef88ac6e05da1512efe4559503781c79fd",
+    "monitor_gpu.py": "508d384ddff3fc19a01494dbfedcc3e0f3f6c34ff90ef5309c42bbf49aa8b476",
+    "ig_head.py": "c52f94574c2ea9c249a9fcde86f6f6003e40bb968b9e7d8ffa85f8c6e071d7b5",
+    "protocol_v2.json": "37f3847472b8643bb5f995bae66205cb061a72b407b4b48c18581d678616247d"
+  },
+  "git_commit": "a1e89e3408accb5367db2a0901ef84f9aa136fdf",
+  "note": "Experiment code is new/uncommitted; file hashes identify exact working code. Not a clean commit claim."
+}

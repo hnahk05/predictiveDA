@@ -1,0 +1,649 @@
+{
+  "status": "C1_CONDITIONAL_PASS",
+  "numeric_status": "NUMERIC_MISMATCH",
+  "scientific_status": "CONDITIONAL_ON_CHECKED_SAMPLES_NOT_GLOBAL_EQUIVALENCE",
+  "fingerprint": "8c08179993c5fa112e3cceb54c97b60f6c69b052bfc883899d57d5d89aabd166",
+  "protocol": {
+    "sample_positions": [
+      0,
+      31,
+      32,
+      509,
+      1528,
+      2546,
+      3056,
+      3565
+    ],
+    "original_numeric_atol": 1e-05,
+    "original_numeric_rtol": 0.0001,
+    "max_normalized_equivalent_error": 3.814697265625e-06,
+    "max_metric_absolute_difference": {
+      "MAE": 0.001,
+      "RMSE": 0.001,
+      "MAPE_percent": 0.001
+    },
+    "basis": "32 FP32 eps in normalized units is a diagnostic budget, not a theorem for the network. Metric budget 0.001 is one tenth of baseline's reported 0.01 resolution, fixed before new metric comparisons. Prior numeric failures are known, so this is a prospective conditional continuation gate, NOT retrospective proof of equivalence or global scientific equivalence.",
+    "decision": "All identity/finite/target checks plus numerical scale budget and metric budget on every selected window at 15/30/60 minutes permit C1_CONDITIONAL_PASS only. Original numeric mismatch remains recorded."
+  },
+  "environment": {
+    "python": "3.9.13",
+    "torch": "1.8.1+cu111",
+    "numpy": "1.26.4",
+    "cuda": "11.1",
+    "device": "cuda",
+    "gpu": "NVIDIA GeForce RTX 3050 6GB Laptop GPU"
+  },
+  "checks": [
+    {
+      "position": 0,
+      "index": [
+        14267,
+        14279,
+        14291
+      ],
+      "export": "D:\\Project_Github\\predictiveDA\\artifacts\\report-inputs\\PEMS08\\batch_000000.npz",
+      "export_row": 0,
+      "target_exact": true,
+      "finite": true,
+      "max_abs": 0.0001220703125,
+      "mean_abs": 9.637720444623161e-06,
+      "above_original_tolerance": 0,
+      "bitwise_equal": false,
+      "repeated_forward_bitwise": true,
+      "max_normalized_equivalent_error": 2.2668581708449397e-07,
+      "max_fp32_vs_fp64_inverse": 6.154179573059082e-05,
+      "metrics_new": {
+        "3": {
+          "MAE": 16.051734066009523,
+          "RMSE": 23.916556813368267,
+          "MAPE_percent": 5.946125474212032
+        },
+        "6": {
+          "MAE": 16.827012752084173,
+          "RMSE": 26.721890622046615,
+          "MAPE_percent": 5.934241918371265
+        },
+        "12": {
+          "MAE": 18.02784211214851,
+          "RMSE": 28.708805905501062,
+          "MAPE_percent": 6.3430947822372605
+        }
+      },
+      "metrics_export": {
+        "3": {
+          "MAE": 16.051733892104206,
+          "RMSE": 23.916555368160193,
+          "MAPE_percent": 5.946126136573196
+        },
+        "6": {
+          "MAE": 16.827015848720777,
+          "RMSE": 26.72189314363266,
+          "MAPE_percent": 5.934243715514222
+        },
+        "12": {
+          "MAE": 18.027842246784882,
+          "RMSE": 28.70880656308099,
+          "MAPE_percent": 6.343095482868423
+        }
+      },
+      "metric_absolute_differences": {
+        "3": {
+          "MAE": 1.7390531681371613e-07,
+          "RMSE": 1.445208074102311e-06,
+          "MAPE_percent": 6.623611641387583e-07
+        },
+        "6": {
+          "MAE": 3.0966366040274806e-06,
+          "RMSE": 2.521586043968682e-06,
+          "MAPE_percent": 1.797142956228015e-06
+        },
+        "12": {
+          "MAE": 1.3463637316135646e-07,
+          "RMSE": 6.575799282870776e-07,
+          "MAPE_percent": 7.006311628643402e-07
+        }
+      },
+      "metric_budget_passed": true
+    },
+    {
+      "position": 31,
+      "index": [
+        14298,
+        14310,
+        14322
+      ],
+      "export": "D:\\Project_Github\\predictiveDA\\artifacts\\report-inputs\\PEMS08\\batch_000000.npz",
+      "export_row": 31,
+      "target_exact": true,
+      "finite": true,
+      "max_abs": 0.0001220703125,
+      "mean_abs": 1.0312772264667586e-05,
+      "above_original_tolerance": 0,
+      "bitwise_equal": false,
+      "repeated_forward_bitwise": true,
+      "max_normalized_equivalent_error": 2.2668581708449397e-07,
+      "max_fp32_vs_fp64_inverse": 5.9157609939575195e-05,
+      "metrics_new": {
+        "3": {
+          "MAE": 18.203025587867288,
+          "RMSE": 27.51171264225891,
+          "MAPE_percent": 6.0076142372805
+        },
+        "6": {
+          "MAE": 16.64739606520709,
+          "RMSE": 27.60846120313573,
+          "MAPE_percent": 5.93566004799391
+        },
+        "12": {
+          "MAE": 21.28183459113626,
+          "RMSE": 35.530414975796475,
+          "MAPE_percent": 7.9551357724410146
+        }
+      },
+      "metrics_export": {
+        "3": {
+          "MAE": 18.203025183958164,
+          "RMSE": 27.51171261128386,
+          "MAPE_percent": 6.007613928307225
+        },
+        "6": {
+          "MAE": 16.647397164737477,
+          "RMSE": 27.60846298426793,
+          "MAPE_percent": 5.935661722848548
+        },
+        "12": {
+          "MAE": 21.281832795984606,
+          "RMSE": 35.53041607869464,
+          "MAPE_percent": 7.955135074534169
+        }
+      },
+      "metric_absolute_differences": {
+        "3": {
+          "MAE": 4.0390912303678306e-07,
+          "RMSE": 3.0975051856785285e-08,
+          "MAPE_percent": 3.089732754091301e-07
+        },
+        "6": {
+          "MAE": 1.0995303867389339e-06,
+          "RMSE": 1.7811322017280418e-06,
+          "MAPE_percent": 1.6748546380895846e-06
+        },
+        "12": {
+          "MAE": 1.7951516539937984e-06,
+          "RMSE": 1.102898167459898e-06,
+          "MAPE_percent": 6.979068452039883e-07
+        }
+      },
+      "metric_budget_passed": true
+    },
+    {
+      "position": 32,
+      "index": [
+        14299,
+        14311,
+        14323
+      ],
+      "export": "D:\\Project_Github\\predictiveDA\\artifacts\\report-inputs\\PEMS08\\batch_000001.npz",
+      "export_row": 0,
+      "target_exact": true,
+      "finite": true,
+      "max_abs": 0.0001220703125,
+      "mean_abs": 1.0374948090197993e-05,
+      "above_original_tolerance": 0,
+      "bitwise_equal": false,
+      "repeated_forward_bitwise": true,
+      "max_normalized_equivalent_error": 2.2668581708449397e-07,
+      "max_fp32_vs_fp64_inverse": 6.261467933654785e-05,
+      "metrics_new": {
+        "3": {
+          "MAE": 17.962203979492188,
+          "RMSE": 27.62546892445377,
+          "MAPE_percent": 6.299973613130478
+        },
+        "6": {
+          "MAE": 17.884228734409106,
+          "RMSE": 28.552056296378463,
+          "MAPE_percent": 7.990639612910789
+        },
+        "12": {
+          "MAE": 22.203749718385584,
+          "RMSE": 36.71032267373133,
+          "MAPE_percent": 8.720699514798818
+        }
+      },
+      "metrics_export": {
+        "3": {
+          "MAE": 17.962203530704272,
+          "RMSE": 27.625469986114027,
+          "MAPE_percent": 6.299973563229002
+        },
+        "6": {
+          "MAE": 17.884229250515208,
+          "RMSE": 28.55205597070003,
+          "MAPE_percent": 7.990640741509976
+        },
+        "12": {
+          "MAE": 22.203744557324576,
+          "RMSE": 36.71031891174449,
+          "MAPE_percent": 8.720698106250932
+        }
+      },
+      "metric_absolute_differences": {
+        "3": {
+          "MAE": 4.4878791527480644e-07,
+          "RMSE": 1.061660256596042e-06,
+          "MAPE_percent": 4.9901476728564376e-08
+        },
+        "6": {
+          "MAE": 5.161061018554847e-07,
+          "RMSE": 3.2567843177844225e-07,
+          "MAPE_percent": 1.1285991874387946e-06
+        },
+        "12": {
+          "MAE": 5.161061007896706e-06,
+          "RMSE": 3.761986846484433e-06,
+          "MAPE_percent": 1.4085478863279377e-06
+        }
+      },
+      "metric_budget_passed": true
+    },
+    {
+      "position": 509,
+      "index": [
+        14776,
+        14788,
+        14800
+      ],
+      "export": "D:\\Project_Github\\predictiveDA\\artifacts\\report-inputs\\PEMS08\\batch_000015.npz",
+      "export_row": 29,
+      "target_exact": true,
+      "finite": true,
+      "max_abs": 9.5367431640625e-05,
+      "mean_abs": 1.157826068354588e-05,
+      "above_original_tolerance": 0,
+      "bitwise_equal": false,
+      "repeated_forward_bitwise": true,
+      "max_normalized_equivalent_error": 1.770982945972609e-07,
+      "max_fp32_vs_fp64_inverse": 3.089010715484619e-05,
+      "metrics_new": {
+        "3": {
+          "MAE": 10.336347453734454,
+          "RMSE": 16.31617877355832,
+          "MAPE_percent": 8.936913616604707
+        },
+        "6": {
+          "MAE": 12.487261157877304,
+          "RMSE": 18.19403214807938,
+          "MAPE_percent": 11.090809463170547
+        },
+        "12": {
+          "MAE": 11.87495509035447,
+          "RMSE": 16.659228912187363,
+          "MAPE_percent": 10.346296167192305
+        }
+      },
+      "metrics_export": {
+        "3": {
+          "MAE": 10.336346738478717,
+          "RMSE": 16.31617955502387,
+          "MAPE_percent": 8.936914719893206
+        },
+        "6": {
+          "MAE": 12.487262133991017,
+          "RMSE": 18.194033178455417,
+          "MAPE_percent": 11.090811515040311
+        },
+        "12": {
+          "MAE": 11.87495468644535,
+          "RMSE": 16.659225405993016,
+          "MAPE_percent": 10.346296210398384
+        }
+      },
+      "metric_absolute_differences": {
+        "3": {
+          "MAE": 7.152557373046875e-07,
+          "RMSE": 7.814655482718535e-07,
+          "MAPE_percent": 1.1032884987827174e-06
+        },
+        "6": {
+          "MAE": 9.761137125252617e-07,
+          "RMSE": 1.0303760369367865e-06,
+          "MAPE_percent": 2.0518697638749472e-06
+        },
+        "12": {
+          "MAE": 4.039091212604262e-07,
+          "RMSE": 3.506194346414304e-06,
+          "MAPE_percent": 4.3206078714774776e-08
+        }
+      },
+      "metric_budget_passed": true
+    },
+    {
+      "position": 1528,
+      "index": [
+        15795,
+        15807,
+        15819
+      ],
+      "export": "D:\\Project_Github\\predictiveDA\\artifacts\\report-inputs\\PEMS08\\batch_000047.npz",
+      "export_row": 24,
+      "target_exact": true,
+      "finite": true,
+      "max_abs": 7.62939453125e-05,
+      "mean_abs": 1.0867825910156849e-05,
+      "above_original_tolerance": 1,
+      "bitwise_equal": false,
+      "repeated_forward_bitwise": true,
+      "max_normalized_equivalent_error": 1.4167863567780872e-07,
+      "max_fp32_vs_fp64_inverse": 3.6910176277160645e-05,
+      "metrics_new": {
+        "3": {
+          "MAE": 12.944692067538991,
+          "RMSE": 19.103522885764125,
+          "MAPE_percent": 8.68079016230723
+        },
+        "6": {
+          "MAE": 10.273813007859623,
+          "RMSE": 15.063654952576496,
+          "MAPE_percent": 7.022658915925438
+        },
+        "12": {
+          "MAE": 13.639330799088759,
+          "RMSE": 20.59136565604265,
+          "MAPE_percent": 15.55628663785297
+        }
+      },
+      "metrics_export": {
+        "3": {
+          "MAE": 12.944692408337312,
+          "RMSE": 19.103521810264052,
+          "MAPE_percent": 8.680799341362782
+        },
+        "6": {
+          "MAE": 10.273813366889954,
+          "RMSE": 15.063655977782576,
+          "MAPE_percent": 7.022660706335371
+        },
+        "12": {
+          "MAE": 13.639331288898692,
+          "RMSE": 20.591365963973182,
+          "MAPE_percent": 15.556302623594377
+        }
+      },
+      "metric_absolute_differences": {
+        "3": {
+          "MAE": 3.4079832111899577e-07,
+          "RMSE": 1.0755000730000575e-06,
+          "MAPE_percent": 9.179055551200577e-06
+        },
+        "6": {
+          "MAE": 3.590303307987597e-07,
+          "RMSE": 1.0252060800297613e-06,
+          "MAPE_percent": 1.79040993320001e-06
+        },
+        "12": {
+          "MAE": 4.898099330574723e-07,
+          "RMSE": 3.0793053085176325e-07,
+          "MAPE_percent": 1.598574140615483e-05
+        }
+      },
+      "metric_budget_passed": true
+    },
+    {
+      "position": 2546,
+      "index": [
+        16813,
+        16825,
+        16837
+      ],
+      "export": "D:\\Project_Github\\predictiveDA\\artifacts\\report-inputs\\PEMS08\\batch_000079.npz",
+      "export_row": 18,
+      "target_exact": true,
+      "finite": true,
+      "max_abs": 0.00030517578125,
+      "mean_abs": 1.1715234494676778e-05,
+      "above_original_tolerance": 0,
+      "bitwise_equal": false,
+      "repeated_forward_bitwise": true,
+      "max_normalized_equivalent_error": 5.667145427112349e-07,
+      "max_fp32_vs_fp64_inverse": 6.118416786193848e-05,
+      "metrics_new": {
+        "3": {
+          "MAE": 14.963548318077537,
+          "RMSE": 31.888067332377364,
+          "MAPE_percent": 7.442539804631722
+        },
+        "6": {
+          "MAE": 18.44407392950619,
+          "RMSE": 33.331310483215084,
+          "MAPE_percent": 9.40367044935031
+        },
+        "12": {
+          "MAE": 21.83156197491814,
+          "RMSE": 40.75671042308552,
+          "MAPE_percent": 10.058892908855256
+        }
+      },
+      "metrics_export": {
+        "3": {
+          "MAE": 14.963549445657168,
+          "RMSE": 31.88806766169381,
+          "MAPE_percent": 7.442539273499717
+        },
+        "6": {
+          "MAE": 18.44407023261575,
+          "RMSE": 33.33130033246077,
+          "MAPE_percent": 9.40366432144349
+        },
+        "12": {
+          "MAE": 21.831559506584615,
+          "RMSE": 40.75669930024554,
+          "MAPE_percent": 10.05889295476344
+        }
+      },
+      "metric_absolute_differences": {
+        "3": {
+          "MAE": 1.1275796314436093e-06,
+          "RMSE": 3.2931644611267075e-07,
+          "MAPE_percent": 5.311320050438439e-07
+        },
+        "6": {
+          "MAE": 3.6968904382206347e-06,
+          "RMSE": 1.015075431354262e-05,
+          "MAPE_percent": 6.127906820196927e-06
+        },
+        "12": {
+          "MAE": 2.468333526906008e-06,
+          "RMSE": 1.1122839978838783e-05,
+          "MAPE_percent": 4.590818392102847e-08
+        }
+      },
+      "metric_budget_passed": true
+    },
+    {
+      "position": 3056,
+      "index": [
+        17323,
+        17335,
+        17347
+      ],
+      "export": "D:\\Project_Github\\predictiveDA\\artifacts\\report-inputs\\PEMS08\\batch_000095.npz",
+      "export_row": 16,
+      "target_exact": true,
+      "finite": true,
+      "max_abs": 0.0001220703125,
+      "mean_abs": 1.4778913236131854e-05,
+      "above_original_tolerance": 0,
+      "bitwise_equal": false,
+      "repeated_forward_bitwise": true,
+      "max_normalized_equivalent_error": 2.2668581708449397e-07,
+      "max_fp32_vs_fp64_inverse": 4.191696643829346e-05,
+      "metrics_new": {
+        "3": {
+          "MAE": 13.092887477313772,
+          "RMSE": 27.722794964156986,
+          "MAPE_percent": 10.591427875122275
+        },
+        "6": {
+          "MAE": 14.580346298217773,
+          "RMSE": 26.75615501114559,
+          "MAPE_percent": 18.30918231271291
+        },
+        "12": {
+          "MAE": 22.156649205263925,
+          "RMSE": 39.04385042421678,
+          "MAPE_percent": 13.892844383359318
+        }
+      },
+      "metrics_export": {
+        "3": {
+          "MAE": 13.092883850546444,
+          "RMSE": 27.72279024653088,
+          "MAPE_percent": 10.591427017864936
+        },
+        "6": {
+          "MAE": 14.580347198598526,
+          "RMSE": 26.756154768805892,
+          "MAPE_percent": 18.30914719769237
+        },
+        "12": {
+          "MAE": 22.156648739646464,
+          "RMSE": 39.04384761707101,
+          "MAPE_percent": 13.892822366318159
+        }
+      },
+      "metric_absolute_differences": {
+        "3": {
+          "MAE": 3.6267673273471246e-06,
+          "RMSE": 4.717626104877581e-06,
+          "MAPE_percent": 8.572573388931914e-07
+        },
+        "6": {
+          "MAE": 9.003807530660879e-07,
+          "RMSE": 2.423396985307136e-07,
+          "MAPE_percent": 3.511502054109883e-05
+        },
+        "12": {
+          "MAE": 4.656174610317976e-07,
+          "RMSE": 2.8071457691680735e-06,
+          "MAPE_percent": 2.2017041159116957e-05
+        }
+      },
+      "metric_budget_passed": true
+    },
+    {
+      "position": 3565,
+      "index": [
+        17832,
+        17844,
+        17856
+      ],
+      "export": "D:\\Project_Github\\predictiveDA\\artifacts\\report-inputs\\PEMS08\\batch_000111.npz",
+      "export_row": 13,
+      "target_exact": true,
+      "finite": true,
+      "max_abs": 9.918212890625e-05,
+      "mean_abs": 1.4575526994817397e-05,
+      "above_original_tolerance": 5,
+      "bitwise_equal": false,
+      "repeated_forward_bitwise": true,
+      "max_normalized_equivalent_error": 1.8418222638115135e-07,
+      "max_fp32_vs_fp64_inverse": 2.8684735298156738e-05,
+      "metrics_new": {
+        "3": {
+          "MAE": 10.818120822485756,
+          "RMSE": 15.737079152280254,
+          "MAPE_percent": 11.750060954282315
+        },
+        "6": {
+          "MAE": 8.771954397243611,
+          "RMSE": 12.523996387293812,
+          "MAPE_percent": 11.699828236897195
+        },
+        "12": {
+          "MAE": 9.433018404245377,
+          "RMSE": 12.41869680385338,
+          "MAPE_percent": 14.649598579543287
+        }
+      },
+      "metrics_export": {
+        "3": {
+          "MAE": 10.818117802984574,
+          "RMSE": 15.737077641759003,
+          "MAPE_percent": 11.750060473580694
+        },
+        "6": {
+          "MAE": 8.771957587845185,
+          "RMSE": 12.52399740194554,
+          "MAPE_percent": 11.699832763571463
+        },
+        "12": {
+          "MAE": 9.433020271974451,
+          "RMSE": 12.418697469603782,
+          "MAPE_percent": 14.649606828843803
+        }
+      },
+      "metric_absolute_differences": {
+        "3": {
+          "MAE": 3.019501182421891e-06,
+          "RMSE": 1.5105212511912214e-06,
+          "MAPE_percent": 4.807016207308834e-07
+        },
+        "6": {
+          "MAE": 3.1906015731664183e-06,
+          "RMSE": 1.0146517279707723e-06,
+          "MAPE_percent": 4.526674267424369e-06
+        },
+        "12": {
+          "MAE": 1.8677290736235364e-06,
+          "RMSE": 6.657504023621641e-07,
+          "MAPE_percent": 8.2493005155726e-06
+        }
+      },
+      "metric_budget_passed": true
+    }
+  ],
+  "resources": {
+    "seconds": 16.4169674,
+    "process_rss_sampled_peak_bytes": 2166640640,
+    "cuda_peak_allocated_bytes": 764135936,
+    "cuda_peak_reserved_bytes": 1140850688
+  },
+  "protected_unchanged": true,
+  "all_modules_eval": true,
+  "backbone_frozen": true,
+  "combined_metrics_new": {
+    "3": {
+      "MAE": 14.296569971564939,
+      "RMSE": 24.383095299548582,
+      "MAPE_percent": 8.206930717196407
+    },
+    "6": {
+      "MAE": 14.489510792800608,
+      "RMSE": 24.584391104103883,
+      "MAPE_percent": 9.665484869069877
+    },
+    "12": {
+      "MAE": 17.55611773694263,
+      "RMSE": 30.587448934789233,
+      "MAPE_percent": 10.934893291390686
+    }
+  },
+  "combined_metrics_export": {
+    "3": {
+      "MAE": 14.296569106596358,
+      "RMSE": 24.383094489875326,
+      "MAPE_percent": 8.206931806788843
+    },
+    "6": {
+      "MAE": 14.489511597989237,
+      "RMSE": 24.584390133036415,
+      "MAPE_percent": 9.665481352217387
+    },
+    "12": {
+      "MAE": 17.556116761705454,
+      "RMSE": 30.58744612366081,
+      "MAPE_percent": 10.93489339206885
+    }
+  }
+}

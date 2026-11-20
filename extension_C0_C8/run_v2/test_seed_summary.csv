@@ -1,0 +1,10 @@
+﻿horizon_minutes,metric,mean,sample_std,seeds,scope
+15,MAE,13.352144674289521,0.0014334338033413572,"0,1,2",head seeds only; same frozen backbone
+15,RMSE,21.613659086389607,0.0005444480337146712,"0,1,2",head seeds only; same frozen backbone
+15,MAPE_percent,8.940438528778605,0.01588720104218898,"0,1,2",head seeds only; same frozen backbone
+30,MAE,14.15709078985698,0.011162456775058416,"0,1,2",head seeds only; same frozen backbone
+30,RMSE,23.43086174709755,0.01611911257381532,"0,1,2",head seeds only; same frozen backbone
+30,MAPE_percent,9.998300925470227,0.08717963221259815,"0,1,2",head seeds only; same frozen backbone
+60,MAE,15.28833245804168,0.002897866413341308,"0,1,2",head seeds only; same frozen backbone
+60,RMSE,25.471135241465557,0.021136165839114682,"0,1,2",head seeds only; same frozen backbone
+60,MAPE_percent,11.347779936560828,0.04204267349923713,"0,1,2",head seeds only; same frozen backbone

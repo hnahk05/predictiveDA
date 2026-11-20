@@ -1,0 +1,305 @@
+{
+  "status": {
+    "C0": "PARTIAL",
+    "C1": "PARTIAL",
+    "C2": "PASS",
+    "C3": "PASS",
+    "PILOT": "PASS",
+    "C4": "PASS",
+    "C5": "PASS",
+    "C6": "PASS",
+    "C7": "PASS",
+    "C8": "PASS"
+  },
+  "c1_decision": "C1_CONDITIONAL_PASS; NUMERIC_MISMATCH retained",
+  "baseline_provenance_unknown": [
+    "original preprocessing program",
+    "pretraining fitting data scope"
+  ],
+  "head_configs": [
+    {
+      "id": "h16",
+      "width": 16
+    },
+    {
+      "id": "h32",
+      "width": 32
+    }
+  ],
+  "head_seeds": [
+    0,
+    1,
+    2
+  ],
+  "selected_config": {
+    "id": "h32",
+    "width": 32
+  },
+  "selected_seed_for_demo": 0,
+  "metrics": [
+    {
+      "method": "residual",
+      "seed": 0,
+      "horizon_minutes": 15,
+      "MAE": 13.35061496401202,
+      "RMSE": 21.614093560225417,
+      "MAPE_percent": 8.957318847062194
+    },
+    {
+      "method": "residual",
+      "seed": 0,
+      "horizon_minutes": 30,
+      "MAE": 14.145270646806194,
+      "RMSE": 23.412914872202126,
+      "MAPE_percent": 9.92242699816602
+    },
+    {
+      "method": "residual",
+      "seed": 0,
+      "horizon_minutes": 60,
+      "MAE": 15.285205684136228,
+      "RMSE": 25.447539737481577,
+      "MAPE_percent": 11.325127162282728
+    },
+    {
+      "method": "residual",
+      "seed": 1,
+      "horizon_minutes": 15,
+      "MAE": 13.3523620604166,
+      "RMSE": 21.61383535681079,
+      "MAPE_percent": 8.925777895544067
+    },
+    {
+      "method": "residual",
+      "seed": 1,
+      "horizon_minutes": 30,
+      "MAE": 14.158549613810148,
+      "RMSE": 23.435562240445066,
+      "MAPE_percent": 9.97894348591136
+    },
+    {
+      "method": "residual",
+      "seed": 1,
+      "horizon_minutes": 60,
+      "MAE": 15.29092787864585,
+      "RMSE": 25.48833453492134,
+      "MAPE_percent": 11.321921309808628
+    },
+    {
+      "method": "residual",
+      "seed": 2,
+      "horizon_minutes": 15,
+      "MAE": 13.353456998439945,
+      "RMSE": 21.61304834213262,
+      "MAPE_percent": 8.938218843729555
+    },
+    {
+      "method": "residual",
+      "seed": 2,
+      "horizon_minutes": 30,
+      "MAE": 14.1674521089546,
+      "RMSE": 23.444108128645453,
+      "MAPE_percent": 10.093532292333297
+    },
+    {
+      "method": "residual",
+      "seed": 2,
+      "horizon_minutes": 60,
+      "MAE": 15.28886381134296,
+      "RMSE": 25.47753145199375,
+      "MAPE_percent": 11.39629133759113
+    },
+    {
+      "method": "baseline_local",
+      "seed": 0,
+      "horizon_minutes": 15,
+      "MAE": 13.399619263255612,
+      "RMSE": 21.6446506960597,
+      "MAPE_percent": 8.991705931428578
+    },
+    {
+      "method": "baseline_local",
+      "seed": 0,
+      "horizon_minutes": 30,
+      "MAE": 14.193402873813165,
+      "RMSE": 23.488660885652966,
+      "MAPE_percent": 9.927706745104691
+    },
+    {
+      "method": "baseline_local",
+      "seed": 0,
+      "horizon_minutes": 60,
+      "MAE": 15.388007056115995,
+      "RMSE": 25.568519358881762,
+      "MAPE_percent": 11.37805639265316
+    },
+    {
+      "method": "baseline_original_export",
+      "seed": 0,
+      "horizon_minutes": 15,
+      "MAE": 13.399619263977147,
+      "RMSE": 21.644650690855023,
+      "MAPE_percent": 8.99170598488744
+    },
+    {
+      "method": "baseline_original_export",
+      "seed": 0,
+      "horizon_minutes": 30,
+      "MAE": 14.193402831876062,
+      "RMSE": 23.488660841812536,
+      "MAPE_percent": 9.92770652279883
+    },
+    {
+      "method": "baseline_original_export",
+      "seed": 0,
+      "horizon_minutes": 60,
+      "MAE": 15.38800702628231,
+      "RMSE": 25.568519388362642,
+      "MAPE_percent": 11.378056424496318
+    }
+  ],
+  "validation_seed_statistics": {
+    "MAE": {
+      "mean": 14.670650177568438,
+      "sample_std": 0.0020180877018433374
+    },
+    "RMSE": {
+      "mean": 24.959445093934892,
+      "sample_std": 0.013942380244535072
+    },
+    "MAPE_percent": {
+      "mean": 12.433038683334445,
+      "sample_std": 0.027630207771116598
+    }
+  },
+  "cache_bytes": 284656902,
+  "head_runs": [
+    {
+      "config": "h16",
+      "seed": 0,
+      "parameters": 668,
+      "epochs": 7,
+      "validation_interior_MAE": 14.67457763056388,
+      "validation_interior_RMSE": 24.97499737746019,
+      "validation_interior_MAPE_percent": 12.431049458022901,
+      "training_seconds": 15.932151699999999,
+      "peak_allocated_bytes": 5762048,
+      "peak_rss_bytes": 2817740800
+    },
+    {
+      "config": "h32",
+      "seed": 0,
+      "parameters": 1324,
+      "epochs": 7,
+      "validation_interior_MAE": 14.668509116497418,
+      "validation_interior_RMSE": 24.94401533936478,
+      "validation_interior_MAPE_percent": 12.412973724004441,
+      "training_seconds": 9.466072,
+      "peak_allocated_bytes": 7162880,
+      "peak_rss_bytes": 2483113984
+    },
+    {
+      "config": "h32",
+      "seed": 1,
+      "parameters": 1324,
+      "epochs": 8,
+      "validation_interior_MAE": 14.67092410839898,
+      "validation_interior_RMSE": 24.963181030115493,
+      "validation_interior_MAPE_percent": 12.421589160374252,
+      "training_seconds": 16.557662900000004,
+      "peak_allocated_bytes": 7162880,
+      "peak_rss_bytes": 2483703808
+    },
+    {
+      "config": "h32",
+      "seed": 2,
+      "parameters": 1324,
+      "epochs": 12,
+      "validation_interior_MAE": 14.672517307808915,
+      "validation_interior_RMSE": 24.971138912324406,
+      "validation_interior_MAPE_percent": 12.464553165624647,
+      "training_seconds": 25.240419900000006,
+      "peak_allocated_bytes": 7162880,
+      "peak_rss_bytes": 2352582656
+    }
+  ],
+  "protected_baseline_unchanged": true,
+  "environment": {
+    "python": "3.9.13",
+    "torch": "1.8.1+cu111",
+    "numpy": "1.26.4",
+    "cuda": "11.1",
+    "device": "cuda",
+    "gpu": "NVIDIA GeForce RTX 3050 6GB Laptop GPU"
+  },
+  "evidence_folder": "D:\\Project_Github\\predictiveDA\\extension_C0_C8\\run_v2",
+  "integrated_gradients": {
+    "status": "PASS",
+    "protocol": {
+      "scope": "residual head features only, additive baseline held fixed",
+      "steps": [
+        64,
+        256
+      ],
+      "integration": "trapezoidal",
+      "reference": "train feature mean per sensor",
+      "horizons": [
+        3,
+        6,
+        12
+      ],
+      "sample_rule": "same 16 evenly spaced windows as required occlusion",
+      "completeness_atol_Flow": 0.05,
+      "completeness_rtol": 0.01,
+      "stability_mean_relative_L1_limit": 0.05,
+      "criteria_basis": "Optional diagnostic: absolute budget 0.05 Flow plus 1% output difference; stability average relative attribution L1 5%. Fixed before IG results; failures reported without increasing steps or tolerances."
+    },
+    "results": [
+      {
+        "horizon_minutes": 15,
+        "completeness_max_abs": 0.01979541778564453,
+        "completeness_mean_abs": 0.0011059526586905122,
+        "completeness_violations": 0,
+        "outputs": 2720,
+        "stability_mean_relative_L1": 0.0048147644847631454,
+        "stability_max_relative_L1": 0.036942966282367706,
+        "passed": true
+      },
+      {
+        "horizon_minutes": 30,
+        "completeness_max_abs": 0.029283523559570312,
+        "completeness_mean_abs": 0.001980823464691639,
+        "completeness_violations": 0,
+        "outputs": 2720,
+        "stability_mean_relative_L1": 0.005806603003293276,
+        "stability_max_relative_L1": 0.030090095475316048,
+        "passed": true
+      },
+      {
+        "horizon_minutes": 60,
+        "completeness_max_abs": 0.0535731315612793,
+        "completeness_mean_abs": 0.002625473076477647,
+        "completeness_violations": 0,
+        "outputs": 2720,
+        "stability_mean_relative_L1": 0.007983226329088211,
+        "stability_max_relative_L1": 0.04854132607579231,
+        "passed": true
+      }
+    ],
+    "resources": {
+      "seconds": 2.5085430000000004,
+      "process_rss_sampled_peak_bytes": 2532663296,
+      "cuda_peak_allocated_bytes": 3058688,
+      "cuda_peak_reserved_bytes": 4194304
+    },
+    "weights_unchanged": true,
+    "parameter_gradients_accumulated": false,
+    "gradient_path": "selected horizon output sum; independent per-node MLP",
+    "limitations": [
+      "Head features only; no raw-history/backbone IG",
+      "Reference path can be off distribution",
+      "No causal interpretation"
+    ]
+  },
+  "claims": "Execution PASS does not mean the head improves accuracy or resolves baseline leakage"
+}

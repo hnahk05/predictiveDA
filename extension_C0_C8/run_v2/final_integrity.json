@@ -1,0 +1,117 @@
+{
+  "status": "PASS",
+  "cache_direct_comparisons": [
+    {
+      "split": "train",
+      "position": 0,
+      "index": [
+        0,
+        12,
+        24
+      ],
+      "max_abs": 0.0001283884048461914,
+      "target_exact": true,
+      "observed_features_exact": true
+    },
+    {
+      "split": "train",
+      "position": 5350,
+      "index": [
+        5350,
+        5362,
+        5374
+      ],
+      "max_abs": 0.0001220703125,
+      "target_exact": true,
+      "observed_features_exact": true
+    },
+    {
+      "split": "train",
+      "position": 10699,
+      "index": [
+        10699,
+        10711,
+        10723
+      ],
+      "max_abs": 0.0001283884048461914,
+      "target_exact": true,
+      "observed_features_exact": true
+    },
+    {
+      "split": "valid",
+      "position": 0,
+      "index": [
+        10700,
+        10712,
+        10724
+      ],
+      "max_abs": 0.0001283884048461914,
+      "target_exact": true,
+      "observed_features_exact": true
+    },
+    {
+      "split": "valid",
+      "position": 1783,
+      "index": [
+        12483,
+        12495,
+        12507
+      ],
+      "max_abs": 0.0001220703125,
+      "target_exact": true,
+      "observed_features_exact": true
+    },
+    {
+      "split": "valid",
+      "position": 3566,
+      "index": [
+        14266,
+        14278,
+        14290
+      ],
+      "max_abs": 0.0,
+      "target_exact": true,
+      "observed_features_exact": true
+    },
+    {
+      "split": "test",
+      "position": 0,
+      "index": [
+        14267,
+        14279,
+        14291
+      ],
+      "max_abs": 0.0001220703125,
+      "target_exact": true,
+      "observed_features_exact": true
+    },
+    {
+      "split": "test",
+      "position": 1783,
+      "index": [
+        16050,
+        16062,
+        16074
+      ],
+      "max_abs": 0.000244140625,
+      "target_exact": true,
+      "observed_features_exact": true
+    },
+    {
+      "split": "test",
+      "position": 3565,
+      "index": [
+        17832,
+        17844,
+        17856
+      ],
+      "max_abs": 9.918212890625e-05,
+      "target_exact": true,
+      "observed_features_exact": true
+    }
+  ],
+  "cache_shards_validated": 280,
+  "compressed_cache_bytes": 284656902,
+  "original_export_files_checked": 113,
+  "protected_baseline_unchanged": true
+}
