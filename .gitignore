@@ -23,7 +23,11 @@ runs/
 !scripts/benchmark_gpu.py
 !scripts/extension/
 scripts/extension/*
+!scripts/extension/run_baselines_pems08.py
+!scripts/extension/analyze_pems08_errors.py
+!scripts/extension/verify_graph_conv.py
 !scripts/extension/measure_inference_cost.py
+!scripts/extension/run_perturbation_pems08.py
 
 # Local runtime packages, exports and credentials are not source code.
 *.log
