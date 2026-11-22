@@ -2,12 +2,9 @@
 
 Mã nguồn và kết quả của báo cáo cuối kỳ *Nghiên cứu và tái hiện mô hình LSTTN trong bài toán dự báo giao thông*.
 
-Sinh viên: Đỗ Mai Hằng - MSV: 24022647 
-
-Trường Đại học Công nghệ - Đại học Quốc gia Hà Nội.
-
-Học phần: Phân tích dữ liệu dự báo - INT3234E.
-
+Sinh viên: Đỗ Mai Hằng - MSV: 24022647  
+Trường Đại học Công nghệ - Đại học Quốc gia Hà Nội.  
+Học phần: Phân tích dữ liệu dự báo - INT3234E.  
 Giảng viên: TS. Nguyễn Thị Hậu - Trợ giảng: Nguyễn Văn Công
 
 Trên PEMS08, LSTTN dùng 14 ngày lịch sử (4.032 bước) cùng một giờ quan sát gần nhất (12 bước) để dự báo lưu lượng trong giờ tiếp theo tại 170 trạm. Dự án dùng Transformer tiền huấn luyện của tác giả và huấn luyện lại giai đoạn dự báo. [Bài báo LSTTN, Knowledge-Based Systems (2024)](https://doi.org/10.1016/j.knosys.2024.111637) · [Mã nguồn của tác giả](https://github.com/GeoX-Lab/LSTTN)
